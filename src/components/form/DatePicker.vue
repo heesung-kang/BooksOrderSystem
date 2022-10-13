@@ -1,30 +1,15 @@
 <template>
-  <v-menu v-model="visible" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto" :nudge-left="nudge">
+  <v-menu v-model="visible" :close-on-content-click="false" transition="scale-transition" offset-y min-width="auto">
     <template v-slot:activator="{ on, attrs }">
-      <v-text-field
-        v-model="date"
-        v-bind="attrs"
-        v-on="on"
-        class="date"
-        @click="hangleDelete"
-        autocomplete="no"
-        :readonly="readOnly === true"
-      ></v-text-field>
+      <v-text-field v-model="date" v-bind="attrs" v-on="on" class="date" @click="hangleDelete" autocomplete="no"></v-text-field>
     </template>
-    <v-date-picker
-      v-model="date"
-      @input="visible = false"
-      locale="ko"
-      :picker-date.sync="pickerDate"
-      autocomplete="no"
-      :readonly="readOnly === true"
-    ></v-date-picker>
+    <v-date-picker v-model="date" @input="visible = false" locale="ko" :picker-date.sync="pickerDate" autocomplete="no"></v-date-picker>
   </v-menu>
 </template>
 
 <script>
 export default {
-  props: ["propdate", "clear", "current", "readOnly", "defaultValue", "nudge"],
+  props: ["clear"],
   data() {
     return {
       date: "",
@@ -36,24 +21,10 @@ export default {
     date(value) {
       this.$emit("updateDate", value);
     },
-    pickerDate() {
-      this.hangleDelete();
-    },
-    propdate(val) {
-      this.date = val;
-    },
-    current(val) {
-      if (val !== "") {
-        this.date = val;
-      }
-    },
     clear(o, n) {
       if (o !== n) {
         this.date = "";
       }
-    },
-    defaultValue(n) {
-      this.date = n;
     },
   },
   mounted() {

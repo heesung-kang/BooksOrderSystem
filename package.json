@@ -5,8 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "gh-pages -d build",
   },
+  "homepage": "https://heesung-kang.github.io/[Project이름]",
   "dependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
@@ -15,6 +17,7 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
     "firebase": "^9.12.1",
+    "gh-pages": "^4.0.0",
     "html2canvas": "*",
     "html2pdf.js": "^0.10.1",
     "jspdf": "^2.3.1",
