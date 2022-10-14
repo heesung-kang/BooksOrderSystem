@@ -8,7 +8,7 @@ const footer = () => import("@/components/common/Footer.vue");
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "history",
+  //mode: "history",
   routes: [
     {
       path: "/",
