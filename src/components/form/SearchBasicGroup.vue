@@ -1,8 +1,8 @@
 <template>
   <section class="search-group">
     <Selects />
-    <input type="text" class="basic ml5" />
-    <button class="basic ml5"><v-icon>mdi-book-search-outline</v-icon>검색</button>
+    <input type="text" class="basic" />
+    <button class="basic">검색</button>
   </section>
 </template>
 
@@ -19,6 +19,9 @@ export default {
   input[type="text"] {
     width: 100%;
     max-width: calc(100% - 220px);
+  }
+  .basic {
+    margin-left: 25px;
   }
 }
 </style>
