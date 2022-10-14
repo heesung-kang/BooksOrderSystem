@@ -2,10 +2,10 @@
   <section>
     <h2 class="sub-title">책 검색</h2>
     <section class="sub-container">
-      <!--      <div>{{ books }}</div>-->
-      <!--      <div @click="addDB">DB입력 테스트</div>-->
-      <!--      <div @click="updateDB">DB업데이트</div>-->
-      <!--      <div @click="insertDB">DB추가</div>-->
+      <div>{{ books }}</div>
+      <div @click="addDB">DB입력 테스트</div>
+      <div @click="updateDB">DB업데이트</div>
+      <div @click="insertDB">DB추가</div>
       <!-- 책 검색 -->
       <SearchBasicGroup />
       <!-- //책 검색 -->
