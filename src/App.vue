@@ -1,60 +1,80 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+    <v-main class="main-container">
+      <div class="layout-wrap">
+        <div class="layout-right">
+          <router-view name="lnb"></router-view>
+        </div>
+        <div class="layout-left">
+          <router-view name="top"></router-view>
+          <router-view name="contents"></router-view>
+          <router-view name="footer"></router-view>
+        </div>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
+      <router-view />
+      <v-progress-circular :size="70" :width="7" color="amber" indeterminate class="spinner" v-if="loadingStatus"></v-progress-circular>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import { mapGetters } from "vuex";
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  name: "App",
+  data() {
+    return {
+      loadingStatus: false,
+    };
   },
-
-  data: () => ({
-    //
-  }),
+  computed: {
+    ...mapGetters("common", ["loading"]),
+  },
+  watch: {
+    loading(newValue) {
+      this.loadingStatus = newValue;
+    },
+  },
 };
 </script>
+<style lang="scss">
+.spinner {
+  position: fixed !important;
+  z-index: 99999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+//margin, padding setting
+@for $i from 0 through 200 {
+  .mt#{$i} {
+    margin-top: 0.1rem * $i !important;
+  }
+  .ml#{$i} {
+    margin-left: 0.1rem * $i !important;
+  }
+  .mr#{$i} {
+    margin-right: 0.1rem * $i !important;
+  }
+  .mb#{$i} {
+    margin-bottom: 0.1rem * $i !important;
+  }
+  .pt#{$i} {
+    padding-top: 0.1rem * $i !important;
+  }
+  .pl#{$i} {
+    padding-left: 0.1rem * $i !important;
+  }
+  .pr#{$i} {
+    padding-right: 0.1rem * $i !important;
+  }
+  .pb#{$i} {
+    padding-bottom: 0.1rem * $i !important;
+  }
+}
+//width setting
+@for $i from 1 through 500 {
+  .w#{$i} {
+    width: 0.1rem * $i !important;
+  }
+}
+</style>
