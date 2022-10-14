@@ -37,10 +37,10 @@ input[type="text"]{
 input[type="number"]{
   &.basic {
     border: 1px solid #000;
-    height: 25px;
+    height: 30px;
     padding: 0 10px;
     width: 100%;
-    font-size:1.5rem;
+    @include NotoSans(1.2, 500, #000);
     background-color:#fff;
   }
 }
@@ -56,6 +56,9 @@ button{
   &.basic{
     border:1px solid #000;
     background-color:#fff;
+  }
+  &.primary{
+    background-color:#000 !important;
   }
 }
 /*table*/

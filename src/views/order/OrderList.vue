@@ -1,8 +1,10 @@
 <template>
-  <section class="sub-container">
+  <section>
     <h2 class="sub-title">주문 목록 보기</h2>
-    <section>
-      <SearchDateRangeGroup />
+    <section class="sub-container">
+      <section>
+        <SearchDateRangeGroup />
+      </section>
     </section>
   </section>
 </template>
