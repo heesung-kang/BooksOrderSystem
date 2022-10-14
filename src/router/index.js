@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 const lnb = () => import("@/components/common/Lnb.vue");
-const top = () => import("@/components/common/Gnb.vue");
 const footer = () => import("@/components/common/Footer.vue");
 
 Vue.use(VueRouter);
@@ -24,7 +23,6 @@ const router = new VueRouter({
       path: "/SearchOrder",
       name: "SearchOrder",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/order/SearchOrder.vue"),
@@ -35,7 +33,6 @@ const router = new VueRouter({
       path: "/Cart",
       name: "Cart",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/cart/Cart.vue"),
@@ -46,7 +43,6 @@ const router = new VueRouter({
       path: "/OrderList",
       name: "OrderList",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/order/OrderList.vue"),
@@ -57,7 +53,6 @@ const router = new VueRouter({
       path: "/OrderResult",
       name: "OrderResult",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/order/OrderResult.vue"),
@@ -68,7 +63,6 @@ const router = new VueRouter({
       path: "/Pay",
       name: "Pay",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/order/Pay.vue"),
@@ -79,7 +73,6 @@ const router = new VueRouter({
       path: "/ReleaseList",
       name: "ReleaseList",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/release/ReleaseList.vue"),
@@ -90,7 +83,6 @@ const router = new VueRouter({
       path: "/ReleaseStatus",
       name: "ReleaseStatus",
       components: {
-        top,
         lnb,
         footer,
         contents: () => import("@/views/release/ReleaseStatus.vue"),

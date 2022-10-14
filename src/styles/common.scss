@@ -3,53 +3,62 @@
   display:flex;
   min-height:100vh;
   .layout-right {
-    width: 200px;
-    min-width: 200px;
+    width: 266px;
+    min-width: 266px;
     min-height:100vh;
   }
   .layout-left {
-    width: calc(100% - 200px);
+    width: calc(100% - 266px);
     position:relative;
   }
 }
 .sub-container{
-  padding:40px;
-  min-height:calc(100vh - 50px);
+  padding:27px 103px 150px;
+  min-height:calc(100vh - 120px);
 }
 /*title*/
 .sub-title{
-  font-size:2.5rem;
-  border-bottom:2px solid #000;
-  margin-bottom:30px;
+  padding:60px 0 0 103px;
+  height:120px;
+  @include NotoSans(1.5, 700, #000);
+  background-color:#fff;
 }
 /*form*/
-input[type="text"].basic {
-  border: 1px solid #ccc;
-  height: 40px;
-  padding: 0 10px;
-  width: 100%;
-  font-size:1.5rem;
+input[type="text"]{
+  &.basic {
+    border: 1px solid #000;
+    height: 30px;
+    padding: 0 10px;
+    width: 100%;
+    font-size:1.5rem;
+    background-color:#fff;
+  }
 }
-input[type="number"].basic {
-  border: 1px solid #ccc;
-  height: 25px;
-  padding: 0 10px;
-  width: 100%;
-  font-size:1.5rem;
+input[type="number"]{
+  &.basic {
+    border: 1px solid #000;
+    height: 30px;
+    padding: 0 10px;
+    width: 100%;
+    @include NotoSans(1.2, 500, #000);
+    background-color:#fff;
+  }
 }
 /*button*/
 button{
-  height: 40px;
+  height: 30px;
   display: flex;
   white-space: nowrap;
   justify-content: center;
   align-items: center;
-  border-radius: 3px;
-  padding:0 10px;
-  font-size:1.4rem;
+  @include NotoSans(1.2,500,#000);
+  padding:0 22px;
   &.basic{
-    border:1px solid #ccc;
-    background-color:#f4f4f4;
+    border:1px solid #000;
+    background-color:#fff;
+  }
+  &.primary{
+    background-color:#000 !important;
   }
 }
 /*table*/
@@ -72,11 +81,21 @@ table{
 }
 /*vuetify-select*/
 .v-menu__content{
+  border-radius:0 !important;
   .v-list-item{
     .v-list-item__content{
       .v-list-item__title{
-        font-size:1.4rem !important;
+        font-size:1.2rem !important;
         line-height: inherit !important;
+      }
+    }
+    &.v-list-item--active{
+      &:before{
+        background-color:rgba(0,0,0,0.3);
+      }
+      .v-list-item__title{
+        color:#000;
+        font-weight:700;
       }
     }
   }

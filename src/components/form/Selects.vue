@@ -10,10 +10,10 @@ export default {
     return {
       select: "01",
       itemList: [
-        { item: "책 제목 검색", value: "01" },
-        { item: "ISBN 검색", value: "02" },
-        { item: "저자 검색", value: "03" },
-        { item: "출판사 검색", value: "04" },
+        { item: "책 제목", value: "01" },
+        { item: "ISBN", value: "02" },
+        { item: "저자", value: "03" },
+        { item: "출판사", value: "04" },
       ],
     };
   },
@@ -23,10 +23,47 @@ export default {
 <style lang="scss" scoped>
 .selects::v-deep {
   max-width: 150px;
+  .v-input__slot {
+    margin-bottom: 0;
+    min-height: 30px !important;
+  }
+  .v-text-field--outlined {
+    fieldset {
+      border: 1px solid #000;
+      border-radius: 0;
+      background-color: #fff;
+      height: 35px !important;
+    }
+    .v-select__slot {
+      height: 29px !important;
+    }
+  }
   .v-select__selections {
     padding: 0 !important;
     .v-select__selection {
-      font-size: 1.5rem !important;
+      @include NotoSans(1.2, 500, #000);
+    }
+  }
+  .v-text-field__details {
+    display: none;
+  }
+  .v-input__append-inner {
+    margin-top: 4px !important;
+  }
+  .v-select__selection--comma {
+    margin: 3px 4px 3px 0 !important;
+  }
+  .v-input__append-inner {
+    i {
+      background: url(../../assets/images/arrow_down.svg);
+      width: 15px;
+      height: 9px;
+      &:after {
+        content: "" !important;
+      }
+      &:before {
+        content: "" !important;
+      }
     }
   }
 }
