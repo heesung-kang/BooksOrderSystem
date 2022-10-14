@@ -2,13 +2,14 @@
   "name": "expert-front",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://heesung-kang.github.io/BooksOrderSystem/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
-  "homepage": "https://heesung-kang.github.io/[Project이름]",
   "dependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
