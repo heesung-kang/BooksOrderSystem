@@ -6,7 +6,6 @@
           <router-view name="lnb"></router-view>
         </div>
         <div class="layout-left">
-          <router-view name="top"></router-view>
           <router-view name="contents"></router-view>
           <router-view name="footer"></router-view>
         </div>
