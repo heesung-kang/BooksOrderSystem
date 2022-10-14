@@ -3,12 +3,12 @@
   display:flex;
   min-height:100vh;
   .layout-right {
-    width: 200px;
-    min-width: 200px;
+    width: 266px;
+    min-width: 266px;
     min-height:100vh;
   }
   .layout-left {
-    width: calc(100% - 200px);
+    width: calc(100% - 266px);
     position:relative;
   }
 }

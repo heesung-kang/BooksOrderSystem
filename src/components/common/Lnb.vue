@@ -1,5 +1,7 @@
 <template>
   <aside class="side-bar">
+    <div class="pt47 logo"><img src="@/assets/images/logo.svg" alt="instaPay" /></div>
+    <div class="system-name">서점용 도서 주문 시스템</div>
     <nav class="lnb">
       <ul>
         <li :class="{ active: activeStatus === 1 }"><router-link to="/SearchOrder">검색 및 주문</router-link></li>
@@ -67,27 +69,31 @@ export default {
 <style lang="scss" scoped>
 .side-bar {
   min-height: 100vh;
-  background: #1d3c7c;
+  background: #000;
+  .logo {
+    text-align: center;
+  }
+  .system-name {
+    @include NotoSans(1.2, 500, #fff);
+    text-align: center;
+  }
   nav {
-    padding-top: 50px;
+    padding-top: 30px;
     ul {
       li {
         cursor: pointer;
-        border-top: 1px solid #122156;
-
-        &:last-child {
-          border-bottom: 1px solid #122156;
-        }
+        text-align: center;
         &:hover {
-          background-color: #4970d2;
+          background-color: rgba(255, 255, 255, 0.3);
         }
         a {
-          color: #fff;
-          padding: 10px;
+          @include NotoSans(1.2, 700, #fff);
+          height: 40px;
+          line-height: 40px;
           width: 100%;
         }
         &.active {
-          background-color: #4970d2;
+          background-color: rgba(255, 255, 255, 0.3);
         }
       }
     }
