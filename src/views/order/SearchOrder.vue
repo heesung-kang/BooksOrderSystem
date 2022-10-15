@@ -2,10 +2,8 @@
   <section>
     <h2 class="sub-title">책 검색</h2>
     <section class="sub-container">
-      <div>{{ books }}</div>
       <div @click="addDB">DB입력 테스트</div>
       <div @click="updateDB">DB업데이트</div>
-      <div @click="insertDB">DB추가</div>
       <!-- 책 검색 -->
       <SearchBasicGroup />
       <!-- //책 검색 -->
@@ -37,6 +35,7 @@ import {
   arrayRemove,
   where,
   collectionGroup,
+  startAfter,
 } from "firebase/firestore";
 export default {
   components: { SearchBasicGroup, BookList },
@@ -46,21 +45,29 @@ export default {
     };
   },
   async created() {
-    //where, oderBy
-    const dbRef = doc(db, "Instapay", "book");
-    const docSnapshot = await getDoc(dbRef);
-    this.books = docSnapshot.data().favorites;
-
-    const museums = query(collectionGroup(db, "Instapay"), where("subject", "==", "recess"));
-
-    const querySnapshot = await getDocs(museums);
-    querySnapshot.forEach(doc => {
-      console.log(doc.data().favorites);
+    // 정렬, 갯수 제한 불러오기
+    const first = query(collection(db, "kyle"), orderBy("title"), limit(2));
+    // 검색 필터, 갯수제한 적용
+    //const first = query(collection(db, "kyle"), where("title", "==", "abc"), limit(2));
+    const documentSnapshots = await getDocs(first);
+    documentSnapshots.forEach(doc => {
+      console.log(doc.data());
+    });
+    console.log("length", documentSnapshots.docs.length);
+    //페이지 변경시
+    const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    console.log("last", lastVisible);
+    const next = query(collection(db, "kyle"), orderBy("title"), startAfter(lastVisible), limit(2));
+    console.log("next", next);
+    const documentSnapshotsNext = await getDocs(next);
+    documentSnapshotsNext.forEach(doc => {
+      console.log(doc.data());
     });
   },
   methods: {
     async addDB() {
       try {
+        console.log();
         // const docData = {
         //   title: "Mathison2",
         //   subject: "Mathison2",
