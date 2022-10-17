@@ -1,9 +1,11 @@
 <template>
-  <section>
+  <section class="search-header d-flex align-center">
     <Selects />
     <input type="text" class="basic" />
-    <DatePicker @updateDate="setStartDate" />
-    <DatePicker @updateDate="setEndDate" />
+    <span class="date-picker"><DatePicker @updateDate="setStartDate" /></span>
+    <span class="to">To</span>
+    <span class="date-picker"><DatePicker @updateDate="setEndDate" /></span>
+    <button class="basic btn" @click="search">검색</button>
   </section>
 </template>
 
@@ -20,6 +22,11 @@ export default {
     };
   },
   methods: {
+    search() {
+      if (this.startDate !== undefined && this.endDate !== undefined) {
+        this.startDate > this.endDate ? alert("종료일이 시작일보다 빠릅니다. 시작일을 다시 입력해주세요") : null;
+      }
+    },
     setStartDate(date) {
       this.startDate = date;
     },
@@ -30,4 +37,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.date-picker,
+.basic,
+.to {
+  margin-left: 10px;
+}
+</style>

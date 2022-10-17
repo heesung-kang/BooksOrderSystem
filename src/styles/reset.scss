@@ -1,7 +1,13 @@
 //responsive
-$breakpoint-mobile: 640px;
+$breakpoint-mobile: 600px;
+$breakpoint-lnb: 1264px;
 @mixin mobile {
 	@media (max-width: #{$breakpoint-mobile})  {
+		@content;
+	}
+}
+@mixin lnb {
+	@media (max-width: #{$breakpoint-lnb})  {
 		@content;
 	}
 }
@@ -11,25 +17,15 @@ html{
     font-family: 'Noto Sans KR', sans-serif;
 	font-weight:400;
 }
-h1{
-    font-size: 2rem;
-	font-weight:700;
-    color:#323232;
-}
 h2{
-    font-size: 1.8rem;
-	font-weight:700;
-    color:#323232;
-}
-h3{
     font-size: 1.6rem;
 	font-weight:700;
-    color:#323232;
+    color:#000;
 }
-h4{
-    font-size: 1.4rem;
-	font-weight:700;
-    color:#323232;
+h3{
+    font-size: 1.5rem;
+	font-weight:400;
+    color:#000;
 }
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button {
 	margin:0;
