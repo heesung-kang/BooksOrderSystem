@@ -98,4 +98,7 @@ export default {
     }
   }
 }
+@include mobile {
+  //모바일
+}
 </style>

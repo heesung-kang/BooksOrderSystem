@@ -1,10 +1,10 @@
-::selection { background-color: #BFE5E8; color:#000;}
-::-moz-selection { background-color: #BFE5E8; color:#000;}
-//basic common
-::-webkit-scrollbar {width: 10px;}
-::-webkit-scrollbar-track {background: #fff }
-::-webkit-scrollbar-thumb {background: #B8BFC4;border:3px solid #fff;}
-
+//responsive
+$breakpoint-mobile: 640px;
+@mixin mobile {
+	@media (max-width: #{$breakpoint-mobile})  {
+		@content;
+	}
+}
 html{
 	font-size:10px !important;
 	overflow-y: auto !important;
