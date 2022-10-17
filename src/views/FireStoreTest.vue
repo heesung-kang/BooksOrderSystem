@@ -2,7 +2,6 @@
   <section>
     <h2 class="sub-title">책 검색</h2>
     <section class="sub-container">
-      <button class="basic" @click="callDB">데이터 불러오기</button>
       <ul>
         <li v-for="(item, index) in books" :key="index" class="book-list">
           <span>id: {{ item.id }}</span
@@ -47,49 +46,68 @@ import {
   collectionGroup,
   startAfter,
   deleteDoc,
+  endBefore,
 } from "firebase/firestore";
 export default {
   data() {
     return {
+      booksAll: [],
       books: [],
       title: "",
       updateTitle: "",
       id: "",
       page: 1,
-      pageLength: 2,
+      pageLength: 0,
+      limit: 5,
+      lastVisible: "",
+      documentSnapshots: "",
     };
   },
-  // async created() {
-  //   // 정렬, 갯수 제한 불러오기
-  //   const first = query(collection(db, "kyle"), orderBy("title"), limit(2));
-  //   // 검색 필터, 갯수제한 적용
-  //   //const first = query(collection(db, "kyle"), where("title", "==", "abc"), limit(2));
-  //   const documentSnapshots = await getDocs(first);
-  //   documentSnapshots.forEach(doc => {
-  //     console.log(doc.data());
-  //   });
-  //   console.log("length", documentSnapshots.docs.length);
-  //   //페이지 변경시
-  //   const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-  //   console.log("last", lastVisible);
-  //   const next = query(collection(db, "kyle"), orderBy("title"), startAfter(lastVisible), limit(2));
-  //   console.log("next", next);
-  //   const documentSnapshotsNext = await getDocs(next);
-  //   documentSnapshotsNext.forEach(doc => {
-  //     console.log(doc.data());
-  //   });
-  // },
-  async mounted() {
-    await this.callDB();
+  watch: {
+    page(newValue) {
+      let last = newValue * this.limit;
+      let first = last - this.limit;
+      this.books = [];
+      this.booksAll.forEach((ele, index) => {
+        if (index >= first && index < last) {
+          this.books.push(ele);
+        }
+      });
+    },
+  },
+  mounted() {
+    this.callDB();
   },
   methods: {
+    // async pageDB(status) {
+    //   this.lastVisible = this.documentSnapshots.docs[this.documentSnapshots.docs.length - 1];
+    //
+    //   let next;
+    //   status === "next"
+    //     ? (next = query(collection(db, "kyle"), orderBy("title"), startAfter(this.lastVisible), limit(this.limit)))
+    //     : (next = query(collection(db, "kyle"), orderBy("title"), endBefore(this.lastVisible), limit(this.limit)));
+    //   this.documentSnapshots = await getDocs(next);
+    //   this.books = [];
+    //   this.documentSnapshots.forEach(doc => {
+    //     this.books.push({ id: doc.id, data: doc.data() });
+    //   });
+    // },
     async callDB() {
       try {
-        const first = query(collection(db, "kyle"), orderBy("title"), limit(3));
+        const first = query(collection(db, "kyle"), orderBy("title"));
         const documentSnapshots = await getDocs(first);
+        this.lastVisible = documentSnapshots.docs[1];
+        this.pageLength = Math.ceil(documentSnapshots.size / this.limit);
+        this.booksAll = [];
         this.books = [];
+        this.page = 1;
         documentSnapshots.forEach(doc => {
-          this.books.push({ id: doc.id, data: doc.data() });
+          this.booksAll.push({ id: doc.id, data: doc.data() });
+        });
+        this.booksAll.forEach((ele, index) => {
+          if (index > -1 && index < this.limit) {
+            this.books.push(ele);
+          }
         });
       } catch (e) {
         console.error("Error adding document: ", e);
