@@ -39,6 +39,21 @@ export default {
       this.loadingStatus = newValue;
     },
   },
+  mounted() {
+    /**
+     * window 가로 사이즈 계산
+     */
+    let docWidth = window.innerWidth;
+    this.$store.commit("common/setWindowWidth", docWidth); //새로고침 초기 설정
+    window.addEventListener(
+      "resize",
+      () => {
+        let docWidth = window.innerWidth;
+        this.$store.commit("common/setWindowWidth", docWidth);
+      },
+      true,
+    );
+  },
   methods: {
     showLnb() {
       this.show = true;

@@ -34,7 +34,7 @@ export default {
       this.menuDefaultSetup();
     },
     show(status) {
-      status ? (this.isActive = true) : (this.isActive = false);
+      status ? (this.isActive = true) : (this.isActive = false); //lnb 모바일 설정
     },
   },
   created() {
@@ -86,7 +86,7 @@ export default {
     text-align: center;
   }
   .system-name {
-    @include NotoSans(1.2, 500, #fff);
+    @include NotoSans(1.4, 700, #fff);
     text-align: center;
   }
   nav {
@@ -99,7 +99,7 @@ export default {
           background-color: rgba(255, 255, 255, 0.3);
         }
         a {
-          @include NotoSans(1.2, 700, #fff);
+          @include NotoSans(1.4, 700, #fff);
           height: 40px;
           line-height: 40px;
           width: 100%;
