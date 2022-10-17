@@ -18,8 +18,20 @@
         <td>2022.10.04 09:41:23</td>
         <td>2022.10.04 09:41:23</td>
       </tr>
+      <tr>
+        <td>북스피어</td>
+        <td>5</td>
+        <td>2022.10.04 09:41:23</td>
+        <td>2022.10.04 09:41:23</td>
+      </tr>
+      <tr>
+        <td>북스피어</td>
+        <td>5</td>
+        <td>2022.10.04 09:41:23</td>
+        <td>2022.10.04 09:41:23</td>
+      </tr>
     </tbody>
-    <tfoot>
+    <tfoot v-if="list.length === 0">
       <tr>
         <td colspan="4">주문 리스트가 없습니다.</td>
       </tr>
@@ -30,6 +42,11 @@
 <script>
 export default {
   name: "OrderList",
+  data() {
+    return {
+      list: ["test"],
+    };
+  },
 };
 </script>
 
