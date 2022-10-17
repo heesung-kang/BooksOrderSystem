@@ -89,6 +89,16 @@ const router = new VueRouter({
       },
       meta: { unauthorized: true },
     },
+    {
+      path: "/FireStoreTest",
+      name: "FireStoreTest",
+      components: {
+        lnb,
+        footer,
+        contents: () => import("@/views/FireStoreTest.vue"),
+      },
+      meta: { unauthorized: true },
+    },
     //404
     {
       path: "*",
