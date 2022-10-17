@@ -2,8 +2,12 @@
   <section>
     <h2 class="sub-title">주문 목록 보기</h2>
     <section class="sub-container">
-      <section>
+      <h3>출판사별 주문 리스트</h3>
+      <section class="mt10">
         <SearchDateRangeGroup />
+      </section>
+      <section class="mt30">
+        <OrderList />
       </section>
     </section>
   </section>
@@ -11,9 +15,9 @@
 
 <script>
 import SearchDateRangeGroup from "@/components/form/SearchDateRangeGroup";
+import OrderList from "@/components/order/OrderList";
 export default {
-  name: "OrderList",
-  components: { SearchDateRangeGroup },
+  components: { SearchDateRangeGroup, OrderList },
 };
 </script>
 

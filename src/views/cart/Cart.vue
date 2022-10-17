@@ -20,8 +20,8 @@
                 <div class="d-flex align-center">
                   <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                   <div class="basic-info">
-                    <div>아노말리 (양장본 Hardcover)</div>
-                    <div>에르베 르 텔리에</div>
+                    <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                    <div class="author">에르베 르 텔리에</div>
                   </div>
                 </div>
                 <div>민음사</div>
@@ -37,8 +37,8 @@
                 <div class="d-flex align-center">
                   <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                   <div class="basic-info">
-                    <div>아노말리 (양장본 Hardcover)</div>
-                    <div>에르베 르 텔리에</div>
+                    <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                    <div class="author">에르베 르 텔리에</div>
                   </div>
                 </div>
                 <div>민음사</div>
@@ -54,8 +54,8 @@
                 <div class="d-flex align-center">
                   <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                   <div class="basic-info">
-                    <div>아노말리 (양장본 Hardcover)</div>
-                    <div>에르베 르 텔리에</div>
+                    <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                    <div class="author">에르베 르 텔리에</div>
                   </div>
                 </div>
                 <div>민음사</div>
@@ -112,7 +112,7 @@ export default {};
   padding: 0 27px 0 21px;
   span {
     text-align: center;
-    @include NotoSans(1.2, 500, #000);
+    @include NotoSans(1.4, 500, #000);
     margin-bottom: 13px;
     @extend .size;
   }
@@ -124,16 +124,19 @@ export default {};
       border: 1px solid #000;
       background-color: #fff;
       margin-bottom: 6px;
+      div {
+        @include NotoSans(1.4, 400, #000);
+      }
       &:last-child {
         margin-bottom: 0;
       }
       article {
         & > div {
           text-align: center;
-          @include NotoSans(1, 400, #000);
+          @include NotoSans(1.4, 400, #000);
           @extend .size;
           &.price {
-            @include NotoSans(1.2, 500, #000);
+            @include NotoSans(1.4, 500, #000);
           }
           input[type="number"] {
             width: 66px;
@@ -154,28 +157,31 @@ export default {};
         div {
           text-align: left;
         }
+        .author {
+          @include NotoSans(1.2, 400, #000);
+        }
       }
     }
   }
 }
 .size {
   &:nth-child(1) {
-    width: calc(100% - 440px);
+    width: calc(100% - 500px);
   }
   &:nth-child(2) {
-    width: 70px;
+    width: 80px;
   }
   &:nth-child(3) {
     width: 120px;
   }
   &:nth-child(4) {
-    width: 60px;
+    width: 80px;
   }
   &:nth-child(5) {
-    width: 50px;
+    width: 70px;
   }
   &:nth-child(6) {
-    width: 70px;
+    width: 80px;
   }
   &:nth-child(7) {
     width: 70px;

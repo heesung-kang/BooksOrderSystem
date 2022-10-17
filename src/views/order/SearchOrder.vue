@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import BookList from "@/components/order/BookList";
+import BookList from "@/components/search/BookList";
 import SearchBasicGroup from "@/components/form/SearchBasicGroup";
 export default {
   components: { SearchBasicGroup, BookList },
