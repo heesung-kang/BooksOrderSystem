@@ -14,8 +14,51 @@
 }
 .sub-container{
   padding:27px 103px 150px;
-  min-height:calc(100vh - 120px);
+  min-height:calc(100vh - 150px);
 }
+.hamburg-menu{
+  display:none;
+}
+@include lnb {
+  //lnb responsive style
+  .layout-right {
+    width:0 !important;
+    min-width:0 !important;
+  }
+  .layout-left {
+    width:100% !important;
+    .sub-title{
+      background-color:#000;
+      padding:0;
+      color:#fff;
+      height:70px;
+      text-align:center;
+      line-height:70px;
+    }
+  }
+  .hamburg-menu{
+    display:block;
+    position:absolute;
+    width:20px;
+    cursor:pointer;
+    left:22px;
+    top:27px;
+    span{
+      display:block;
+      margin-bottom:5px;
+      border-top:2px solid #fff;
+      border-radius:2px;
+      &:last-child{
+        border-bottom:0;
+      }
+    }
+  }
+  .sub-container{
+    padding:27px 22px 150px;
+    min-height:calc(100vh - 70px);
+  }
+}
+
 /*title*/
 .sub-title{
   padding:60px 0 0 103px;

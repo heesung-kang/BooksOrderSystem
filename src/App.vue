@@ -3,9 +3,14 @@
     <v-main class="main-container">
       <div class="layout-wrap">
         <div class="layout-right">
-          <router-view name="lnb"></router-view>
+          <router-view name="lnb" :show="show" @close="close"></router-view>
         </div>
         <div class="layout-left">
+          <div class="hamburg-menu" @click="showLnb">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
           <router-view name="contents"></router-view>
           <router-view name="footer"></router-view>
         </div>
@@ -23,6 +28,7 @@ export default {
   data() {
     return {
       loadingStatus: false,
+      show: false,
     };
   },
   computed: {
@@ -31,6 +37,14 @@ export default {
   watch: {
     loading(newValue) {
       this.loadingStatus = newValue;
+    },
+  },
+  methods: {
+    showLnb() {
+      this.show = true;
+    },
+    close() {
+      this.show = false;
     },
   },
 };
