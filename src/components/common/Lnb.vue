@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="lnb-wrap">
     <aside class="side-bar" :class="{ active: isActive }">
       <div class="pt47 logo"><img src="@/assets/images/logo.svg" alt="instaPay" /></div>
       <div class="system-name">서점용 도서 주문 시스템</div>
@@ -77,43 +77,50 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.side-bar {
+.lnb-wrap {
   min-height: 100vh;
+  height: 100%;
   background: #000;
-  position: relative;
-  z-index: 1000;
-  .logo {
-    text-align: center;
-  }
-  .system-name {
-    @include NotoSans(1.4, 700, #fff);
-    text-align: center;
-  }
-  nav {
-    padding-top: 30px;
-    ul {
-      li {
-        cursor: pointer;
-        text-align: center;
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.3);
-        }
-        a {
-          @include NotoSans(1.4, 700, #fff);
-          height: 40px;
-          line-height: 40px;
-          width: 100%;
-        }
-        &.active {
-          background-color: rgba(255, 255, 255, 0.3);
+  .side-bar {
+    position: relative;
+    z-index: 1000;
+    background: #000;
+    min-height: 100vh;
+    height: 100%;
+    .logo {
+      text-align: center;
+    }
+    .system-name {
+      @include NotoSans(1.4, 700, #fff);
+      text-align: center;
+    }
+    nav {
+      padding-top: 30px;
+      ul {
+        li {
+          cursor: pointer;
+          text-align: center;
+          &:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+          }
+          a {
+            @include NotoSans(1.4, 700, #fff);
+            height: 40px;
+            line-height: 40px;
+            width: 100%;
+          }
+          &.active {
+            background-color: rgba(255, 255, 255, 0.3);
+          }
         }
       }
     }
   }
+  .dim {
+    display: none;
+  }
 }
-.dim {
-  display: none;
-}
+
 @include lnb {
   //모바일
   .side-bar {

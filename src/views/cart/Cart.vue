@@ -32,7 +32,7 @@
                 <div v-if="!mobile">민음사</div>
                 <div class="isbn">9788937427220</div>
                 <div class="price-etc">
-                  <div><span v-if="mobile">정가</span> 20,000원</div>
+                  <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
                   <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
                 </div>
                 <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
@@ -118,6 +118,9 @@ export default {
       margin-bottom: 6px;
       div {
         @include NotoSans(1.4, 400, #000);
+        &.book-name {
+          @include NotoSans(1.4, 500, #000);
+        }
       }
       &:last-child {
         margin-bottom: 0;
@@ -150,7 +153,7 @@ export default {
           text-align: left;
         }
         .author {
-          @include NotoSans(1.4, 400, #000);
+          @include NotoSans(1.2, 400, #000);
         }
       }
     }
@@ -203,11 +206,12 @@ export default {
               }
               .only-mobile {
                 display: flex;
+                flex-wrap: wrap;
+                .author {
+                  margin-right: 30px;
+                }
                 div {
                   @include NotoSans(1.6, 400, #000);
-                  &.company {
-                    margin-left: 30px;
-                  }
                 }
               }
             }
@@ -219,11 +223,12 @@ export default {
           .price-etc {
             margin-left: 70px;
             display: flex;
+            flex-wrap: wrap;
             div {
               white-space: nowrap;
               @include NotoSans(1.6, 400, #000);
-              &.rate {
-                margin-left: 30px;
+              &.normal-price {
+                margin-right: 30px;
               }
             }
           }
@@ -240,17 +245,12 @@ export default {
     }
   }
   .total-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background-color: #fff;
     max-width: 100%;
-    margin: 0 auto;
-    border: 1px solid #000;
-    padding: 15px 42px;
+    padding: 15px 20px;
     .total-prod {
       @include NotoSans(1.6, 700, #000);
-      margin-right: 48px;
+      margin-right: 28px;
     }
     .total {
       @include NotoSans(1.6, 700, #000);

@@ -41,7 +41,7 @@ export default {
   .v-select__selections {
     padding: 0 !important;
     .v-select__selection {
-      @include NotoSans(1.2, 500, #000);
+      @include NotoSans(1.4, 500, #000);
     }
   }
   .v-text-field__details {
@@ -65,6 +65,11 @@ export default {
         content: "" !important;
       }
     }
+  }
+}
+@include mobile {
+  .selects::v-deep {
+    max-width: 100px;
   }
 }
 </style>

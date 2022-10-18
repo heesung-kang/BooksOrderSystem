@@ -24,4 +24,14 @@ export default {
     margin-left: 25px;
   }
 }
+@include mobile {
+  .search-group {
+    input[type="text"] {
+      max-width: calc(100% - 100px);
+    }
+    .basic {
+      margin-left: 5px;
+    }
+  }
+}
 </style>
