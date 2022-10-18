@@ -46,7 +46,7 @@
         <span class="total-prod">총 6권</span>
         <span class="total">합계 72,000원</span>
       </div>
-      <button class="primary">발주</button>
+      <button class="primary" @click="showModal">발주</button>
     </section>
     <!-- //총 합계 --->
   </section>
@@ -54,8 +54,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getPopupOpt } from "@/utils/modal";
+import orderModal from "@/components/modal/ModalOrder.vue";
 export default {
-  name: "OrderResultList",
   data() {
     return {
       selected: [],
@@ -72,6 +73,13 @@ export default {
   },
   mounted() {
     this.windowWidth > 600 ? (this.mobile = false) : (this.mobile = true);
+  },
+  methods: {
+    showModal() {
+      this.mobile
+        ? this.$modal.show(orderModal, {}, getPopupOpt("orderModal", "95%", "auto", false))
+        : this.$modal.show(orderModal, {}, getPopupOpt("orderModal", "500px", "auto", false));
+    },
   },
 };
 </script>

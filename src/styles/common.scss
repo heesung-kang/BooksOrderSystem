@@ -169,3 +169,8 @@ table{
     }
   }
 }
+/*vuetify-modal*/
+#modals-container{
+  position:relative;
+  z-index:10000000 !important;
+}
