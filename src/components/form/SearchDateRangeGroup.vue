@@ -49,10 +49,10 @@ export default {
 }
 .search-header {
   .select-wrap {
-    width: 70%;
+    width: 65%;
   }
   .date-wrap {
-    width: 30%;
+    width: 35%;
   }
 }
 @include lnb {
