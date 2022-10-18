@@ -154,4 +154,23 @@ table{
     }
   }
 }
-
+/*vuetify-checkbox*/
+.v-input--checkbox{
+  margin-top:0 !important;
+  padding-top:0 !important;
+  height:24px;
+  .v-input__slot{
+    margin-bottom:0 !important;
+    .v-input--selection-controls__input{
+      margin-right:0 !important;
+    }
+    .v-input--selection-controls__ripple{
+      display:none !important;
+    }
+  }
+}
+/*vuetify-modal*/
+#modals-container{
+  position:relative;
+  z-index:10000000 !important;
+}
