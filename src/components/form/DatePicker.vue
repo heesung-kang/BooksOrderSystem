@@ -1,5 +1,5 @@
 <template class="date-range-picker">
-  <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent width="290px">
+  <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent>
     <template v-slot:activator="{ on, attrs }">
       <v-text-field v-model="date" readonly v-bind="attrs" v-on="on" @click="hangleDelete" :placeholder="placeholder"></v-text-field>
     </template>
@@ -72,7 +72,6 @@ export default {
   &.v-text-field.v-input--is-readonly {
     height: 30px;
     background-color: #fff;
-    min-width: 85px;
     .v-input__slot {
       margin-bottom: 0 !important;
       height: 30px !important;

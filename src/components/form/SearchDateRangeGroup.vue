@@ -1,11 +1,15 @@
 <template>
   <section class="search-header d-flex align-center">
-    <Selects />
-    <input type="text" class="basic" />
-    <span class="date-picker"><DatePicker @updateDate="setStartDate" /></span>
-    <span class="to">To</span>
-    <span class="date-picker"><DatePicker @updateDate="setEndDate" /></span>
-    <button class="basic btn" @click="search">검색</button>
+    <span class="d-flex align-center select-wrap">
+      <Selects />
+      <input type="text" class="basic" />
+    </span>
+    <span class="d-flex align-center date-wrap">
+      <span class="date-picker mobile-margin"><DatePicker @updateDate="setStartDate" /></span>
+      <span class="to">To</span>
+      <span class="date-picker"><DatePicker @updateDate="setEndDate" /></span>
+      <button class="basic btn" @click="search">검색</button>
+    </span>
   </section>
 </template>
 
@@ -42,5 +46,46 @@ export default {
 .basic,
 .to {
   margin-left: 10px;
+}
+.search-header {
+  .select-wrap {
+    width: 70%;
+  }
+  .date-wrap {
+    width: 30%;
+  }
+}
+@include lnb {
+  .search-header {
+    .select-wrap {
+      width: 60%;
+    }
+    .date-wrap {
+      width: 40%;
+    }
+  }
+}
+@include mobile {
+  .date-picker,
+  .basic,
+  .to {
+    margin-left: 5px;
+  }
+  .search-header {
+    flex-direction: column;
+    .select-wrap {
+      width: 100%;
+    }
+    .date-wrap {
+      width: 100%;
+      margin-top: 5px;
+      .mobile-margin {
+        margin-left: 0;
+      }
+      .date-picker {
+        width: calc(50% - 50px);
+      }
+    }
+  }
 }
 </style>
