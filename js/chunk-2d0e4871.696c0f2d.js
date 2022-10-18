@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["chunk-2d0e4871"],{9136:function(n,s,t){"use strict";t.r(s);var c={name:"Pay"},e=t("2877"),a=Object(e.a)(c,(function(){return(0,this._self._c)("section",{staticClass:"sub-container"},[this._v("결제")])}),[],!1,null,"c01581b4",null);s.default=a.exports}}]);

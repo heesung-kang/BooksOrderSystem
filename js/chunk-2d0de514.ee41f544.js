@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([["chunk-2d0de514"],{"84ac":function(n,s,t){"use strict";t.r(s);var e={name:"OrderResult"},c=t("2877"),u=Object(c.a)(e,(function(){return(0,this._self._c)("section",{staticClass:"sub-container"},[this._v("주문 결과 확인")])}),[],!1,null,"7f49888d",null);s.default=u.exports}}]);
