@@ -7,7 +7,7 @@
         <SearchDateRangeGroup />
       </section>
       <section class="mt30">
-        <OrderList />
+        <OrderList subject1="발신일시" subject2="발신일시" />
       </section>
     </section>
   </section>

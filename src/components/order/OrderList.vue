@@ -7,8 +7,8 @@
       <tr>
         <th>출판사</th>
         <th>종수</th>
-        <th>회신일시</th>
-        <th>발주일시</th>
+        <th>{{ subject1 }}</th>
+        <th>{{ subject2 }}</th>
       </tr>
     </thead>
     <tbody>
@@ -42,6 +42,7 @@
 <script>
 export default {
   name: "OrderList",
+  props: ["subject1", "subject2"],
   data() {
     return {
       list: ["test"],
