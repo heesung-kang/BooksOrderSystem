@@ -60,16 +60,6 @@ const router = new VueRouter({
       meta: { unauthorized: true },
     },
     {
-      path: "/Pay",
-      name: "Pay",
-      components: {
-        lnb,
-        footer,
-        contents: () => import("@/views/order/Pay.vue"),
-      },
-      meta: { unauthorized: true },
-    },
-    {
       path: "/ReleaseList",
       name: "ReleaseList",
       components: {
