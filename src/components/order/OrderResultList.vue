@@ -68,11 +68,11 @@ export default {
   },
   watch: {
     windowWidth(size) {
-      size > 600 ? (this.mobile = false) : (this.mobile = true);
+      size > 800 ? (this.mobile = false) : (this.mobile = true);
     },
   },
   mounted() {
-    this.windowWidth > 600 ? (this.mobile = false) : (this.mobile = true);
+    this.windowWidth > 800 ? (this.mobile = false) : (this.mobile = true);
   },
   methods: {
     showModal() {
