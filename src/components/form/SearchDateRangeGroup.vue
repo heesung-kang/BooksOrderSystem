@@ -1,7 +1,7 @@
 <template>
   <section class="search-header d-flex align-center">
     <span class="d-flex align-center select-wrap">
-      <Selects />
+      <Selects :itemList="itemList" />
       <input type="text" class="basic" />
     </span>
     <span class="d-flex align-center date-wrap">
@@ -19,6 +19,7 @@ import DatePicker from "@/components/form/DatePicker";
 export default {
   name: "SearchDateRangeGroup",
   components: { Selects, DatePicker },
+  props: ["itemList"],
   data() {
     return {
       startDate: "",
