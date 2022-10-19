@@ -56,6 +56,7 @@
 import { mapGetters } from "vuex";
 import { getPopupOpt } from "@/utils/modal";
 import orderModal from "@/components/modal/ModalOrder.vue";
+import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
 export default {
   data() {
     return {
@@ -68,11 +69,11 @@ export default {
   },
   watch: {
     windowWidth(size) {
-      size > 800 ? (this.mobile = false) : (this.mobile = true);
+      size > mobileBreakPoint ? (this.mobile = false) : (this.mobile = true);
     },
   },
   mounted() {
-    this.windowWidth > 800 ? (this.mobile = false) : (this.mobile = true);
+    this.windowWidth > mobileBreakPoint ? (this.mobile = false) : (this.mobile = true);
   },
   methods: {
     showModal() {
