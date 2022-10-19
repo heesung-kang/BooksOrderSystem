@@ -1,6 +1,6 @@
 <template>
   <section class="search-group">
-    <Selects />
+    <Selects :itemList="itemList" />
     <input type="text" class="basic" />
     <button class="basic">검색</button>
   </section>
@@ -10,6 +10,7 @@
 import Selects from "@/components/form/Selects";
 export default {
   components: { Selects },
+  props: ["itemList"],
 };
 </script>
 

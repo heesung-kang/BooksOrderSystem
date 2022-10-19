@@ -6,16 +6,14 @@
 
 <script>
 export default {
+  props: ["itemList"],
   data() {
     return {
-      select: "01",
-      itemList: [
-        { item: "책 제목", value: "01" },
-        { item: "ISBN", value: "02" },
-        { item: "저자", value: "03" },
-        { item: "출판사", value: "04" },
-      ],
+      select: "",
     };
+  },
+  mounted() {
+    this.select = this.itemList[0].value;
   },
 };
 </script>
