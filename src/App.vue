@@ -23,6 +23,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
 export default {
   name: "App",
   data() {
@@ -32,17 +33,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("common", ["loading"]),
+    ...mapGetters("common", ["loading", "windowWidth"]),
   },
   watch: {
+    //로딩 상태
     loading(newValue) {
       this.loadingStatus = newValue;
     },
+    //반응형 감지
+    windowWidth(size) {
+      size > mobileBreakPoint ? this.$store.commit("common/setDeviceStatus", false) : this.$store.commit("common/setDeviceStatus", true);
+    },
   },
   mounted() {
-    /**
-     * window 가로 사이즈 계산
-     */
+    //윈도우 가로사이즈 계산
     let docWidth = window.innerWidth;
     this.$store.commit("common/setWindowWidth", docWidth); //새로고침 초기 설정
     window.addEventListener(
@@ -53,6 +57,8 @@ export default {
       },
       true,
     );
+    //반응형 초기 설정
+    this.windowWidth > mobileBreakPoint ? this.$store.commit("common/setDeviceStatus", false) : this.$store.commit("common/setDeviceStatus", true);
   },
   methods: {
     showLnb() {

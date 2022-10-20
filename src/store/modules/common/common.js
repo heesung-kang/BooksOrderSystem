@@ -3,6 +3,7 @@ const common = {
   state: {
     loading: false,
     windowWidth: 0,
+    mobile: false,
   },
   getters: {
     loading: state => {
@@ -11,6 +12,9 @@ const common = {
     windowWidth: state => {
       return state.windowWidth;
     },
+    mobile: state => {
+      return state.mobile;
+    },
   },
   mutations: {
     setLoading(state, payload) {
@@ -18,6 +22,9 @@ const common = {
     },
     setWindowWidth(state, payload) {
       state.windowWidth = payload;
+    },
+    setDeviceStatus(state, payload) {
+      state.mobile = payload;
     },
   },
   actions: {},

@@ -55,23 +55,9 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
 export default {
-  data() {
-    return {
-      mobile: false,
-    };
-  },
   computed: {
-    ...mapGetters("common", ["windowWidth"]),
-  },
-  watch: {
-    windowWidth(size) {
-      size > mobileBreakPoint ? (this.mobile = false) : (this.mobile = true);
-    },
-  },
-  mounted() {
-    this.windowWidth > mobileBreakPoint ? (this.mobile = false) : (this.mobile = true);
+    ...mapGetters("common", ["windowWidth", "mobile"]),
   },
 };
 </script>
