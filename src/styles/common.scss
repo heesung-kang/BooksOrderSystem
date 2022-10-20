@@ -174,3 +174,29 @@ table{
   position:relative;
   z-index:10000000 !important;
 }
+/*vuetify-skeleton*/
+.v-skeleton-loader__table-thead, .v-skeleton-loader__table-tbody{
+  background-color: transparent !important;
+}
+.v-skeleton-loader__table-thead{
+  padding:16px 0 !important;
+  justify-content:space-around !important;
+  & > div{
+    min-width:80px;
+  }
+}
+.v-skeleton-loader__table-tbody{
+  justify-content:space-around !important;
+  padding:16px 0 0 0 !important;
+  .v-skeleton-loader__table-row{
+    justify-content:space-around !important;
+  }
+}
+.v-skeleton-loader__list-item-avatar-two-line{
+  background-color: transparent !important;
+  padding:0 !important;
+  .v-skeleton-loader__avatar{
+    border-radius:0 !important;
+  }
+}
+
