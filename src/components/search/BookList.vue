@@ -21,6 +21,186 @@
           <article class="add-cart"><button class="basic">담기</button></article>
         </section>
       </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
+      <li>
+        <section class="contents d-flex align-center justify-space-between">
+          <article class="basic-info d-flex align-center">
+            <section class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></section>
+            <div class="book-info">
+              <h3>아노말리(양장본 Hardcover)</h3>
+              <div>
+                <span class="mr18">에르베 르 텔리에</span>
+                <span>민음사 (20220526)</span>
+              </div>
+            </div>
+          </article>
+          <article class="price-info">
+            <div class="mr14">정가 20,000원</div>
+            <div class="mr10">공급률 60%</div>
+          </article>
+          <article class="price">공급가 12,000</article>
+          <article class="add-cart"><button class="basic">담기</button></article>
+        </section>
+      </li>
     </ul>
   </section>
 </template>
@@ -73,7 +253,7 @@ export default {
           }
         }
         .price {
-          @include NotoSans(1.6, 500, #000);
+          @include NotoSans(1.4, 700, #000);
           white-space: nowrap;
           min-width: 80px;
           text-align: right;

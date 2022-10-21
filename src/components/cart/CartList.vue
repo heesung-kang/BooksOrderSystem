@@ -37,6 +37,204 @@
               <div class="btn"><input type="number" class="basic" /></div>
             </article>
           </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
+          <li>
+            <article class="d-flex align-center">
+              <div class="d-flex align-center thumbnail-wrap">
+                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+                <div class="basic-info">
+                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
+                  <div class="only-mobile">
+                    <div class="author">에르베 르 텔리에</div>
+                    <div v-if="mobile" class="company">민음사</div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!mobile">민음사</div>
+              <div class="isbn">9788937427220</div>
+              <div class="price-etc">
+                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
+                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
+              </div>
+              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
+              <div class="btn"><input type="number" class="basic" /></div>
+            </article>
+          </li>
         </ul>
       </article>
     </section>
@@ -115,7 +313,7 @@ export default {
           @include NotoSans(1.4, 400, #000);
           @extend .size;
           &.price {
-            @include NotoSans(1.6, 500, #000);
+            @include NotoSans(1.4, 700, #000);
           }
           input[type="number"] {
             width: 66px;

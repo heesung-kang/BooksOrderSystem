@@ -30,6 +30,168 @@
         </div>
         <div class="count"><span v-if="mobile">수량</span> 2</div>
       </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
+      <li class="d-flex align-center">
+        <div class="d-flex align-center info-wrap">
+          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
+          <div class="book-info">
+            <h3>아노말리(양장본 Hardcover)</h3>
+            <div class="author">에르베 르 텔리에</div>
+          </div>
+        </div>
+        <div class="isbn">9788937427220</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="status">
+          <div v-if="mobile">상태</div>
+          <div>출고</div>
+          <div>(22.9.20)</div>
+        </div>
+        <div class="count"><span v-if="mobile">수량</span> 2</div>
+      </li>
     </ul>
     <!-- //출고현황 내역 -->
     <!-- 총 합계 --->
@@ -80,6 +242,7 @@ export default {
     background-color: #fff;
     border: 1px solid #000;
     padding: 5px 13px;
+    margin-bottom: 6px;
     & > div {
       text-align: center;
       @extend .size;
