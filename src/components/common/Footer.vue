@@ -1,7 +1,6 @@
 <template>
   <footer>
-    <div class="company">INSTAPAY CONFIDENTIAL</div>
-    <div class="copyright">Copyright© 2022 Instapay. All rights reserved.</div>
+    <div class="copyright">Copyright © 2022 InstaPay - All Rights Reserved.</div>
   </footer>
 </template>
 
@@ -17,20 +16,20 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  border-top: 1px solid #ccc;
-  height: 30px;
-  display: flex;
-  align-items: center;
+  height: 50px;
   padding-left: 40px;
+  background-color: #333333;
   .company {
     color: #ea5959;
   }
   .copyright {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    color: #666;
+    color: #aaaaaa;
+    line-height: 50px;
+  }
+}
+@include mobile {
+  .copyright {
+    text-align: center;
   }
 }
 </style>
