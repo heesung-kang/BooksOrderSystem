@@ -1,5 +1,5 @@
 <template class="date-range-picker">
-  <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent>
+  <v-dialog ref="dialog" v-model="modal" :return-value.sync="date" persistent width="290px">
     <template v-slot:activator="{ on, attrs }">
       <v-text-field v-model="date" readonly v-bind="attrs" v-on="on" @click="hangleDelete" :placeholder="placeholder"></v-text-field>
     </template>
