@@ -4,7 +4,7 @@
     <section class="sub-container">
       <article class="order-info d-flex justify-space-between">
         <div>출판사명: <strong>민음사</strong></div>
-        <div>주문일자:2022.10.4</div>
+        <div>주문일자 : 2022.10.4</div>
       </article>
       <ReleaseStatusList />
     </section>
@@ -22,5 +22,6 @@ export default {
 <style lang="scss" scoped>
 .order-info {
   margin-bottom: 20px;
+  font-size: 1.6rem;
 }
 </style>

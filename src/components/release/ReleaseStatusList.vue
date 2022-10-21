@@ -60,6 +60,7 @@ export default {
   & > div {
     text-align: center;
     @extend .size;
+    font-size: 1.6rem;
   }
   .dual {
     div {
@@ -83,18 +84,22 @@ export default {
       text-align: center;
       @extend .size;
       .thumbnail {
-        width: 40px;
-        min-width: 40px;
+        width: 60px;
+        min-width: 60px;
         img {
           width: 100%;
-          height: 50px;
+          height: 75px;
           border: 1px solid #ccc;
         }
       }
       .book-info {
         margin-left: 18px;
+        h3 {
+          @include NotoSans(1.6, 500, #000);
+        }
         .author {
           text-align: left;
+          @include NotoSans(1.4, 400, #000);
         }
       }
     }
@@ -132,6 +137,15 @@ export default {
       align-items: flex-start !important;
       div {
         font-size: 1.6rem;
+        .thumbnail {
+          width: 50px;
+          min-width: 50px;
+          img {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #ccc;
+          }
+        }
       }
       .info-wrap {
         width: 100% !important;
@@ -144,23 +158,23 @@ export default {
         }
       }
       .isbn {
-        margin-left: 80px;
+        margin-left: 90px;
       }
       .out-type {
-        margin: 10px 0 0 83px;
+        margin: 10px 0 0 93px;
         text-align: left;
         white-space: nowrap;
       }
       .status {
         display: flex;
-        margin-left: 83px;
+        margin-left: 93px;
         div {
           white-space: nowrap;
           margin-right: 7px;
         }
       }
       .count {
-        margin-left: 83px;
+        margin-left: 93px;
         text-align: left;
         white-space: nowrap;
       }

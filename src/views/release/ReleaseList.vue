@@ -31,4 +31,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+h3 {
+  @include NotoSans(1.6, 500, #000);
+}
+</style>

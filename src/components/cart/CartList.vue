@@ -80,7 +80,7 @@ export default {
     @include NotoSans(1.6, 700, #000);
   }
   button {
-    @include NotoSans(1.4, 700, #fff);
+    @include NotoSans(1.6, 700, #fff);
   }
 }
 .cart-header {
@@ -88,8 +88,8 @@ export default {
   display: flex;
   div {
     text-align: center;
-    @include NotoSans(1.4, 500, #000);
-    margin-bottom: 13px;
+    @include NotoSans(1.6, 500, #000);
+    margin-bottom: 3px;
     @extend .size;
   }
 }
@@ -103,7 +103,7 @@ export default {
       div {
         @include NotoSans(1.4, 400, #000);
         &.book-name {
-          @include NotoSans(1.4, 500, #000);
+          @include NotoSans(1.6, 500, #000);
         }
       }
       &:last-child {
@@ -115,7 +115,7 @@ export default {
           @include NotoSans(1.4, 400, #000);
           @extend .size;
           &.price {
-            @include NotoSans(1.4, 500, #000);
+            @include NotoSans(1.6, 500, #000);
           }
           input[type="number"] {
             width: 66px;
@@ -123,11 +123,11 @@ export default {
         }
       }
       .thumbnail {
-        width: 50px;
-        min-width: 50px;
+        width: 60px;
+        min-width: 60px;
         img {
           width: 100%;
-          height: 60px;
+          height: 75px;
           border: 1px solid #ccc;
         }
       }
@@ -137,7 +137,7 @@ export default {
           text-align: left;
         }
         .author {
-          @include NotoSans(1.2, 400, #000);
+          @include NotoSans(1.4, 400, #000);
         }
       }
     }
@@ -183,6 +183,15 @@ export default {
           .thumbnail-wrap {
             width: 100% !important;
             align-items: flex-start !important;
+            .thumbnail {
+              width: 50px;
+              min-width: 50px;
+              img {
+                width: 100%;
+                height: 52px;
+                border: 1px solid #ccc;
+              }
+            }
             .basic-info {
               width: calc(100% - 60px);
               .book-name {

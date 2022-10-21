@@ -1,7 +1,7 @@
 <template>
   <section class="lnb-wrap">
     <aside class="side-bar" :class="{ active: isActive }">
-      <div class="pt47 logo"><img src="@/assets/images/logo.svg" alt="instaPay" /></div>
+      <div class="pt26 logo"><img src="@/assets/images/logo.svg" alt="instaPay" /></div>
       <div class="system-name">서점용 도서 주문 시스템</div>
       <nav class="lnb">
         <ul @click="close">
