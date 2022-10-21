@@ -19,10 +19,10 @@ export default {
   display: flex;
   input[type="text"] {
     width: 100%;
-    max-width: calc(100% - 220px);
+    max-width: 380px;
   }
   .basic {
-    margin-left: 25px;
+    margin-left: 8px;
   }
 }
 @include mobile {

@@ -80,7 +80,7 @@ export default {
     @include NotoSans(1.6, 700, #000);
   }
   button {
-    @include NotoSans(1.4, 700, #fff);
+    @include NotoSans(1.6, 700, #fff);
   }
 }
 .cart-header {
@@ -88,7 +88,7 @@ export default {
   display: flex;
   div {
     text-align: center;
-    @include NotoSans(1.4, 500, #000);
+    @include NotoSans(1.6, 500, #000);
     margin-bottom: 13px;
     @extend .size;
   }
@@ -103,7 +103,7 @@ export default {
       div {
         @include NotoSans(1.4, 400, #000);
         &.book-name {
-          @include NotoSans(1.4, 500, #000);
+          @include NotoSans(1.6, 500, #000);
         }
       }
       &:last-child {
@@ -115,7 +115,7 @@ export default {
           @include NotoSans(1.4, 400, #000);
           @extend .size;
           &.price {
-            @include NotoSans(1.4, 500, #000);
+            @include NotoSans(1.6, 500, #000);
           }
           input[type="number"] {
             width: 66px;
@@ -137,7 +137,7 @@ export default {
           text-align: left;
         }
         .author {
-          @include NotoSans(1.2, 400, #000);
+          @include NotoSans(1.4, 400, #000);
         }
       }
     }

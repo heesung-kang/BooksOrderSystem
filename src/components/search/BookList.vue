@@ -46,11 +46,11 @@ export default {
         margin-bottom: 0;
       }
       .thumbnail {
-        width: 40px;
-        min-width: 40px;
+        width: 60px;
+        min-width: 60px;
         img {
           width: 100%;
-          height: 50px;
+          height: 75px;
           border: 1px solid #ccc;
         }
       }
@@ -60,20 +60,20 @@ export default {
           .book-info {
             margin-left: 18px;
             h3 {
-              @include NotoSans(1.4, 500, #000);
+              @include NotoSans(1.6, 500, #000);
             }
             span {
-              @include NotoSans(1.2, 400, #000);
+              @include NotoSans(1.4, 400, #000);
             }
           }
         }
         .price-info {
           div {
-            @include NotoSans(1.2, 400, #000);
+            @include NotoSans(1.4, 400, #000);
           }
         }
         .price {
-          @include NotoSans(1.4, 500, #000);
+          @include NotoSans(1.6, 500, #000);
           white-space: nowrap;
           min-width: 80px;
           text-align: right;
@@ -92,6 +92,15 @@ export default {
     ul {
       li {
         padding: 19px 18px;
+        .thumbnail {
+          width: 50px;
+          min-width: 50px;
+          img {
+            width: 100%;
+            height: 52px;
+            border: 1px solid #ccc;
+          }
+        }
         .contents {
           flex-direction: column;
           align-items: flex-start !important;
@@ -105,17 +114,17 @@ export default {
             }
           }
           .price-info {
-            margin-left: 58px;
+            margin-left: 68px;
             div {
               font-size: 1.6rem !important;
             }
           }
           .price {
             font-size: 1.6rem !important;
-            margin: 15px 0 0 58px;
+            margin: 15px 0 0 68px;
           }
           .add-cart {
-            margin: 15px 0 0 58px;
+            margin: 15px 0 0 68px;
           }
         }
       }
