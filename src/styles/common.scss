@@ -32,6 +32,14 @@
   }
   .layout-left {
     width:100% !important;
+    .sub-title{
+      background-color:#000;
+      padding:0;
+      color:#fff;
+      height:70px;
+      text-align:center;
+      line-height:70px;
+    }
   }
   .hamburg-menu{
     display:block;
@@ -111,12 +119,12 @@ table{
   &.basic{
     tr{
       th{
-        @include NotoSans(1.4,500,#000);
+        @include NotoSans(1.6,500,#000);
         padding:10px 0;
         border-bottom:1px solid #000;
       }
       td{
-        @include NotoSans(1.4,500,#000);
+        @include NotoSans(1.6,500,#000);
         padding:9px 0;
         text-align:center;
       }

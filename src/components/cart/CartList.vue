@@ -89,7 +89,7 @@ export default {
   div {
     text-align: center;
     @include NotoSans(1.6, 500, #000);
-    margin-bottom: 13px;
+    margin-bottom: 3px;
     @extend .size;
   }
 }
@@ -123,11 +123,11 @@ export default {
         }
       }
       .thumbnail {
-        width: 50px;
-        min-width: 50px;
+        width: 60px;
+        min-width: 60px;
         img {
           width: 100%;
-          height: 60px;
+          height: 75px;
           border: 1px solid #ccc;
         }
       }
@@ -183,6 +183,15 @@ export default {
           .thumbnail-wrap {
             width: 100% !important;
             align-items: flex-start !important;
+            .thumbnail {
+              width: 50px;
+              min-width: 50px;
+              img {
+                width: 100%;
+                height: 52px;
+                border: 1px solid #ccc;
+              }
+            }
             .basic-info {
               width: calc(100% - 60px);
               .book-name {

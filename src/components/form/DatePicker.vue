@@ -86,7 +86,7 @@ export default {
     .v-text-field__slot {
       input {
         padding: 0 10px;
-        @include NotoSans(1.2, 400, #000);
+        @include NotoSans(1.4, 400, #000);
       }
     }
   }
