@@ -226,12 +226,12 @@ export default {
         margin-bottom: 0;
       }
       .thumbnail {
-        width: 60px;
-        min-width: 60px;
+        width: 50px;
+        min-width: 50px;
         img {
-          width: 100%;
           height: 75px;
           border: 1px solid #ccc;
+          object-fit: cover;
         }
       }
       .contents {
@@ -272,15 +272,6 @@ export default {
     ul {
       li {
         padding: 19px 18px;
-        .thumbnail {
-          width: 50px;
-          min-width: 50px;
-          img {
-            width: 100%;
-            height: 52px;
-            border: 1px solid #ccc;
-          }
-        }
         .contents {
           flex-direction: column;
           align-items: flex-start !important;

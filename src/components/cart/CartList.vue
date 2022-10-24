@@ -18,7 +18,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -40,7 +39,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -62,7 +60,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -84,7 +81,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -106,7 +102,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -128,7 +123,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -150,7 +144,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -172,7 +165,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -194,29 +186,6 @@
           <li>
             <article class="d-flex align-center">
               <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
-                <div class="basic-info">
-                  <div class="book-name">아노말리 (양장본 Hardcover)</div>
-                  <div class="only-mobile">
-                    <div class="author">에르베 르 텔리에</div>
-                    <div v-if="mobile" class="company">민음사</div>
-                  </div>
-                </div>
-              </div>
-              <div v-if="!mobile">민음사</div>
-              <div class="isbn">9788937427220</div>
-              <div class="price-etc">
-                <div class="normal-price"><span v-if="mobile">정가</span> 20,000원</div>
-                <div class="rate"><span v-if="mobile">공급률</span> 60%</div>
-              </div>
-              <div class="price"><span v-if="mobile">공급가</span>12,000원</div>
-              <div class="btn"><input type="number" class="basic" /></div>
-            </article>
-          </li>
-          <li>
-            <article class="d-flex align-center">
-              <div class="d-flex align-center thumbnail-wrap">
-                <div class="thumbnail"><img src="@/assets/images/book.jpg" alt="" /></div>
                 <div class="basic-info">
                   <div class="book-name">아노말리 (양장본 Hardcover)</div>
                   <div class="only-mobile">
@@ -320,17 +289,7 @@ export default {
           }
         }
       }
-      .thumbnail {
-        width: 60px;
-        min-width: 60px;
-        img {
-          width: 100%;
-          height: 75px;
-          border: 1px solid #ccc;
-        }
-      }
       .basic-info {
-        margin-left: 18px;
         div {
           text-align: left;
         }
@@ -381,15 +340,6 @@ export default {
           .thumbnail-wrap {
             width: 100% !important;
             align-items: flex-start !important;
-            .thumbnail {
-              width: 50px;
-              min-width: 50px;
-              img {
-                width: 100%;
-                height: 52px;
-                border: 1px solid #ccc;
-              }
-            }
             .basic-info {
               width: calc(100% - 60px);
               .book-name {
@@ -408,11 +358,9 @@ export default {
             }
           }
           .isbn {
-            margin-left: 70px;
             @include NotoSans(1.6, 400, #000);
           }
           .price-etc {
-            margin-left: 70px;
             display: flex;
             flex-wrap: wrap;
             div {
@@ -424,12 +372,12 @@ export default {
             }
           }
           .price {
-            margin: 10px 0 0 70px;
+            margin: 10px 0 0 0px;
             font-size: 1.6rem !important;
             font-weight: 700 !important;
           }
           .btn {
-            margin: 20px 0 0 65px;
+            margin: 20px 0 0 0px;
           }
         }
       }

@@ -20,6 +20,7 @@ export default {
   components: { SearchDateRangeGroup, OrderList },
   data() {
     return {
+      select: "",
       itemList: [
         { item: "책 제목", value: "01" },
         { item: "ISBN", value: "02" },
