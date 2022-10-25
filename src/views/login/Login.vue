@@ -5,14 +5,14 @@
       <!--      <form @submit.prevent="gotoMain"> 서브밋 임시 숨김처리-->
       <div class="mt30 field">
         <v-icon>mdi-account</v-icon>
-        <input type="text" v-model="username" placeholder="아이디를 입력하세요." />
+        <input type="text" v-model="email" placeholder="아이디를 입력하세요." />
       </div>
       <div class="mt10 field">
         <v-icon>mdi-shield-key</v-icon>
         <input type="password" v-model="password" placeholder="비밀번호를 입력하세요." />
       </div>
       <!-- 로그인 임시 버튼 : API 연동 안됨 -->
-      <button type="submit" class="btn-login mt25" @click="gotoMain">로그인 하기</button>
+      <button type="submit" class="btn-login mt25" @click="signIn">로그인 하기</button>
       <!-- 로그인 버튼 숨김 처리
         <button type="submit" class="btn-login mt25" :disabled="!username || !password" :class="{ dev: develop === true }">로그인 하기</button>-->
       <p class="error-message">{{ logMessage }}</p>
@@ -24,17 +24,51 @@
 </template>
 
 <script>
+import { saveCookie } from "@/utils/cookie";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "@/utils/db";
+const auth = getAuth(app);
 export default {
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       logMessage: "",
     };
   },
   methods: {
+    signIn() {
+      signInWithEmailAndPassword(auth, this.email, this.password)
+        .then(userCredential => {
+          // Signed in
+          const user = userCredential.user;
+          saveCookie("accessToken", user.accessToken);
+          this.$router.push("/");
+          // ...
+        })
+        .catch(error => {
+          switch (error.code) {
+            case "auth/invalid-email":
+              this.logMessage = "이메일을 잘못 입력 하셨습니다.";
+              break;
+            case "auth/user-not-found":
+              this.logMessage = "존재하지 않는 이메일 주소입니다.";
+              break;
+            case "auth/wrong-password":
+              this.logMessage = "비밀번호를 잘못 입력 하셨습니다.";
+              break;
+            case "auth/too-many-requests":
+              this.logMessage = "접속 시도를 너무 많이 하셨습니다.";
+              break;
+            default:
+              this.logMessage = "이메일 혹은 비밀번호가 틀렸습니다.";
+              break;
+          }
+        });
+    },
     gotoMain() {
-      this.$router.push("/SearchOrder");
+      console.log("login");
+      //this.$router.push("/SearchOrder");
     },
   },
 };

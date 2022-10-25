@@ -1,16 +1,38 @@
 <template>
   <section class="search-group">
-    <Selects :itemList="itemList" />
-    <input type="text" class="basic" />
-    <button class="basic">검색</button>
+    <Selects :itemList="itemList" @change="change" />
+    <input type="text" class="basic" v-model="keyword" @keypress.enter="search" />
+    <button class="basic" @click="search" :disabled="skeletonLoading">검색</button>
   </section>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Selects from "@/components/form/Selects";
 export default {
   components: { Selects },
   props: ["itemList"],
+  data() {
+    return {
+      select: "",
+      keyword: "",
+    };
+  },
+  computed: {
+    ...mapGetters("common", ["skeletonLoading"]),
+  },
+  methods: {
+    change(select) {
+      this.select = select;
+    },
+    search() {
+      if (this.keyword === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
+      this.$emit("search", { select: this.select, keyword: this.keyword });
+    },
+  },
 };
 </script>
 
