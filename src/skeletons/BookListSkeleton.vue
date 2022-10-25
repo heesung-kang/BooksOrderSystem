@@ -51,56 +51,6 @@
           <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
         </section>
       </li>
-      <li>
-        <section class="d-flex align-center justify-space-between skeleton-book-list">
-          <div class="img"><v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-        </section>
-      </li>
-      <li>
-        <section class="d-flex align-center justify-space-between skeleton-book-list">
-          <div class="img"><v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-        </section>
-      </li>
-      <li>
-        <section class="d-flex align-center justify-space-between skeleton-book-list">
-          <div class="img"><v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-        </section>
-      </li>
-      <li>
-        <section class="d-flex align-center justify-space-between skeleton-book-list">
-          <div class="img"><v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-        </section>
-      </li>
-      <li>
-        <section class="d-flex align-center justify-space-between skeleton-book-list">
-          <div class="img"><v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-          <div class="text"><v-skeleton-loader type="text"></v-skeleton-loader></div>
-        </section>
-      </li>
     </ul>
   </div>
 </template>

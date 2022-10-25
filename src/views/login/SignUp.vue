@@ -2,15 +2,16 @@
   <div class="login-container">
     <div class="wrap">
       <h1>임시 회원가입</h1>
-      <div class="mt10"><input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
-      <div class="mt5"><input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
+      <div class="mt10">서점명 : <input class="basic" v-model="shop" placeholder="서점명" type="text" /></div>
+      <div class="mt5">ID : <input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
+      <div class="mt5">PW : <input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
       <div class="btn-wrap"><button @click="userRegistration">가입</button></div>
     </div>
   </div>
 </template>
 
 <script>
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { app } from "@/utils/db";
 const auth = getAuth(app);
 export default {
@@ -19,10 +20,15 @@ export default {
     return {
       email: "",
       password: "",
+      shop: "",
     };
   },
   methods: {
     userRegistration() {
+      if (this.shop === "") {
+        alert("서점명을 입력해주세요.");
+        return;
+      }
       if (this.email === "") {
         alert("이메일을 입력해주세요.");
         return;
@@ -33,8 +39,16 @@ export default {
       }
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then(() => {
-          alert("정상 가입 되셨습니다.");
-          this.$router.push("/");
+          updateProfile(getAuth().currentUser, {
+            displayName: this.shop,
+          })
+            .then(() => {
+              alert("정상 가입 되셨습니다.");
+              this.$router.push("/");
+            })
+            .catch(error => {
+              alert(error.message);
+            });
         })
         .catch(error => {
           alert(error.message);

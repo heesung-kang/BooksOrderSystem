@@ -42,6 +42,7 @@ export default {
         .then(userCredential => {
           // Signed in
           const user = userCredential.user;
+          saveCookie("userInfo", { uid: user.uid, name: user.displayName });
           saveCookie("accessToken", user.accessToken);
           this.$router.push("/");
           // ...

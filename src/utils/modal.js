@@ -12,7 +12,7 @@ export const getPopupOpt = function (name, width, height, resizable) {
     width: width,
     height: height,
     resizable: resizable,
-    clickToClose: true,
+    clickToClose: false,
     draggable: ".popup-title", // true면 전체 팝업에서 적용되고 지정하면 해당 클래스가 있는 부분만 적용됨,
     scrollable: true,
     //transition: "pop-out",

@@ -2,7 +2,7 @@
   <div>
     <section class="book-list">
       <ul v-if="books.length > 0">
-        <li v-for="(book, index) in books" :key="index">
+        <li v-for="book in books" :key="book.data.isbn">
           <section class="contents d-flex align-center justify-space-between">
             <article class="basic-info d-flex align-center">
               <section class="thumbnail">
@@ -22,7 +22,7 @@
               <div class="mr10">공급률 {{ book.data.supply_rate }}%</div>
             </article>
             <article class="price">공급가 {{ book.data.price && ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원</article>
-            <article class="add-cart"><button class="basic">담기</button></article>
+            <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
           </section>
         </li>
       </ul>
@@ -36,9 +36,51 @@
 </template>
 
 <script>
+import { db } from "@/utils/db";
+import { addDoc, collection, query, getDocs } from "firebase/firestore";
+import { getCookie } from "@/utils/cookie";
+
 export default {
   name: "BookList",
   props: ["books", "infoChange"],
+  data() {
+    return {
+      cart: [],
+    };
+  },
+  async created() {
+    //초기 장바구니 데이터 로드
+    try {
+      const uid = getCookie("uid");
+      const first = query(collection(db, `cart-${uid}`));
+      const documentSnapshots = await getDocs(first);
+      documentSnapshots.forEach(doc => {
+        this.cart.push(doc.data());
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  },
+  methods: {
+    //장바구니 담기
+    async addCart(item) {
+      try {
+        const uid = getCookie("uid");
+        const result = this.cart.some(elm => elm.isbn === item.isbn);
+        if (!result) {
+          this.$store.commit("common/setLoading", true);
+          item.count = 1;
+          await addDoc(collection(db, `cart-${uid}`), item);
+          alert("장바구니에 담았습니다.");
+        } else {
+          alert("장바구니에 이미 담겨 있습니다.");
+        }
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+      this.$store.commit("common/setLoading", false);
+    },
+  },
 };
 </script>
 

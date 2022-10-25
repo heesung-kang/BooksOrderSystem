@@ -61,66 +61,6 @@
           </div>
         </section>
       </li>
-      <li>
-        <section class="skeleton-book-list">
-          <div class="img">
-            <v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-          </div>
-        </section>
-      </li>
-      <li>
-        <section class="skeleton-book-list">
-          <div class="img">
-            <v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-          </div>
-        </section>
-      </li>
-      <li>
-        <section class="skeleton-book-list">
-          <div class="img">
-            <v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-          </div>
-        </section>
-      </li>
-      <li>
-        <section class="skeleton-book-list">
-          <div class="img">
-            <v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-          </div>
-        </section>
-      </li>
-      <li>
-        <section class="skeleton-book-list">
-          <div class="img">
-            <v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-            <v-skeleton-loader type="text"></v-skeleton-loader>
-          </div>
-        </section>
-      </li>
     </ul>
   </div>
 </template>
