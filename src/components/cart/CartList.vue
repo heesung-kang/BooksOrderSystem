@@ -264,7 +264,6 @@ export default {
   ul {
     li {
       padding: 10px 27px 10px 21px;
-      border: 1px solid #000;
       background-color: #fff;
       margin-bottom: 6px;
       div {

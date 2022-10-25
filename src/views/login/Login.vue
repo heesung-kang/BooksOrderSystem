@@ -85,6 +85,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-image: url("../../assets/images/bg.jpg");
+  z-index: 100;
   .login-box {
     background: #fff;
     border-radius: 10px;

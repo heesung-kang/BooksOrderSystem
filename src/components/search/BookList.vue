@@ -58,7 +58,6 @@ export default {
   ul {
     li {
       background-color: #fff;
-      border: 1px solid #000;
       display: flex;
       margin-bottom: 7px;
       padding: 12px 39px 13px 29px;

@@ -138,7 +138,6 @@ ul {
   li {
     margin-bottom: 8px;
     .skeleton-book-list {
-      border: 1px solid #000;
       background-color: #fff;
       padding: 0 20px 10px;
       .img {
