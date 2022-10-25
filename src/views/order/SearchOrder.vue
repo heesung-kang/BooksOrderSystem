@@ -50,7 +50,7 @@ export default {
     async firstBookList() {
       try {
         this.$store.commit("common/setSkeleton", true);
-        const first = query(collection(db, "booksData"), where(this.select, ">=", this.keyword), limit(this.limit));
+        const first = query(collection(db, "booksData"), where(this.select, "==", this.keyword), limit(this.limit));
         const documentSnapshots = await getDocs(first);
         this.lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
         documentSnapshots.forEach(doc => {
@@ -66,14 +66,14 @@ export default {
     async more() {
       try {
         this.$store.commit("common/setLoading", true);
-        const next = query(collection(db, "booksData"), where(this.select, ">=", this.keyword), startAfter(this.lastVisible), limit(this.limit));
+        const next = query(collection(db, "booksData"), where(this.select, "==", this.keyword), startAfter(this.lastVisible), limit(this.limit));
         const documentSnapshots = await getDocs(next);
+        if (documentSnapshots.docs.length === 0) alert("도서정보가 더이상 없습니다.");
         this.lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
         documentSnapshots.forEach(doc => {
           this.books.push({ id: doc.id, data: doc.data() });
         });
       } catch (e) {
-        alert("도서정보가 더이상 없습니다.");
         console.error("Error adding document: ", e);
       }
       this.$store.commit("common/setLoading", false);

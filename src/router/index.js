@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
+import { getCookie } from "@/utils/cookie";
 const lnb = () => import("@/components/common/Lnb.vue");
 const footer = () => import("@/components/common/Footer.vue");
 
@@ -12,6 +12,12 @@ const router = new VueRouter({
     {
       path: "/",
       redirect: "/SearchOrder",
+    },
+    {
+      path: "/SignUp",
+      name: "SignUp",
+      component: () => import("@/views/login/SignUp.vue"),
+      meta: { unauthorized: true },
     },
     {
       path: "/Login",
@@ -27,7 +33,6 @@ const router = new VueRouter({
         footer,
         contents: () => import("@/views/order/SearchOrder.vue"),
       },
-      meta: { unauthorized: true },
     },
     {
       path: "/Cart",
@@ -47,7 +52,6 @@ const router = new VueRouter({
         footer,
         contents: () => import("@/views/order/OrderList.vue"),
       },
-      meta: { unauthorized: true },
     },
     {
       path: "/OrderResult",
@@ -57,7 +61,6 @@ const router = new VueRouter({
         footer,
         contents: () => import("@/views/order/OrderResult.vue"),
       },
-      meta: { unauthorized: true },
     },
     {
       path: "/ReleaseList",
@@ -67,7 +70,6 @@ const router = new VueRouter({
         footer,
         contents: () => import("@/views/release/ReleaseList.vue"),
       },
-      meta: { unauthorized: true },
     },
     {
       path: "/ReleaseStatus",
@@ -77,7 +79,6 @@ const router = new VueRouter({
         footer,
         contents: () => import("@/views/release/ReleaseStatus.vue"),
       },
-      meta: { unauthorized: true },
     },
     //404
     {
@@ -89,20 +90,20 @@ const router = new VueRouter({
   ],
 });
 
-//router guard 숨김처리
-// router.beforeEach(async (to, from, next) => {
-//   //액세스 토큰이 있을 경우
-//   if (getAccessTokenCookie() !== null) {
-//     return next();
-//   }
-//
-//   //로그인 필요 없는 페이지
-//   if (to.matched.some(record => record.meta.unauthorized) || getAccessTokenCookie()) {
-//     return next();
-//   }
-//
-//   //액세스 토큰이 없을 경우
-//   return next("/login");
-// });
+//router guard
+router.beforeEach(async (to, from, next) => {
+  //액세스 토큰이 있을 경우
+  if (getCookie("accessToken") !== null) {
+    return next();
+  }
+
+  //로그인 필요 없는 페이지
+  if (to.matched.some(record => record.meta.unauthorized) || getCookie("accessToken")) {
+    return next();
+  }
+
+  //액세스 토큰이 없을 경우
+  return next("/login");
+});
 
 export default router;
