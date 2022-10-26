@@ -6,26 +6,52 @@
         주문서가 출판사에 전송되었습니다.<br />
         "주문 내역"에서 회신 확인 후 결제 해 주세요
       </div>
-      <div>
-        <button class="basic">확인</button>
+      <div class="mt20 btn-wrap">
+        <button class="basic" @click="close">확인</button>
       </div>
     </template>
   </modalWrap>
 </template>
 
 <script>
-import VueBarcode from "vue-barcode";
 import modalWrap from "@/components/modal/ModalTemplate";
+import { getCookie } from "@/utils/cookie";
+import { setDoc, deleteDoc, doc, writeBatch, collection } from "firebase/firestore";
+import { db } from "@/utils/db";
 export default {
-  components: { modalWrap, barcode: VueBarcode },
+  components: { modalWrap },
+  props: ["id", "cart", "uid"],
   data() {
     return {
-      barcode: "9791130692791",
+      sendData: [],
     };
   },
+  async created() {
+    //doc id 제외
+    this.cart.forEach(ele => {
+      ele.data.uid = this.uid;
+      this.sendData.push(ele.data);
+    });
+    const batch = writeBatch(db);
+    await this.sendData.forEach(item => {
+      // Creates a DocRef with random ID
+      const docRef = doc(collection(db, "orderRequest"));
+      batch.set(docRef, item);
+    });
+    await batch.commit();
+  },
   methods: {
-    close() {
+    async close() {
+      //장바구니 삭제
+      const batch = writeBatch(db);
+      const { uid } = getCookie("userInfo");
+      await this.id.forEach(id => {
+        batch.delete(doc(db, `cart-${uid}`, id));
+      });
+      await batch.commit();
+      this.$store.commit("common/setLoading", false);
       this.$emit("close");
+      this.$router.push("/");
     },
   },
 };
@@ -43,6 +69,10 @@ export default {
 }
 .pay {
   text-align: center;
+}
+.btn-wrap {
+  display: flex;
+  justify-content: flex-end;
 }
 @include mobile {
   .info {
