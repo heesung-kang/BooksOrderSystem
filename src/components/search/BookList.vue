@@ -50,7 +50,7 @@ export default {
   async created() {
     //초기 장바구니 데이터 로드
     try {
-      const uid = getCookie("uid");
+      const { uid } = getCookie("userInfo");
       const first = query(collection(db, `cart-${uid}`));
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
@@ -64,7 +64,7 @@ export default {
     //장바구니 담기
     async addCart(item) {
       try {
-        const uid = getCookie("uid");
+        const { uid } = getCookie("userInfo");
         const result = this.cart.some(elm => elm.isbn === item.isbn);
         if (!result) {
           this.$store.commit("common/setLoading", true);
