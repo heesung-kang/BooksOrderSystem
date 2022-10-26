@@ -96,6 +96,7 @@ export default {
   data() {
     return {
       cart: [],
+      ids: [],
     };
   },
   computed: {
@@ -119,14 +120,17 @@ export default {
     this.load();
   },
   methods: {
+    //주문 모달
     showModal() {
+      const ids = this.ids;
       this.mobile
-        ? this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "95%", "auto", false))
-        : this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "500px", "auto", false));
+        ? this.$modal.show(ModalCart, { id: ids }, getPopupOpt("ModalCart", "95%", "auto", false))
+        : this.$modal.show(ModalCart, { id: ids }, getPopupOpt("ModalCart", "500px", "auto", false));
     },
     async load() {
       //초기 장바구니 데이터 로드
       this.cart = []; //리로드시 초기화
+      this.ids = [];
       try {
         const { uid } = getCookie("userInfo");
         this.$store.commit("common/setSkeleton", true);
@@ -134,6 +138,7 @@ export default {
         const documentSnapshots = await getDocs(first);
         documentSnapshots.forEach(doc => {
           this.cart.push({ id: doc.id, data: doc.data() });
+          this.ids.push(doc.id);
         });
       } catch (e) {
         console.error("Error adding document: ", e);
