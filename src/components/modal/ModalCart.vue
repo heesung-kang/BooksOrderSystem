@@ -16,7 +16,7 @@
 <script>
 import modalWrap from "@/components/modal/ModalTemplate";
 import { getCookie } from "@/utils/cookie";
-import { setDoc, deleteDoc, doc, writeBatch, collection } from "firebase/firestore";
+import { doc, writeBatch, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/utils/db";
 export default {
   components: { modalWrap },
@@ -28,8 +28,10 @@ export default {
   },
   async created() {
     //doc id 제외
+    const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
       ele.data.uid = this.uid;
+      ele.data.timestamp = timestamp;
       this.sendData.push(ele.data);
     });
     const batch = writeBatch(db);

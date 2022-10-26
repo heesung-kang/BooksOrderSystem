@@ -21,12 +21,7 @@ export default {
   data() {
     return {
       select: "",
-      itemList: [
-        { item: "책 제목", value: "01" },
-        { item: "ISBN", value: "02" },
-        { item: "저자", value: "03" },
-        { item: "출판사", value: "04" },
-      ],
+      itemList: [{ item: "출판사", value: "publisher" }],
     };
   },
 };
