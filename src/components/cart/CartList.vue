@@ -121,7 +121,7 @@ export default {
       //초기 장바구니 데이터 로드
       this.cart = []; //리로드시 초기화
       try {
-        const uid = getCookie("uid");
+        const { uid } = getCookie("userInfo");
         this.$store.commit("common/setSkeleton", true);
         const first = query(collection(db, `cart-${uid}`));
         const documentSnapshots = await getDocs(first);
@@ -136,7 +136,7 @@ export default {
     },
     async update(id, count) {
       try {
-        const uid = getCookie("uid");
+        const { uid } = getCookie("userInfo");
         this.$store.commit("common/setLoading", true);
         await updateDoc(doc(db, `cart-${uid}`, id), {
           count: count,
@@ -150,7 +150,7 @@ export default {
     async del(id) {
       //아이템 삭제
       try {
-        const uid = getCookie("uid");
+        const { uid } = getCookie("userInfo");
         this.$store.commit("common/setLoading", true);
         await deleteDoc(doc(db, `cart-${uid}`, id));
         alert("삭제 되었습니다");

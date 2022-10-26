@@ -28,7 +28,6 @@
       </ul>
       <div v-else class="book-search-alert">
         <span v-if="infoChange">검색 결과가 없습니다.</span>
-        <span v-else>책을 검색해주세요.</span>
       </div>
     </section>
     <div class="btn-more" @click="$emit('more')" v-if="books.length > 0"><button class="basic">더 보기</button></div>
@@ -51,7 +50,7 @@ export default {
   async created() {
     //초기 장바구니 데이터 로드
     try {
-      const uid = getCookie("uid");
+      const { uid } = getCookie("userInfo");
       const first = query(collection(db, `cart-${uid}`));
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
@@ -65,12 +64,13 @@ export default {
     //장바구니 담기
     async addCart(item) {
       try {
-        const uid = getCookie("uid");
+        const { uid } = getCookie("userInfo");
         const result = this.cart.some(elm => elm.isbn === item.isbn);
         if (!result) {
           this.$store.commit("common/setLoading", true);
           item.count = 1;
           await addDoc(collection(db, `cart-${uid}`), item);
+          this.cart.push(item);
           alert("장바구니에 담았습니다.");
         } else {
           alert("장바구니에 이미 담겨 있습니다.");
