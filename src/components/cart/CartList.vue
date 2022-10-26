@@ -46,15 +46,14 @@
                   <v-edit-dialog
                     :return-value.sync="cart[index].data.count"
                     large
-                    @save="update(cart[index].id, cart[index].data.count)"
-                    @cancel="cancel"
+                    @save="update(book.id, cart[index].data.count)"
                     cancel-text="취소"
                     save-text="저장"
                   >
                     <div>{{ cart[index].data.count }}</div>
                     <template v-slot:input>
                       <div class="mt-4 text-h6">수량변경</div>
-                      <input v-model="cart[index].data.count" type="number" />
+                      <input v-model="cart[index].data.count" type="number" class="mt10" style="border-bottom: 1px solid #000" />
                     </template>
                   </v-edit-dialog>
                 </div>
@@ -121,13 +120,9 @@ export default {
   },
   methods: {
     showModal() {
-      if (!confirm("수량을 변경했을 경우 '저장'버튼을 클릭해 주셔야 반영이 됩니다.")) {
-        console.log("취소");
-      } else {
-        this.mobile
-          ? this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "95%", "auto", false))
-          : this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "500px", "auto", false));
-      }
+      this.mobile
+        ? this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "95%", "auto", false))
+        : this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "500px", "auto", false));
     },
     async load() {
       //초기 장바구니 데이터 로드
@@ -171,19 +166,6 @@ export default {
         console.error("Error adding document: ", e);
       }
       this.$store.commit("common/setLoading", false);
-    },
-    //수량 변경시
-    save() {
-      this.snack = true;
-      this.snackColor = "success";
-      this.snackText = "Data saved";
-      console.log("Dialog saved");
-    },
-    cancel() {
-      this.snack = true;
-      this.snackColor = "error";
-      this.snackText = "Canceled";
-      console.log("Dialog Canceled");
     },
   },
 };
@@ -273,7 +255,7 @@ export default {
 }
 .size {
   &:nth-child(1) {
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
   }
   &:nth-child(2) {
     width: 150px;
@@ -300,7 +282,7 @@ export default {
     width: 70px;
   }
   &:nth-child(7) {
-    width: 150px;
+    width: 50px;
   }
 }
 @include mobile {
