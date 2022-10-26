@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    <div @click="test">test</div>
     <v-main class="main-container">
       <div class="layout-wrap">
         <div class="layout-right">
@@ -24,7 +23,6 @@
 </template>
 
 <script>
-import { open, qrData } from "@/utils/qr";
 import { mapGetters } from "vuex";
 import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
 import { deleteCookie } from "@/utils/cookie";
@@ -35,6 +33,8 @@ export default {
   name: "App",
   data() {
     return {
+      productName: "도서",
+      productAmount: 100,
       loadingStatus: false,
       show: false,
     };
@@ -94,26 +94,6 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    },
-    test() {
-      open(
-        {
-          productName: "test333",
-          productAmount: 1000000,
-        },
-        function (res) {
-          console.log("11dddddd1");
-          if (!res.createdQrcode) {
-            alert("1111111111");
-            return;
-          } else if (res.paid) {
-            //INSTAPAY.close();
-            //location.href = "./instapay_sdk_complete.html";
-          } else {
-            alert("22222");
-          }
-        },
-      );
     },
   },
 };
