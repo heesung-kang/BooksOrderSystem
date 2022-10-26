@@ -43,11 +43,23 @@
                   >{{ book.data.price && ((book.data.price * book.data.supply_rate * book.data.count) / 100).toLocaleString() }}원
                 </div>
                 <div class="btn">
-                  <input type="number" class="basic" v-model="cart[index].data.count" />
+                  <v-edit-dialog
+                    :return-value.sync="cart[index].data.count"
+                    large
+                    @save="update(cart[index].id, cart[index].data.count)"
+                    @cancel="cancel"
+                    cancel-text="취소"
+                    save-text="저장"
+                  >
+                    <div>{{ cart[index].data.count }}</div>
+                    <template v-slot:input>
+                      <div class="mt-4 text-h6">수량변경</div>
+                      <input v-model="cart[index].data.count" type="number" />
+                    </template>
+                  </v-edit-dialog>
                 </div>
                 <div class="status">
-                  <button class="basic" @click="update(book.id, cart[index].data.count)">저장</button>
-                  <button class="basic" @click="del(book.id)">삭제</button>
+                  <button @click="del(book.id)"><v-icon>mdi-close</v-icon></button>
                 </div>
               </article>
             </li>
@@ -126,7 +138,6 @@ export default {
         const first = query(collection(db, `cart-${uid}`));
         const documentSnapshots = await getDocs(first);
         documentSnapshots.forEach(doc => {
-          console.log(doc.data());
           this.cart.push({ id: doc.id, data: doc.data() });
         });
       } catch (e) {
@@ -134,6 +145,7 @@ export default {
       }
       this.$store.commit("common/setSkeleton", false);
     },
+    //수량 변경
     async update(id, count) {
       try {
         const { uid } = getCookie("userInfo");
@@ -160,7 +172,19 @@ export default {
       }
       this.$store.commit("common/setLoading", false);
     },
-    async order() {},
+    //수량 변경시
+    save() {
+      this.snack = true;
+      this.snackColor = "success";
+      this.snackText = "Data saved";
+      console.log("Dialog saved");
+    },
+    cancel() {
+      this.snack = true;
+      this.snackColor = "error";
+      this.snackText = "Canceled";
+      console.log("Dialog Canceled");
+    },
   },
 };
 </script>
