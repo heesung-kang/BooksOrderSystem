@@ -43,11 +43,22 @@
                   >{{ book.data.price && ((book.data.price * book.data.supply_rate * book.data.count) / 100).toLocaleString() }}원
                 </div>
                 <div class="btn">
-                  <input type="number" class="basic" v-model="cart[index].data.count" />
+                  <v-edit-dialog
+                    :return-value.sync="cart[index].data.count"
+                    large
+                    @save="update(book.id, cart[index].data.count)"
+                    cancel-text="취소"
+                    save-text="저장"
+                  >
+                    <div>{{ cart[index].data.count }}</div>
+                    <template v-slot:input>
+                      <div class="mt-4 text-h6">수량변경</div>
+                      <input v-model="cart[index].data.count" type="number" class="mt10" style="border-bottom: 1px solid #000" />
+                    </template>
+                  </v-edit-dialog>
                 </div>
                 <div class="status">
-                  <button class="basic" @click="update(book.id, cart[index].data.count)">저장</button>
-                  <button class="basic" @click="del(book.id)">삭제</button>
+                  <button @click="del(book.id)"><v-icon>mdi-close</v-icon></button>
                 </div>
               </article>
             </li>
@@ -109,13 +120,9 @@ export default {
   },
   methods: {
     showModal() {
-      if (!confirm("수량을 변경했을 경우 '저장'버튼을 클릭해 주셔야 반영이 됩니다.")) {
-        console.log("취소");
-      } else {
-        this.mobile
-          ? this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "95%", "auto", false))
-          : this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "500px", "auto", false));
-      }
+      this.mobile
+        ? this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "95%", "auto", false))
+        : this.$modal.show(ModalCart, {}, getPopupOpt("ModalCart", "500px", "auto", false));
     },
     async load() {
       //초기 장바구니 데이터 로드
@@ -126,7 +133,6 @@ export default {
         const first = query(collection(db, `cart-${uid}`));
         const documentSnapshots = await getDocs(first);
         documentSnapshots.forEach(doc => {
-          console.log(doc.data());
           this.cart.push({ id: doc.id, data: doc.data() });
         });
       } catch (e) {
@@ -134,6 +140,7 @@ export default {
       }
       this.$store.commit("common/setSkeleton", false);
     },
+    //수량 변경
     async update(id, count) {
       try {
         const { uid } = getCookie("userInfo");
@@ -160,7 +167,6 @@ export default {
       }
       this.$store.commit("common/setLoading", false);
     },
-    async order() {},
   },
 };
 </script>
@@ -249,7 +255,7 @@ export default {
 }
 .size {
   &:nth-child(1) {
-    width: calc(100% - 200px);
+    width: calc(100% - 300px);
   }
   &:nth-child(2) {
     width: 150px;
@@ -276,7 +282,7 @@ export default {
     width: 70px;
   }
   &:nth-child(7) {
-    width: 150px;
+    width: 50px;
   }
 }
 @include mobile {
