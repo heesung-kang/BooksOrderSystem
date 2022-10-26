@@ -26,7 +26,7 @@
 import { mapGetters } from "vuex";
 import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
 import { deleteCookie } from "@/utils/cookie";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { app } from "@/utils/db";
 const auth = getAuth(app);
 export default {
@@ -51,16 +51,6 @@ export default {
     windowWidth(size) {
       size > mobileBreakPoint ? this.$store.commit("common/setDeviceStatus", false) : this.$store.commit("common/setDeviceStatus", true);
     },
-  },
-  created() {
-    onAuthStateChanged(getAuth(), user => {
-      if (user) {
-        this.user = user;
-        const uid = user.uid;
-      } else {
-        this.user = null;
-      }
-    });
   },
   mounted() {
     //윈도우 가로사이즈 계산

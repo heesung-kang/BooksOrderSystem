@@ -11,7 +11,7 @@
           <v-icon>mdi-shield-key</v-icon>
           <input type="password" v-model="password" placeholder="비밀번호를 입력하세요." />
         </div>
-        <button type="submit" class="btn-login mt25" @click="signIn">로그인 하기</button>
+        <button type="submit" class="btn-login mt25">로그인 하기</button>
         <p class="error-message">{{ logMessage }}</p>
       </form>
     </div>

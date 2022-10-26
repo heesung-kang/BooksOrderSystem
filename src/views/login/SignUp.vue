@@ -76,6 +76,7 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 100;
+  background-color: #f5f5f5;
   .wrap {
     border: 1px solid #ccc;
     border-radius: 5px;
