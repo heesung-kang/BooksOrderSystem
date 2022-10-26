@@ -7,7 +7,7 @@
         "주문 내역"에서 회신 확인 후 결제 해 주세요
       </div>
       <div class="mt20 btn-wrap">
-        <button class="basic" @click="goHome">확인</button>
+        <button class="basic" @click="close">확인</button>
       </div>
     </template>
   </modalWrap>
@@ -16,26 +16,39 @@
 <script>
 import modalWrap from "@/components/modal/ModalTemplate";
 import { getCookie } from "@/utils/cookie";
-import { deleteDoc, doc } from "firebase/firestore";
+import { setDoc, deleteDoc, doc, writeBatch, collection } from "firebase/firestore";
 import { db } from "@/utils/db";
 export default {
   components: { modalWrap },
-  props: ["id"],
+  props: ["id", "cart", "uid"],
+  data() {
+    return {
+      sendData: [],
+    };
+  },
+  async created() {
+    //doc id 제외
+    this.cart.forEach(ele => {
+      ele.data.uid = this.uid;
+      this.sendData.push(ele.data);
+    });
+    const batch = writeBatch(db);
+    await this.sendData.forEach(item => {
+      // Creates a DocRef with random ID
+      const docRef = doc(collection(db, "orderRequest"));
+      batch.set(docRef, item);
+    });
+    await batch.commit();
+  },
   methods: {
-    close() {
-      this.$emit("close");
-    },
-    goHome() {
+    async close() {
       //장바구니 삭제
-      try {
-        const { uid } = getCookie("userInfo");
-        this.$store.commit("common/setLoading", true);
-        this.id.forEach(async ele => {
-          await deleteDoc(doc(db, `cart-${uid}`, ele));
-        });
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+      const batch = writeBatch(db);
+      const { uid } = getCookie("userInfo");
+      await this.id.forEach(id => {
+        batch.delete(doc(db, `cart-${uid}`, id));
+      });
+      await batch.commit();
       this.$store.commit("common/setLoading", false);
       this.$emit("close");
       this.$router.push("/");

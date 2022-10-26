@@ -122,10 +122,10 @@ export default {
   methods: {
     //주문 모달
     showModal() {
-      const ids = this.ids;
+      const { uid } = getCookie("userInfo");
       this.mobile
-        ? this.$modal.show(ModalCart, { id: ids }, getPopupOpt("ModalCart", "95%", "auto", false))
-        : this.$modal.show(ModalCart, { id: ids }, getPopupOpt("ModalCart", "500px", "auto", false));
+        ? this.$modal.show(ModalCart, { id: this.ids, cart: this.cart, uid }, getPopupOpt("ModalCart", "95%", "auto", false))
+        : this.$modal.show(ModalCart, { id: this.ids, cart: this.cart, uid }, getPopupOpt("ModalCart", "500px", "auto", false));
     },
     async load() {
       //초기 장바구니 데이터 로드
