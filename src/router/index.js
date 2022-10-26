@@ -20,6 +20,12 @@ const router = new VueRouter({
       meta: { unauthorized: true },
     },
     {
+      path: "/SignUpAdmin",
+      name: "SignUpAdmin",
+      component: () => import("@/views/login/SignUpAdmin.vue"),
+      meta: { unauthorized: true },
+    },
+    {
       path: "/Login",
       name: "Login",
       component: () => import("@/views/login/Login.vue"),

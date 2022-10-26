@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { getCookie } from "@/utils/cookie";
 export default {
   props: ["show"],
   data() {
@@ -26,6 +27,7 @@ export default {
       activeStatus: 0,
       routeName: "",
       isActive: false,
+      userInfo: {},
     };
   },
   watch: {
@@ -40,6 +42,7 @@ export default {
   created() {
     this.routeName = this.$route.name; //새로고침 또는 다이렉트 접속시 현재 페이지 확인
     this.menuDefaultSetup();
+    this.userInfo = getCookie("userInfo");
   },
   methods: {
     close() {

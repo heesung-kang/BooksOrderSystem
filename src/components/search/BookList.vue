@@ -28,7 +28,6 @@
       </ul>
       <div v-else class="book-search-alert">
         <span v-if="infoChange">검색 결과가 없습니다.</span>
-        <span v-else>책을 검색해주세요.</span>
       </div>
     </section>
     <div class="btn-more" @click="$emit('more')" v-if="books.length > 0"><button class="basic">더 보기</button></div>
@@ -70,7 +69,7 @@ export default {
         if (!result) {
           this.$store.commit("common/setLoading", true);
           item.count = 1;
-          await addDoc(collection(db, `cart-${uid}`), item);
+          await addDoc(collection(db, `cart-${uid}`, id), item);
           alert("장바구니에 담았습니다.");
         } else {
           alert("장바구니에 이미 담겨 있습니다.");

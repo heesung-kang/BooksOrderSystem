@@ -1,8 +1,7 @@
 <template>
   <div class="login-container">
     <div class="wrap">
-      <h1>서점 회원가입</h1>
-      <div class="mt10">서점명 : <input class="basic" v-model="shop" placeholder="서점명" type="text" /></div>
+      <h1>관리자 회원가입</h1>
       <div class="mt5">ID : <input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
       <div class="mt5">PW : <input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
       <div class="btn-wrap"><button @click="userRegistration">가입</button></div>
@@ -20,15 +19,10 @@ export default {
     return {
       email: "",
       password: "",
-      shop: "",
     };
   },
   methods: {
     userRegistration() {
-      if (this.shop === "") {
-        alert("서점명을 입력해주세요.");
-        return;
-      }
       if (this.email === "") {
         alert("이메일을 입력해주세요.");
         return;
@@ -42,7 +36,7 @@ export default {
         createUserWithEmailAndPassword(auth, this.email, this.password)
           .then(() => {
             updateProfile(getAuth().currentUser, {
-              displayName: `${this.shop}-3`,
+              displayName: "admin-1",
             })
               .then(() => {
                 alert("정상 가입 되셨습니다.");
