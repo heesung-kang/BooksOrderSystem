@@ -69,7 +69,8 @@ export default {
         if (!result) {
           this.$store.commit("common/setLoading", true);
           item.count = 1;
-          await addDoc(collection(db, `cart-${uid}`, id), item);
+          await addDoc(collection(db, `cart-${uid}`), item);
+          this.cart.push(item);
           alert("장바구니에 담았습니다.");
         } else {
           alert("장바구니에 이미 담겨 있습니다.");
