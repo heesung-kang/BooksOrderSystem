@@ -2,12 +2,12 @@
   <section class="search-header d-flex align-center">
     <span class="d-flex align-center select-wrap">
       <Selects :itemList="itemList" />
-      <input type="text" class="basic" />
+      <input type="text" class="basic" v-model="publisher" @keypress.enter="search" />
     </span>
     <span class="d-flex align-center date-wrap">
-      <span class="date-picker mobile-margin"><DatePicker @updateDate="setStartDate" /></span>
+      <span class="date-picker mobile-margin"><DatePicker @updateDate="setStartDate" :clear="clear" /></span>
       <span class="to">To</span>
-      <span class="date-picker"><DatePicker @updateDate="setEndDate" /></span>
+      <span class="date-picker"><DatePicker @updateDate="setEndDate" :clear="clear" /></span>
       <button class="basic btn" @click="search">검색</button>
     </span>
   </section>
@@ -24,13 +24,27 @@ export default {
     return {
       startDate: "",
       endDate: "",
+      publisher: "",
+      clear: false,
     };
   },
   methods: {
     search() {
-      if (this.startDate !== undefined && this.endDate !== undefined) {
-        this.startDate > this.endDate ? alert("종료일이 시작일보다 빠릅니다. 시작일을 다시 입력해주세요") : null;
+      if (this.startDate === undefined && this.endDate !== undefined) {
+        alert("시작일을 입력해주세요");
+        return;
       }
+      if (this.startDate !== undefined && this.endDate === undefined) {
+        alert("종료일을 입력해주세요");
+        return;
+      }
+      if (this.startDate !== undefined && this.endDate !== undefined) {
+        if (this.startDate > this.endDate) {
+          alert("종료일이 시작일보다 빠릅니다. 시작일을 다시 입력해주세요");
+          return;
+        }
+      }
+      this.$emit("search", { publisher: this.publisher, startDate: this.startDate, endDate: this.endDate });
     },
     setStartDate(date) {
       this.startDate = date;

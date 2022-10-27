@@ -32,11 +32,13 @@ export default {
     this.cart.forEach(ele => {
       ele.data.uid = this.uid;
       ele.data.timestamp = timestamp;
+      ele.data.replytimestamp = "";
+      ele.data.memo = "";
       this.sendData.push(ele.data);
     });
+    //일괄 저장
     const batch = writeBatch(db);
     await this.sendData.forEach(item => {
-      // Creates a DocRef with random ID
       const docRef = doc(collection(db, "orderRequest"));
       batch.set(docRef, item);
     });
@@ -44,7 +46,7 @@ export default {
   },
   methods: {
     async close() {
-      //장바구니 삭제
+      //장바구니 일괄 삭제
       const batch = writeBatch(db);
       const { uid } = getCookie("userInfo");
       await this.id.forEach(id => {
