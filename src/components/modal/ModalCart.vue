@@ -32,6 +32,8 @@ export default {
     this.cart.forEach(ele => {
       ele.data.uid = this.uid;
       ele.data.timestamp = timestamp;
+      ele.data.replytimestamp = "";
+      ele.data.memo = "";
       this.sendData.push(ele.data);
     });
     //일괄 저장

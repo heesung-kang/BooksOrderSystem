@@ -14,7 +14,7 @@ export default function arrMerge(arr) {
 //중복제거
 function getKeyIndex(arr, obj) {
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i].publisher === obj.publisher) {
+    if (arr[i].publisher === obj.publisher && arr[i].timestamp === obj.timestamp) {
       return i;
     }
   }

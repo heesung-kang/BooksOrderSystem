@@ -9,15 +9,17 @@
         <thead>
           <tr>
             <th>출판사</th>
-            <th>종수</th>
+            <th>수량</th>
+            <th>상태</th>
             <th>{{ subject1 }}</th>
             <th>{{ subject2 }}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in result" :key="index">
+          <tr v-for="(item, index) in result" :key="index" @click="statement({ id: item.sid, date: item.timestamp })">
             <td>{{ item.publisher }}</td>
             <td>{{ item.count }}</td>
+            <td></td>
             <td>{{ item.timestamp }}</td>
             <td>-</td>
           </tr>
@@ -104,6 +106,14 @@ export default {
         }
       });
     },
+    statement(data) {
+      this.$router.push(`/OrderResult/${data.id}/${data.date}`);
+    },
   },
 };
 </script>
+<style lang="scss" scoped>
+td {
+  cursor: pointer;
+}
+</style>

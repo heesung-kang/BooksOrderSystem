@@ -60,7 +60,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/OrderResult",
+      path: "/OrderResult/:id/:date",
       name: "OrderResult",
       components: {
         lnb,
