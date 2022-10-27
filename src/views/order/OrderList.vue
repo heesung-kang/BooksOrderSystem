@@ -22,7 +22,7 @@ export default {
     return {
       select: "",
       itemList: [{ item: "출판사", value: "publisher" }],
-      searchObj: { a: 1 },
+      searchObj: {},
     };
   },
   methods: {

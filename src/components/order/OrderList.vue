@@ -16,10 +16,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in result" :key="index" @click="statement({ id: item.sid, date: item.timestamp })">
+          <tr
+            v-for="(item, index) in result"
+            :key="index"
+            @click="statement({ id: item.sid, date: item.timestamp, orderTimeId: item.order_time_id, publisher: item.publisher })"
+          >
             <td>{{ item.publisher }}</td>
             <td>{{ item.count }}</td>
-            <td></td>
+            <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
             <td>{{ item.timestamp }}</td>
             <td>-</td>
           </tr>
@@ -69,7 +73,7 @@ export default {
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
         const temp = doc.data();
-        temp.timestamp = this.$date(doc.data().timestamp.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
         this.books.push(temp);
       });
       this.result = arrMerge(this.books);
@@ -107,7 +111,7 @@ export default {
       });
     },
     statement(data) {
-      this.$router.push(`/OrderResult/${data.id}/${data.date}`);
+      this.$router.push(`/OrderResult/${data.id}/${data.date}/${data.orderTimeId}/${data.publisher}`);
     },
   },
 };

@@ -31,9 +31,22 @@ export default {
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
       ele.data.uid = this.uid;
-      ele.data.timestamp = timestamp;
-      ele.data.replytimestamp = "";
-      ele.data.memo = "";
+      //발주시간
+      ele.data.order_time_id = this.$date().format("YYYYMMDDHHmmss");
+      ele.data.order_time = timestamp;
+      //회신시간
+      ele.data.reply_time = "-";
+      ele.data.reply_time_id = "-";
+      //메모
+      ele.data.memo = "-";
+      //서점 주문상태
+      ele.data.shop_order_status = 0;
+      //출판사 회신상태
+      ele.data.publisher_reply_status = "-";
+      //발주체크 상태
+      ele.data.order_check = false;
+      //회신수량
+      ele.data.reply_count = null;
       this.sendData.push(ele.data);
     });
     //일괄 저장
