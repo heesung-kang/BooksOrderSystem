@@ -1,87 +1,109 @@
 <template>
-  <table class="basic">
-    <caption>
-      출판사별 주문리스트
-    </caption>
-    <thead>
-      <tr>
-        <th>출판사</th>
-        <th>종수</th>
-        <th>{{ subject1 }}</th>
-        <th>{{ subject2 }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in result" :key="item.uid">
-        <td>{{ item.publisher }}</td>
-        <td>{{ item.count }}</td>
-        <td></td>
-        <td>{{ $date(item.timestamp.toDate()).format("YYYY-MM-DD HH:mm:ss") }}</td>
-      </tr>
-    </tbody>
-    <tfoot v-if="books.length === 0">
-      <tr>
-        <td colspan="4">주문 리스트가 없습니다.</td>
-      </tr>
-    </tfoot>
-  </table>
+  <section>
+    <TableSkeleton v-if="skeletonLoading" />
+    <div v-else>
+      <table class="basic">
+        <caption>
+          출판사별 주문리스트
+        </caption>
+        <thead>
+          <tr>
+            <th>출판사</th>
+            <th>종수</th>
+            <th>{{ subject1 }}</th>
+            <th>{{ subject2 }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in result" :key="index">
+            <td>{{ item.publisher }}</td>
+            <td>{{ item.count }}</td>
+            <td>{{ item.timestamp }}</td>
+            <td>-</td>
+          </tr>
+        </tbody>
+        <tfoot v-if="result.length === 0">
+          <tr>
+            <td colspan="4">주문 리스트가 없습니다.</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/utils/db";
 import { getCookie } from "@/utils/cookie";
+import arrMerge from "@/utils/arrMerge";
+import TableSkeleton from "@/skeletons/TableSkeleton";
 
 export default {
   name: "OrderList",
+  components: { TableSkeleton },
   props: ["subject1", "subject2", "searchObj"],
   data() {
     return {
       books: [],
       result: [],
+      searchResult: [],
     };
+  },
+  computed: {
+    ...mapGetters("common", ["skeletonLoading"]),
+  },
+  watch: {
+    searchObj() {
+      this.search();
+    },
   },
   async created() {
     try {
-      this.$store.commit("common/setLoading", true);
+      this.$store.commit("common/setSkeleton", true);
       const { uid } = getCookie("userInfo");
       const first = query(collection(db, "orderRequest"), where("uid", "==", uid));
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
-        this.books.push(doc.data());
-        console.log(doc.data().timestamp.toDate());
+        const temp = doc.data();
+        temp.timestamp = this.$date(doc.data().timestamp.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        this.books.push(temp);
       });
-      this.fncArrMerge();
+      this.result = arrMerge(this.books);
+      this.searchResult = this.searchResult.concat(this.result);
     } catch (e) {
       console.log(e);
     }
-    this.$store.commit("common/setLoading", false);
+    this.$store.commit("common/setSkeleton", false);
   },
   methods: {
-    fncArrMerge() {
-      const resultArr = [];
-      for (let i = 0; i < this.books.length; i++) {
-        let idx = this.getKeyIndex(resultArr, this.books[i]);
-        if (idx > -1) {
-          //같은종 더하기
-          resultArr[idx].count += Number(this.books[i].count);
-        } else {
-          resultArr.push(this.books[i]);
+    //검색
+    search() {
+      this.result = this.searchResult.filter(ele => {
+        if (this.searchObj.publisher === "" && this.searchObj.startDate === undefined) {
+          //검색어와 날짜가 비어 있는 경우
+          return ele;
+        } else if (this.searchObj.publisher === "" && this.searchObj.startDate !== undefined) {
+          //날짜만 있는경우
+          if (ele.timestamp >= this.searchObj.startDate && ele.timestamp <= this.searchObj.endDate) {
+            return ele;
+          }
+        } else if (this.searchObj.publisher !== "") {
+          //검색어가 있는 경우
+          if (ele.publisher.includes(this.searchObj.publisher)) {
+            if (this.searchObj.startDate !== undefined) {
+              //검색어와 날짜가 있는 경우
+              if (ele.timestamp >= this.searchObj.startDate && ele.timestamp <= this.searchObj.endDate) {
+                return ele;
+              }
+            } else {
+              return ele;
+            }
+          }
         }
-      }
-      this.result = resultArr;
-    },
-    //중복제거
-    getKeyIndex(arr, obj) {
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].publisher === obj.publisher) {
-          return i;
-        }
-      }
-      return -1;
+      });
     },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

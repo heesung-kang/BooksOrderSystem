@@ -2,7 +2,7 @@
   <section class="search-header d-flex align-center">
     <span class="d-flex align-center select-wrap">
       <Selects :itemList="itemList" />
-      <input type="text" class="basic" v-model="publisher" />
+      <input type="text" class="basic" v-model="publisher" @keypress.enter="search" />
     </span>
     <span class="d-flex align-center date-wrap">
       <span class="date-picker mobile-margin"><DatePicker @updateDate="setStartDate" :clear="clear" /></span>
@@ -30,15 +30,6 @@ export default {
   },
   methods: {
     search() {
-      if (this.publisher === "") {
-        alert("출판사를 입력해주세요");
-        return;
-      }
-      if (this.startDate !== undefined && this.endDate !== undefined) {
-        this.startDate > this.endDate ? alert("종료일이 시작일보다 빠릅니다. 시작일을 다시 입력해주세요") : null;
-        this.clear = !this.clear;
-        return;
-      }
       if (this.startDate === undefined && this.endDate !== undefined) {
         alert("시작일을 입력해주세요");
         return;
@@ -46,6 +37,12 @@ export default {
       if (this.startDate !== undefined && this.endDate === undefined) {
         alert("종료일을 입력해주세요");
         return;
+      }
+      if (this.startDate !== undefined && this.endDate !== undefined) {
+        if (this.startDate > this.endDate) {
+          alert("종료일이 시작일보다 빠릅니다. 시작일을 다시 입력해주세요");
+          return;
+        }
       }
       this.$emit("search", { publisher: this.publisher, startDate: this.startDate, endDate: this.endDate });
     },
