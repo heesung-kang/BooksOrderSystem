@@ -8,7 +8,7 @@
         </div>
         <div>주문일자 : {{ date }}</div>
       </article>
-      <OrderResultList :id="id" :date="date" :orderTimeId="orderTimeId" />
+      <OrderResultList :id="id" :orderTimeId="orderTimeId" />
     </section>
   </section>
 </template>

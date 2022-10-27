@@ -14,8 +14,8 @@
         <div>공급률</div>
       </div>
       <div>공급가</div>
-      <div>주문수량</div>
-      <div>회신수량</div>
+      <div>주문</div>
+      <div>공급</div>
     </section>
     <ul class="body">
       <li class="d-flex align-center" v-for="(book, index) in books" :key="index">
@@ -32,8 +32,8 @@
           <div><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</div>
         </div>
         <div class="final-price"><span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }} 원</div>
-        <div class="count"><span v-if="mobile">주문수량</span> {{ book.data.count }}</div>
-        <div class="count"><span v-if="mobile">회신수량</span> {{ book.data.reply_count === null ? "-" : book.data.reply_count }}</div>
+        <div class="count"><span v-if="mobile">주문</span> {{ book.data.count }}</div>
+        <div class="count"><span v-if="mobile">공급</span> {{ book.data.reply_count === null ? "-" : book.data.reply_count }}</div>
       </li>
     </ul>
     <!-- //발주 내역 -->
@@ -64,7 +64,7 @@ import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
-  props: ["id", "date", "orderTimeId"],
+  props: ["id", "orderTimeId"],
   data() {
     return {
       books: [],
@@ -195,7 +195,7 @@ export default {
 }
 .size {
   &:nth-child(1) {
-    width: calc(100% - 320px);
+    width: calc(100% - 360px);
   }
   &:nth-child(2) {
     width: 120px;
@@ -215,10 +215,10 @@ export default {
     width: 80px;
   }
   &:nth-child(5) {
-    width: 80px;
+    width: 60px;
   }
   &:nth-child(6) {
-    width: 80px;
+    width: 60px;
   }
 }
 @include mobile {

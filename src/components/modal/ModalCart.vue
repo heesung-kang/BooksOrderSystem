@@ -43,11 +43,11 @@ export default {
       //서점 주문상태
       ele.data.shop_order_status = 0;
       //출판사 회신상태
-      ele.data.publisher_reply_status = "-";
+      ele.data.publisher_reply_status = 0;
       //발주체크 상태
       ele.data.order_check = false;
       //회신수량
-      ele.data.reply_count = null;
+      ele.data.reply_count = 0;
       //서점명
       ele.data.shop_name = name;
       this.sendData.push(ele.data);
