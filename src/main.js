@@ -5,6 +5,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VModal from "vue-js-modal";
 import "@/plugins/Dayjs";
+
 Vue.use(VModal);
 Vue.config.productionTip = false;
 

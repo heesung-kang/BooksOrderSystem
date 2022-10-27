@@ -3,6 +3,7 @@
     <v-main class="main-container">
       <div class="layout-wrap">
         <div class="layout-right">
+          <div class="sign-out" @click="signOut"><v-icon>mdi-logout-variant</v-icon></div>
           <router-view name="lnb" :show="show" @close="close"></router-view>
         </div>
         <div class="layout-left">
@@ -24,10 +25,16 @@
 <script>
 import { mapGetters } from "vuex";
 import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
+import { deleteCookie } from "@/utils/cookie";
+import { getAuth, signOut } from "firebase/auth";
+import { app } from "@/utils/db";
+const auth = getAuth(app);
 export default {
   name: "App",
   data() {
     return {
+      productName: "도서",
+      productAmount: 100,
       loadingStatus: false,
       show: false,
     };
@@ -66,6 +73,17 @@ export default {
     },
     close() {
       this.show = false;
+    },
+    signOut() {
+      signOut(auth)
+        .then(() => {
+          deleteCookie("userInfo");
+          deleteCookie("accessToken");
+          this.$router.push("/login");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
   },
 };
@@ -110,5 +128,12 @@ export default {
   .w#{$i} {
     width: 0.1rem * $i !important;
   }
+}
+.sign-out {
+  position: absolute;
+  right: 20px;
+  top: 25px;
+  z-index: 1;
+  cursor: pointer;
 }
 </style>

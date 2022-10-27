@@ -4,10 +4,14 @@ const common = {
     loading: false,
     windowWidth: 0,
     mobile: false,
+    skeletonLoading: false,
   },
   getters: {
     loading: state => {
       return state.loading;
+    },
+    skeletonLoading: state => {
+      return state.skeletonLoading;
     },
     windowWidth: state => {
       return state.windowWidth;
@@ -19,6 +23,9 @@ const common = {
   mutations: {
     setLoading(state, payload) {
       state.loading = payload;
+    },
+    setSkeleton(state, payload) {
+      state.skeletonLoading = payload;
     },
     setWindowWidth(state, payload) {
       state.windowWidth = payload;

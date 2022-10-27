@@ -2,39 +2,76 @@
   <div class="login-container">
     <div class="login-box">
       <h1>인스타북 로그인</h1>
-      <!--      <form @submit.prevent="gotoMain"> 서브밋 임시 숨김처리-->
-      <div class="mt30 field">
-        <v-icon>mdi-account</v-icon>
-        <input type="text" v-model="username" placeholder="아이디를 입력하세요." />
-      </div>
-      <div class="mt10 field">
-        <v-icon>mdi-shield-key</v-icon>
-        <input type="password" v-model="password" placeholder="비밀번호를 입력하세요." />
-      </div>
-      <!-- 로그인 임시 버튼 : API 연동 안됨 -->
-      <button type="submit" class="btn-login mt25" @click="gotoMain">로그인 하기</button>
-      <!-- 로그인 버튼 숨김 처리
-        <button type="submit" class="btn-login mt25" :disabled="!username || !password" :class="{ dev: develop === true }">로그인 하기</button>-->
-      <p class="error-message">{{ logMessage }}</p>
-      <!--        <p @click="$store.commit('common/setLoading', true)">로딩 true</p>-->
-      <!--        <p @click="$store.commit('common/setLoading', false)">로딩 false</p>-->
-      <!--      </form>-->
+      <form @submit.prevent="signIn">
+        <div class="mt30 field">
+          <v-icon>mdi-account</v-icon>
+          <input type="text" v-model="email" placeholder="아이디를 입력하세요." />
+        </div>
+        <div class="mt10 field">
+          <v-icon>mdi-shield-key</v-icon>
+          <input type="password" v-model="password" placeholder="비밀번호를 입력하세요." />
+        </div>
+        <button type="submit" class="btn-login mt25">로그인 하기</button>
+        <p class="error-message">{{ logMessage }}</p>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
+import { saveCookie } from "@/utils/cookie";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { app } from "@/utils/db";
+const auth = getAuth(app);
 export default {
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       logMessage: "",
     };
   },
   methods: {
-    gotoMain() {
-      this.$router.push("/SearchOrder");
+    async signIn() {
+      try {
+        this.$store.commit("common/setLoading", true);
+        await signInWithEmailAndPassword(auth, this.email, this.password)
+          .then(async userCredential => {
+            // Signed in
+            const user = userCredential.user;
+            const userName = user.displayName.split("-");
+            //1:관리자, 2:출판사, 3:서점
+            if (Number(userName[1]) === 2) {
+              alert("서점회원으로 가입해주세요.");
+            } else {
+              saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
+              saveCookie("accessToken", user.accessToken);
+              this.$router.push("/");
+            }
+          })
+          .catch(error => {
+            switch (error.code) {
+              case "auth/invalid-email":
+                this.logMessage = "이메일을 잘못 입력 하셨습니다.";
+                break;
+              case "auth/user-not-found":
+                this.logMessage = "존재하지 않는 이메일 주소입니다.";
+                break;
+              case "auth/wrong-password":
+                this.logMessage = "비밀번호를 잘못 입력 하셨습니다.";
+                break;
+              case "auth/too-many-requests":
+                this.logMessage = "접속 시도를 너무 많이 하셨습니다.";
+                break;
+              default:
+                this.logMessage = "이메일 혹은 비밀번호가 틀렸습니다.";
+                break;
+            }
+          });
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.commit("common/setLoading", false);
     },
   },
 };
@@ -51,6 +88,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-image: url("../../assets/images/bg.jpg");
+  z-index: 100;
   .login-box {
     background: #fff;
     border-radius: 10px;
