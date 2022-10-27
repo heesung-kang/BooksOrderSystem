@@ -28,6 +28,7 @@ export default {
   },
   async created() {
     //doc id 제외
+    const { name } = getCookie("userInfo");
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
       ele.data.uid = this.uid;
@@ -47,6 +48,8 @@ export default {
       ele.data.order_check = false;
       //회신수량
       ele.data.reply_count = null;
+      //서점명
+      ele.data.shop_name = name;
       this.sendData.push(ele.data);
     });
     //일괄 저장

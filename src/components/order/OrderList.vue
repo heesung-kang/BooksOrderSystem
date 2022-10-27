@@ -30,7 +30,7 @@
         </tbody>
         <tfoot v-if="result.length === 0">
           <tr>
-            <td colspan="4">주문 리스트가 없습니다.</td>
+            <td colspan="5">주문 리스트가 없습니다.</td>
           </tr>
         </tfoot>
       </table>
