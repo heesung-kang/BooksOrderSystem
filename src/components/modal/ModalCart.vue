@@ -31,6 +31,7 @@ export default {
     const { name } = getCookie("userInfo");
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
+      ele.data.count = parseInt(ele.data.count); //수량변경시 타입 변경
       ele.data.uid = this.uid;
       //발주시간
       ele.data.order_time_id = this.$date().format("YYYYMMDDHHmmss");
