@@ -131,8 +131,8 @@ export default {
         this.checkPrice = 0;
         this.books.forEach(ele => {
           if (this.selected.includes(ele.id)) {
-            this.checkCount += ele.data.count;
-            this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.count) / 100;
+            this.checkCount += ele.data.reply_count;
+            this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
           }
         });
       }
@@ -194,7 +194,7 @@ export default {
             order_real_time_id: this.$date().format("YYYYMMDDHHmmss"),
             order_real_time: timestamp,
             totalPrice: this.checkPrice,
-            totalCount: this.buyList.length,
+            totalCount: this.checkCount,
           });
         });
         await this.buyId.forEach(ele => {
