@@ -38,6 +38,12 @@ export default {
       //회신시간
       ele.data.reply_time = "-";
       ele.data.reply_time_id = "-";
+      //발주시간
+      ele.data.order_real_time = "-";
+      ele.data.order_real_time_id = "-";
+      //출고시간
+      ele.data.release_time = "-";
+      ele.data.release_time_id = "-";
       //메모
       ele.data.memo = "-";
       //서점 주문상태
@@ -50,6 +56,12 @@ export default {
       ele.data.reply_count = 0;
       //서점명
       ele.data.shop_name = name;
+      //공급수량 초기값 = 주문수량
+      ele.data.reply_count = ele.data.count;
+      //발주 토탈 책권수
+      ele.data.totalCount = 0;
+      //발주 토탈 금액
+      ele.data.totalPrice = 0;
       this.sendData.push(ele.data);
     });
     //일괄 저장

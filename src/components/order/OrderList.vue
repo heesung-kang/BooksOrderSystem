@@ -25,7 +25,7 @@
             <td>{{ item.count }}</td>
             <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
             <td>{{ item.timestamp }}</td>
-            <td>-</td>
+            <td>{{ item.replytimestamp }}</td>
           </tr>
         </tbody>
         <tfoot v-if="result.length === 0">
@@ -74,6 +74,9 @@ export default {
       documentSnapshots.forEach(doc => {
         const temp = doc.data();
         temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        doc.data().reply_time === "-"
+          ? (temp.replytimestamp = "-")
+          : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
         this.books.push(temp);
       });
       this.result = arrMerge(this.books);
