@@ -7,7 +7,7 @@
         <SearchDateRangeGroup :itemList="itemList" />
       </section>
       <section class="mt30">
-        <OrderList subject1="발신일시" subject2="발신일시" />
+        <ReleaseList />
       </section>
     </section>
   </section>
@@ -15,9 +15,9 @@
 
 <script>
 import SearchDateRangeGroup from "@/components/form/SearchDateRangeGroup";
-import OrderList from "@/components/order/OrderList";
+import ReleaseList from "@/components/release/ReleaseList";
 export default {
-  components: { SearchDateRangeGroup, OrderList },
+  components: { ReleaseList, SearchDateRangeGroup },
   data() {
     return {
       itemList: [
