@@ -11,8 +11,8 @@
             <th>출판사</th>
             <th>수량</th>
             <th>상태</th>
-            <th>{{ subject1 }}</th>
-            <th>{{ subject2 }}</th>
+            <th>발신일시</th>
+            <th>회신일시</th>
           </tr>
         </thead>
         <tbody>
@@ -22,7 +22,10 @@
             @click="statement({ id: item.sid, date: item.timestamp, orderTimeId: item.order_time_id, publisher: item.publisher })"
           >
             <td>{{ item.publisher }}</td>
-            <td>{{ item.count }}</td>
+            <td>
+              <span v-if="item.shop_order_status < 2">{{ item.count }}</span>
+              <span v-else>{{ item.totalCount }}</span>
+            </td>
             <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
             <td>{{ item.timestamp }}</td>
             <td>{{ item.replytimestamp }}</td>
@@ -49,7 +52,7 @@ import TableSkeleton from "@/skeletons/TableSkeleton";
 export default {
   name: "OrderList",
   components: { TableSkeleton },
-  props: ["subject1", "subject2", "searchObj"],
+  props: ["searchObj"],
   data() {
     return {
       books: [],
