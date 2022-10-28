@@ -150,7 +150,7 @@ export default {
         const { uid } = getCookie("userInfo");
         this.$store.commit("common/setLoading", true);
         await updateDoc(doc(db, `cart-${uid}`, id), {
-          count: count,
+          count: Number(count),
         });
         alert("수량이 변경 되었습니다");
       } catch (e) {
