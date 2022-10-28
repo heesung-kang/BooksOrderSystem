@@ -28,12 +28,40 @@ export default {
   },
   async created() {
     //doc id 제외
+    const { name } = getCookie("userInfo");
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
       ele.data.uid = this.uid;
-      ele.data.timestamp = timestamp;
-      ele.data.replytimestamp = "";
-      ele.data.memo = "";
+      //발주시간
+      ele.data.order_time_id = this.$date().format("YYYYMMDDHHmmss");
+      ele.data.order_time = timestamp;
+      //회신시간
+      ele.data.reply_time = "-";
+      ele.data.reply_time_id = "-";
+      //발주시간
+      ele.data.order_real_time = "-";
+      ele.data.order_real_time_id = "-";
+      //출고시간
+      ele.data.release_time = "-";
+      ele.data.release_time_id = "-";
+      //메모
+      ele.data.memo = "-";
+      //서점 주문상태
+      ele.data.shop_order_status = 0;
+      //출판사 회신상태
+      ele.data.publisher_reply_status = 0;
+      //발주체크 상태
+      ele.data.order_check = false;
+      //회신수량
+      ele.data.reply_count = 0;
+      //서점명
+      ele.data.shop_name = name;
+      //공급수량 초기값 = 주문수량
+      ele.data.reply_count = ele.data.count;
+      //발주 토탈 책권수
+      ele.data.totalCount = 0;
+      //발주 토탈 금액
+      ele.data.totalPrice = 0;
       this.sendData.push(ele.data);
     });
     //일괄 저장

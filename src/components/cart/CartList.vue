@@ -35,12 +35,11 @@
                 <div v-if="!mobile">{{ book.data.publisher }}</div>
                 <div class="isbn">{{ book.data.isbn }}</div>
                 <div class="price-etc">
-                  <div class="normal-price"><span v-if="mobile">정가</span> {{ book.data.price && book.data.price.toLocaleString() }}원</div>
+                  <div class="normal-price"><span v-if="mobile">정가</span> {{ book.data.price?.toLocaleString() }}원</div>
                   <div class="rate"><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</div>
                 </div>
                 <div class="price">
-                  <span v-if="mobile">공급가</span
-                  >{{ book.data.price && ((book.data.price * book.data.supply_rate * book.data.count) / 100).toLocaleString() }}원
+                  <span v-if="mobile">공급가</span>{{ ((book.data.price * book.data.supply_rate * book.data.count) / 100).toLocaleString() }}원
                 </div>
                 <div class="btn">
                   <v-edit-dialog

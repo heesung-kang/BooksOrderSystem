@@ -113,6 +113,11 @@ button{
     background-color:#000 !important;
     @include NotoSans(1.6,700,#fff);
   }
+  &:disabled {
+    background-color: #f4f4f4 !important;
+    color: #aaaaaa !important;
+    font-weight: 400 !important;
+  }
 }
 /*table*/
 table{
