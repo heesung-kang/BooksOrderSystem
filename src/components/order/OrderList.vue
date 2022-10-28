@@ -40,7 +40,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 import { db } from "@/utils/db";
 import { getCookie } from "@/utils/cookie";
 import arrMerge from "@/utils/arrMerge";
@@ -69,11 +69,12 @@ export default {
     try {
       this.$store.commit("common/setSkeleton", true);
       const { uid } = getCookie("userInfo");
-      const first = query(collection(db, "orderRequest"), where("uid", "==", uid));
+      const first = query(collection(db, "orderRequest"), where("uid", "==", uid), orderBy("order_time_id", "desc"));
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
         const temp = doc.data();
         temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        temp.count = parseInt(temp.count);
         doc.data().reply_time === "-"
           ? (temp.replytimestamp = "-")
           : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));

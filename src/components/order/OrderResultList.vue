@@ -41,7 +41,12 @@
         </div>
         <div class="final-price"><span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }} 원</div>
         <div class="count"><span v-if="mobile">주문</span> {{ book.data.count }}</div>
-        <div class="count"><span v-if="mobile">공급</span> {{ book.data.reply_count === null ? "-" : book.data.reply_count }}</div>
+        <div class="count">
+          <span v-if="mobile">공급</span>
+          <span :class="{ warning: book.data.count !== book.data.reply_count && book.data.shop_order_status !== 0 }">{{
+            book.data.reply_count === null ? "-" : book.data.reply_count
+          }}</span>
+        </div>
       </li>
     </ul>
     <!-- //발주 내역 -->
@@ -126,8 +131,8 @@ export default {
         this.checkPrice = 0;
         this.books.forEach(ele => {
           if (this.selected.includes(ele.id)) {
-            this.checkCount += ele.data.count;
-            this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.count) / 100;
+            this.checkCount += ele.data.reply_count;
+            this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
           }
         });
       }
@@ -189,7 +194,7 @@ export default {
             order_real_time_id: this.$date().format("YYYYMMDDHHmmss"),
             order_real_time: timestamp,
             totalPrice: this.checkPrice,
-            totalCount: this.buyList.length,
+            totalCount: this.checkCount,
           });
         });
         await this.buyId.forEach(ele => {
@@ -249,6 +254,13 @@ export default {
       }
       &.final-price {
         @include NotoSans(1.4, 700, #000);
+      }
+      &.count {
+        .warning {
+          color: red !important;
+          background-color: #fff !important;
+          font-weight: 700 !important;
+        }
       }
     }
   }
