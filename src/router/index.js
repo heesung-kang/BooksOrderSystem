@@ -78,7 +78,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/ReleaseStatus",
+      path: "/ReleaseStatus/:id/:date/:orderRealTimeId/:publisher",
       name: "ReleaseStatus",
       components: {
         lnb,

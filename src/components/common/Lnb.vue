@@ -8,8 +8,7 @@
           <li :class="{ active: activeStatus === 1 }"><router-link to="/SearchOrder">책 검색</router-link></li>
           <li :class="{ active: activeStatus === 2 }"><router-link to="/Cart">장바구니</router-link></li>
           <li :class="{ active: activeStatus === 3 }"><router-link to="/OrderList">주문 목록 보기</router-link></li>
-          <li :class="{ active: activeStatus === 5 }"><router-link to="/ReleaseList">출고 목록 보기</router-link></li>
-          <li :class="{ active: activeStatus === 6 }"><router-link to="/ReleaseStatus">출고 현황 보기</router-link></li>
+          <li :class="{ active: activeStatus === 4 }"><router-link to="/ReleaseList">출고 목록 보기</router-link></li>
         </ul>
       </nav>
     </aside>
@@ -65,10 +64,10 @@ export default {
           this.activeStatus = 3;
           break;
         case "ReleaseList":
-          this.activeStatus = 5;
+          this.activeStatus = 4;
           break;
         case "ReleaseStatus":
-          this.activeStatus = 6;
+          this.activeStatus = 4;
           break;
       }
     },

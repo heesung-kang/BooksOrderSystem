@@ -1,7 +1,9 @@
 <template>
   <section>
+    <BookListSkeleton v-if="!mobile && skeletonLoading" />
+    <BookListMobileSkeleton v-if="mobile && skeletonLoading" />
     <!-- 출고현황 내역 -->
-    <section class="header d-flex" v-if="!mobile">
+    <section class="header d-flex" v-if="!mobile && !skeletonLoading">
       <div class="d-flex dual">
         <div>수취</div>
         <div>품목정보</div>
@@ -12,22 +14,24 @@
       <div>수량</div>
     </section>
     <ul class="body">
-      <li class="d-flex align-center">
+      <li class="d-flex align-center" v-for="(book, index) in books" :key="index">
         <div class="d-flex align-center info-wrap">
-          <div class="ck-box"><v-checkbox v-model="selected" value="9788937427220"></v-checkbox></div>
+          <div class="ck-box">
+            <v-checkbox v-model="selected" :value="book.id" :disabled="book.data.shop_order_status === 5"></v-checkbox>
+          </div>
           <div class="book-info">
-            <h3>아노말리(양장본 Hardcover)</h3>
-            <div class="author">에르베 르 텔리에</div>
+            <h3>{{ book.data.subject }}</h3>
+            <div class="author">{{ book.data.author }}</div>
           </div>
         </div>
-        <div class="isbn">9788937427220</div>
-        <div class="out-type"><span v-if="mobile">배본 방식</span> 인스타페이</div>
+        <div class="isbn">{{ book.data.isbn }}</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> 아직미설정</div>
         <div class="status">
           <div v-if="mobile">상태</div>
-          <div>출고</div>
-          <div>(22.9.20)</div>
+          <div>{{ book.data.shop_order_status === 3 ? "출고대기" : book.data.shop_order_status === 4 ? "출고" : "완료" }}</div>
+          <div v-if="book.data.release_time_id !== '-'">({{ book.data.release_time }})</div>
         </div>
-        <div class="count"><span v-if="mobile">수량</span> 2</div>
+        <div class="count"><span v-if="mobile">수량</span> {{ book.data.reply_count }}</div>
       </li>
     </ul>
     <!-- //출고현황 내역 -->
@@ -40,15 +44,52 @@
 </template>
 
 <script>
+import BookListSkeleton from "@/skeletons/BookListSkeleton";
+import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import { mapGetters } from "vuex";
+import { getCookie } from "@/utils/cookie";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/utils/db";
 export default {
+  components: { BookListMobileSkeleton, BookListSkeleton },
+  props: ["id", "orderRealTimeId"],
   data() {
     return {
       selected: [],
+      books: [],
     };
   },
   computed: {
-    ...mapGetters("common", ["windowWidth", "mobile"]),
+    ...mapGetters("common", ["windowWidth", "mobile", "skeletonLoading"]),
+  },
+  created() {
+    this.load();
+  },
+  methods: {
+    async load() {
+      try {
+        this.books = [];
+        this.$store.commit("common/setSkeleton", true);
+        const { uid } = getCookie("userInfo");
+        const first = query(
+          collection(db, "orderRequest"),
+          where("uid", "==", uid),
+          where("sid", "==", Number(this.id)),
+          where("order_real_time_id", "==", this.orderRealTimeId),
+        );
+        const documentSnapshots = await getDocs(first);
+        const booksTemp = [];
+        documentSnapshots.forEach(doc => {
+          booksTemp.push({ id: doc.id, data: doc.data() });
+        });
+        this.books = booksTemp.filter(ele => {
+          if (ele.data.order_check) return ele;
+        });
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.commit("common/setSkeleton", false);
+    },
   },
 };
 </script>

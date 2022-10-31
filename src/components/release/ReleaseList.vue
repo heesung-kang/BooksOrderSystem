@@ -10,30 +10,26 @@
           <tr>
             <th>출판사</th>
             <th>수량</th>
-            <th>상태</th>
-            <th>발신일시</th>
-            <th>회신일시</th>
+            <th>발주일시</th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(item, index) in result"
             :key="index"
-            @click="statement({ id: item.sid, date: item.timestamp, orderTimeId: item.order_time_id, publisher: item.publisher })"
+            @click="statement({ id: item.sid, date: item.timestamp, orderRealTimeId: item.order_real_time_id, publisher: item.publisher })"
           >
             <td>{{ item.publisher }}</td>
             <td>
               <span v-if="item.shop_order_status < 2">{{ item.count }}</span>
               <span v-else>{{ item.totalCount }}</span>
             </td>
-            <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
-            <td>{{ item.timestamp }}</td>
-            <td>{{ item.replytimestamp }}</td>
+            <td>{{ item.orderrealtimestamp }}</td>
           </tr>
         </tbody>
         <tfoot v-if="result.length === 0">
           <tr>
-            <td colspan="5">주문 리스트가 없습니다.</td>
+            <td colspan="3">출고 리스트가 없습니다.</td>
           </tr>
         </tfoot>
       </table>
@@ -83,11 +79,11 @@ export default {
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
         const temp = doc.data();
-        temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        temp.timestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
         temp.count = parseInt(temp.count);
-        doc.data().reply_time === "-"
-          ? (temp.replytimestamp = "-")
-          : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
+        doc.data().order_real_time === "-"
+          ? (temp.orderrealtimestamp = "-")
+          : (temp.orderrealtimestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
         this.books.push(temp);
       });
       this.result = arrMerge(this.books);
@@ -125,7 +121,7 @@ export default {
       });
     },
     statement(data) {
-      this.$router.push(`/OrderResult/${data.id}/${data.date}/${data.orderTimeId}/${data.publisher}`);
+      this.$router.push(`/ReleaseStatus/${data.id}/${data.date}/${data.orderRealTimeId}/${data.publisher}`);
     },
   },
 };
