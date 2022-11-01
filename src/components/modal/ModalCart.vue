@@ -37,16 +37,16 @@ export default {
       ele.data.order_time_id = this.$date().format("YYYYMMDDHHmmss");
       ele.data.order_time = timestamp;
       //회신시간
-      ele.data.reply_time = "-";
-      ele.data.reply_time_id = "-";
+      ele.data.reply_time = null;
+      ele.data.reply_time_id = null;
       //발주시간
-      ele.data.order_real_time = "-";
-      ele.data.order_real_time_id = "-";
+      ele.data.order_real_time = null;
+      ele.data.order_real_time_id = null;
       //출고시간
-      ele.data.release_time = "-";
-      ele.data.release_time_id = "-";
+      ele.data.release_time = null;
+      ele.data.release_time_id = null;
       //메모
-      ele.data.memo = "-";
+      ele.data.memo = null;
       //서점 주문상태
       ele.data.shop_order_status = 0;
       //출판사 회신상태

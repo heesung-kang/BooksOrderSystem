@@ -29,7 +29,7 @@
         <div class="status">
           <div v-if="mobile">상태</div>
           <div>{{ book.data.shop_order_status === 3 ? "출고대기" : book.data.shop_order_status === 4 ? "출고" : "완료" }}</div>
-          <div v-if="book.data.release_time_id !== '-'">({{ book.data.release_time }})</div>
+          <div v-if="book.data.release_time_id !== null">({{ book.data.release_time }})</div>
         </div>
         <div class="count"><span v-if="mobile">수량</span> {{ book.data.reply_count }}</div>
       </li>

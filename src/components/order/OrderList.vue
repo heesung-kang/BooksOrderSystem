@@ -78,7 +78,7 @@ export default {
         const temp = doc.data();
         temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
         temp.count = parseInt(temp.count);
-        doc.data().reply_time === "-"
+        doc.data().reply_time === null
           ? (temp.replytimestamp = "-")
           : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
         this.books.push(temp);

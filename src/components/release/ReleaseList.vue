@@ -81,7 +81,7 @@ export default {
         const temp = doc.data();
         temp.timestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
         temp.count = parseInt(temp.count);
-        doc.data().order_real_time === "-"
+        doc.data().order_real_time === null
           ? (temp.orderrealtimestamp = "-")
           : (temp.orderrealtimestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
         this.books.push(temp);
