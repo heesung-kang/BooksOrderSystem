@@ -17,7 +17,8 @@
       <li class="d-flex align-center" v-for="(book, index) in books" :key="index">
         <div class="d-flex align-center info-wrap">
           <div class="ck-box">
-            <v-checkbox v-model="selected" :value="book.id" :disabled="book.data.shop_order_status === 5"></v-checkbox>
+            <span v-if="book.data.shop_order_status === 5">완료</span>
+            <v-checkbox v-model="selected" :value="book.id" v-else></v-checkbox>
           </div>
           <div class="book-info">
             <h3>{{ book.data.subject }}</h3>
@@ -25,19 +26,19 @@
           </div>
         </div>
         <div class="isbn">{{ book.data.isbn }}</div>
-        <div class="out-type"><span v-if="mobile">배본 방식</span> 아직미설정</div>
+        <div class="out-type"><span v-if="mobile">배본 방식</span> {{ book.data.distribution }}</div>
         <div class="status">
           <div v-if="mobile">상태</div>
           <div>{{ book.data.shop_order_status === 3 ? "출고대기" : book.data.shop_order_status === 4 ? "출고" : "완료" }}</div>
-          <div v-if="book.data.release_time_id !== null">({{ book.data.release_time }})</div>
+          <div v-if="book.data.release_time_id !== null">({{ book.data.timestamp }})</div>
         </div>
         <div class="count"><span v-if="mobile">수량</span> {{ book.data.reply_count }}</div>
       </li>
     </ul>
     <!-- //출고현황 내역 -->
     <!-- 총 합계 --->
-    <section class="btn mt24">
-      <button class="primary">수취확인</button>
+    <section class="btn mt24" v-if="books[0]?.data.shop_order_status > 3">
+      <button class="primary" @click="complete">수취확인</button>
     </section>
     <!-- //총 합계 --->
   </section>
@@ -48,7 +49,7 @@ import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import { mapGetters } from "vuex";
 import { getCookie } from "@/utils/cookie";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDocs, query, serverTimestamp, where, writeBatch } from "firebase/firestore";
 import { db } from "@/utils/db";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
@@ -80,7 +81,11 @@ export default {
         const documentSnapshots = await getDocs(first);
         const booksTemp = [];
         documentSnapshots.forEach(doc => {
-          booksTemp.push({ id: doc.id, data: doc.data() });
+          const temp = doc.data();
+          if (doc.data().release_time !== null) {
+            temp.timestamp = this.$date(doc.data().release_time.toDate()).format("YY.MM.DD");
+          }
+          booksTemp.push({ id: doc.id, data: temp });
         });
         this.books = booksTemp.filter(ele => {
           if (ele.data.order_check) return ele;
@@ -89,6 +94,30 @@ export default {
         console.log(e);
       }
       this.$store.commit("common/setSkeleton", false);
+    },
+    async complete() {
+      if (this.selected.length === 0) {
+        alert("수취완료할 상품을 체크해주세요");
+        return;
+      }
+      const batch = writeBatch(db);
+      try {
+        this.$store.commit("common/setLoading", true);
+        const timestamp = serverTimestamp();
+        await this.selected.forEach(ele => {
+          const docRef = doc(db, "orderRequest", ele);
+          batch.update(docRef, {
+            shop_order_status: 5,
+            complete_time_id: this.$date().format("YYYYMMDDHHmmss"),
+            complete_time: timestamp,
+          });
+        });
+        await batch.commit();
+        await this.load();
+      } catch (e) {
+        console.log(e);
+      }
+      this.$store.commit("common/setLoading", false);
     },
   },
 };

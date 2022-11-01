@@ -45,6 +45,9 @@ export default {
       //출고시간
       ele.data.release_time = null;
       ele.data.release_time_id = null;
+      //수취완료시간
+      ele.data.complete_time_id = null;
+      ele.data.complete_time = null;
       //메모
       ele.data.memo = null;
       //서점 주문상태
