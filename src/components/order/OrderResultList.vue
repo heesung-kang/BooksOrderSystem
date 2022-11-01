@@ -176,14 +176,20 @@ export default {
           this.buyId.push(ele.id);
         }
       });
-      this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice });
       this.mobile
-        ? this.$modal.show(ModalOrder, { book: this.buyList, price: this.checkPrice }, getPopupOpt("ModalOrder", "95%", "auto", false))
+        ? this.$modal.show(
+            ModalOrder,
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete },
+            getPopupOpt("ModalOrder", "95%", "auto", false),
+          )
         : this.$modal.show(
             ModalOrder,
             { qr: this.qr, book: this.buyList, price: this.checkPrice, ids: this.selected },
             getPopupOpt("ModalOrder", "500px", "auto", false),
           );
+    },
+    //결재완료
+    async paidComplete() {
       const batch = writeBatch(db);
       try {
         const timestamp = serverTimestamp();

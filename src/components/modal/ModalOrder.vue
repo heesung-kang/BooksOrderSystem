@@ -23,9 +23,17 @@ export default {
   name: "Order",
   components: { modalWrap },
   mixins: [qrCreateMixin],
-  props: ["book", "price", "ids"],
+  props: ["book", "price"],
+  watch: {
+    "res.paid": function (n) {
+      if (n) {
+        this.$attrs.update();
+        this.$emit("close");
+      }
+    },
+  },
   mounted() {
-    this._open({ productName: this.book.join(","), productAmount: this.price });
+    this._open({ productName: this.book.join(","), productAmount: this.price, ttl: 60 });
   },
   methods: {
     close() {
