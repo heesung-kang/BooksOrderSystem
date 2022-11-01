@@ -36,8 +36,7 @@ const qrCreate = {
         this.nPay.ttl !== pay.ttl
       ) {
         this.nPay.goods = pay.productName;
-        //this.nPay.price = pay.productAmount;
-        this.nPay.price = 1;
+        this.nPay.price = pay.productAmount;
         this.nPay.ttl = pay.ttl;
         this._createQrcode();
       } else {
