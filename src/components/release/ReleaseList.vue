@@ -80,6 +80,7 @@ export default {
       documentSnapshots.forEach(doc => {
         const temp = doc.data();
         temp.timestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        temp.searchTimestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD");
         temp.count = parseInt(temp.count);
         doc.data().order_real_time === null
           ? (temp.orderrealtimestamp = "-")
@@ -102,7 +103,7 @@ export default {
           return ele;
         } else if (this.searchObj.publisher === "" && this.searchObj.startDate !== undefined) {
           //날짜만 있는경우
-          if (ele.timestamp >= this.searchObj.startDate && ele.timestamp <= this.searchObj.endDate) {
+          if (ele.searchTimestamp >= this.searchObj.startDate && ele.searchTimestamp <= this.searchObj.endDate) {
             return ele;
           }
         } else if (this.searchObj.publisher !== "") {
@@ -110,7 +111,7 @@ export default {
           if (ele.publisher.includes(this.searchObj.publisher)) {
             if (this.searchObj.startDate !== undefined) {
               //검색어와 날짜가 있는 경우
-              if (ele.timestamp >= this.searchObj.startDate && ele.timestamp <= this.searchObj.endDate) {
+              if (ele.searchTimestamp >= this.searchObj.startDate && ele.searchTimestamp <= this.searchObj.endDate) {
                 return ele;
               }
             } else {
