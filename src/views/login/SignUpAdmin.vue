@@ -36,7 +36,7 @@ export default {
         createUserWithEmailAndPassword(auth, this.email, this.password)
           .then(() => {
             updateProfile(getAuth().currentUser, {
-              displayName: "admin-1",
+              displayName: "admin-1", //1:권한
             })
               .then(() => {
                 alert("정상 가입 되셨습니다.");

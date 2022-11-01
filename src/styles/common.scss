@@ -72,6 +72,12 @@
   background-color:#fff;
 }
 /*form*/
+input.basic{
+  &:read-only{
+    background-color:#f4f4f4 !important;
+    color:#666 !important;
+  }
+}
 input[type="text"]{
   &.basic {
     border: 1px solid #000;

@@ -18,8 +18,13 @@
       <div>공급</div>
     </section>
     <ul class="body">
-      <li class="d-flex align-center" v-for="(book, index) in books" :key="index">
-        <div class="d-flex align-center info-wrap">
+      <li
+        class="d-flex align-center"
+        v-for="(book, index) in books"
+        :key="index"
+        :class="{ none: book.data.shop_order_status > 2 && book.data.order_check === false }"
+      >
+        <div class="d-flex align-center info-wrap ck-wrap">
           <div class="ck-box">
             <v-checkbox :input-value="book.data.order_check" disabled v-if="books[0]?.data.shop_order_status === 3"></v-checkbox>
             <v-checkbox
@@ -266,6 +271,29 @@ export default {
           color: red !important;
           background-color: #fff !important;
           font-weight: 700 !important;
+        }
+      }
+    }
+    &.none {
+      h3 {
+        color: #989898 !important;
+        text-decoration: line-through;
+      }
+      div {
+        color: #989898 !important;
+        text-decoration: line-through;
+        &.ck-wrap {
+          text-decoration: none;
+          div {
+            text-decoration: none;
+          }
+          .author {
+            text-decoration: line-through !important;
+          }
+        }
+        .warning {
+          color: #989898 !important;
+          text-decoration: line-through;
         }
       }
     }

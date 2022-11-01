@@ -12,10 +12,13 @@ export default function arrMerge(arr) {
       }
       if (flag) {
         ++cnt;
-        if (resultArr[value].shop_order_status === 0) {
-          resultArr[value].count += Number(arr[i].count);
-        } else {
+        resultArr[value].count += Number(arr[i].count);
+        if (resultArr[value].shop_order_status === 1) {
           resultArr[value].reply_count += Number(arr[i].reply_count);
+        } else {
+          if (arr[i].order_check === true) {
+            resultArr[value].reply_count += Number(arr[i].reply_count);
+          }
         }
       }
     }

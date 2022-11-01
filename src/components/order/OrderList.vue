@@ -24,7 +24,8 @@
             <td>{{ item.publisher }}</td>
             <td>
               <span v-if="item.shop_order_status === 0">{{ item.count }}</span>
-              <span v-else>{{ item.reply_count }}</span>
+              <span v-else-if="item.shop_order_status === 1">{{ item.reply_count }}</span>
+              <span v-else>{{ item.totalCount }}</span>
             </td>
             <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
             <td>{{ item.timestamp }}</td>
