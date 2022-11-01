@@ -63,6 +63,8 @@ export default {
       ele.data.totalCount = 0;
       //발주 토탈 금액
       ele.data.totalPrice = 0;
+      //배본사
+      ele.data.distribution = null;
       this.sendData.push(ele.data);
     });
     //일괄 저장
