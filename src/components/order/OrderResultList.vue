@@ -51,7 +51,7 @@
     </ul>
     <!-- //발주 내역 -->
     <!-- 메모 -->
-    <section class="memo" v-if="books[0]?.data.memo.length > 1 && books.length !== 0">
+    <section class="memo" v-if="books[0]?.data.memo !== null && books[0]?.data.memo !== '' && books.length !== 0">
       <h4>메모</h4>
       <div>{{ books[0]?.data.memo }}</div>
     </section>
