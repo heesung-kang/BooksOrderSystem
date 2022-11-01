@@ -184,7 +184,7 @@ export default {
           )
         : this.$modal.show(
             ModalOrder,
-            { qr: this.qr, book: this.buyList, price: this.checkPrice, ids: this.selected },
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete },
             getPopupOpt("ModalOrder", "500px", "auto", false),
           );
     },
