@@ -48,7 +48,6 @@ export default {
                   alert("서점회원이 아닙니다.");
                 } else {
                   saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
-                  saveCookie("accessToken", user.accessToken);
                   this.$router.push("/SearchOrder");
                 }
               })

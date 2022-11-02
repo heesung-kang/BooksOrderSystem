@@ -73,7 +73,6 @@ export default {
       signOut(auth)
         .then(() => {
           deleteCookie("userInfo");
-          deleteCookie("accessToken");
           this.$router.push("/login");
         })
         .catch(error => {
