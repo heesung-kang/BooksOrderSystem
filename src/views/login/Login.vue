@@ -50,6 +50,7 @@ export default {
                   saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
                   this.$router.push("/");
                 }
+                this.$store.commit("common/setLoading", false);
               })
               .catch(error => {
                 switch (error.code) {
@@ -74,11 +75,12 @@ export default {
           .catch(error => {
             // Handle Errors here.
             console.log(error);
+            this.$store.commit("common/setLoading", false);
           });
       } catch (e) {
         console.log(e);
+        this.$store.commit("common/setLoading", false);
       }
-      this.$store.commit("common/setLoading", false);
     },
   },
 };

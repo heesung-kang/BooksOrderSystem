@@ -57,6 +57,10 @@ export default {
         alert("비밀번호를 입력해주세요.");
         return;
       }
+      if (this.address1 === "") {
+        alert("주소를 입력해주세요.");
+        return;
+      }
       if (this.address2 === "") {
         alert("주소를 입력해주세요.");
         return;
@@ -80,11 +84,10 @@ export default {
           });
       } catch (e) {
         console.log(e);
+        this.$store.commit("common/setLoading", false);
       }
-      this.$store.commit("common/setLoading", false);
     },
     async addInfo() {
-      this.$store.commit("common/setLoading", true);
       try {
         await signInWithEmailAndPassword(auth, this.email, this.password)
           .then(async userCredential => {
@@ -98,16 +101,18 @@ export default {
               address2: this.address2,
               timestamp: serverTimestamp(),
             });
+            this.$store.commit("common/setLoading", false);
             alert("정상 가입 되셨습니다.");
             this.$router.push("/Login");
           })
           .catch(error => {
             console.log(error);
+            this.$store.commit("common/setLoading", false);
           });
       } catch (e) {
         console.log(e);
+        this.$store.commit("common/setLoading", false);
       }
-      this.$store.commit("common/setLoading", false);
     },
     showAddressModalPopup() {
       this.mobile
