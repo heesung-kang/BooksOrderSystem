@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h1>인스타북 로그인</h1>
+      <h1>서점 로그인</h1>
       <form @submit.prevent="signIn">
         <div class="mt30 field">
           <v-icon>mdi-account</v-icon>
@@ -13,6 +13,7 @@
         </div>
         <button type="submit" class="btn-login mt25">로그인 하기</button>
         <p class="error-message">{{ logMessage }}</p>
+        <div class="signup"><router-link to="/SignUp">회원가입</router-link></div>
       </form>
     </div>
   </div>
@@ -41,8 +42,8 @@ export default {
             const user = userCredential.user;
             const userName = user.displayName.split("-");
             //1:관리자, 2:출판사, 3:서점
-            if (Number(userName[1]) === 2) {
-              alert("서점회원으로 가입해주세요.");
+            if (Number(userName[1]) !== 3) {
+              alert("서점회원이 아닙니다.");
             } else {
               saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
               saveCookie("accessToken", user.accessToken);
@@ -142,6 +143,12 @@ export default {
       text-align: center;
       padding: 10px 0;
       color: red;
+    }
+    .signup {
+      text-align: right;
+      a {
+        color: #333;
+      }
     }
   }
 }

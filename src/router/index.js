@@ -20,12 +20,6 @@ const router = new VueRouter({
       meta: { unauthorized: true },
     },
     {
-      path: "/SignUpAdmin",
-      name: "SignUpAdmin",
-      component: () => import("@/views/login/SignUpAdmin.vue"),
-      meta: { unauthorized: true },
-    },
-    {
       path: "/Login",
       name: "Login",
       component: () => import("@/views/login/Login.vue"),
@@ -84,6 +78,15 @@ const router = new VueRouter({
         lnb,
         footer,
         contents: () => import("@/views/release/ReleaseStatus.vue"),
+      },
+    },
+    {
+      path: "/ShopInfo",
+      name: "ShopInfo",
+      components: {
+        lnb,
+        footer,
+        contents: () => import("@/views/mypage/ShopInfo.vue"),
       },
     },
     //404
