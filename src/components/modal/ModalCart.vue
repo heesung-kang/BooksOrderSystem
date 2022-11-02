@@ -16,7 +16,7 @@
 <script>
 import modalWrap from "@/components/modal/ModalTemplate";
 import { getCookie } from "@/utils/cookie";
-import { doc, writeBatch, collection, serverTimestamp } from "firebase/firestore";
+import { doc, writeBatch, collection, serverTimestamp, getDoc } from "firebase/firestore";
 import { db } from "@/utils/db";
 export default {
   components: { modalWrap },
@@ -28,7 +28,9 @@ export default {
   },
   async created() {
     //doc id 제외
-    const { name } = getCookie("userInfo");
+    const docRef = doc(db, "shopInfo", this.uid);
+    const docSnap = await getDoc(docRef);
+    const name = docSnap.data().shop;
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
       ele.data.count = parseInt(ele.data.count); //수량변경시 타입 변경

@@ -86,6 +86,15 @@ const router = new VueRouter({
         contents: () => import("@/views/release/ReleaseStatus.vue"),
       },
     },
+    {
+      path: "/ShopInfo",
+      name: "ShopInfo",
+      components: {
+        lnb,
+        footer,
+        contents: () => import("@/views/mypage/ShopInfo.vue"),
+      },
+    },
     //404
     {
       path: "*",

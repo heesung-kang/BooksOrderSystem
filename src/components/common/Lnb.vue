@@ -4,11 +4,13 @@
       <div class="pt26 logo"><img src="@/assets/images/logo.svg" alt="instaPay" /></div>
       <div class="system-name">서점용 도서 주문 시스템</div>
       <nav class="lnb">
+        {{ activeStatus }}
         <ul @click="close">
           <li :class="{ active: activeStatus === 1 }"><router-link to="/SearchOrder">책 검색</router-link></li>
           <li :class="{ active: activeStatus === 2 }"><router-link to="/Cart">장바구니</router-link></li>
           <li :class="{ active: activeStatus === 3 }"><router-link to="/OrderList">주문 목록 보기</router-link></li>
           <li :class="{ active: activeStatus === 4 }"><router-link to="/ReleaseList">출고 목록 보기</router-link></li>
+          <li :class="{ active: activeStatus === 5 }"><router-link to="/ShopInfo">서점 정보</router-link></li>
         </ul>
       </nav>
     </aside>
@@ -68,6 +70,9 @@ export default {
           break;
         case "ReleaseStatus":
           this.activeStatus = 4;
+          break;
+        case "ShopInfo":
+          this.activeStatus = 5;
           break;
       }
     },

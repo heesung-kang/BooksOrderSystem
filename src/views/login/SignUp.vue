@@ -15,7 +15,7 @@
       </div>
       <div class="mt2"><input class="basic" v-model="address1" type="text" readonly /></div>
       <div class="mt2"><input class="basic" v-model="address2" placeholder="나머지주소" type="text" /></div>
-      <div class="btn-wrap"><button @click="userRegistration">가입</button></div>
+      <div class="btn-wrap"><button @click="userRegistration">가입</button><router-link to="/login" class="login">로그인</router-link></div>
     </div>
   </div>
 </template>
@@ -138,8 +138,9 @@ export default {
   .wrap {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 50px;
+    padding: 20px;
     background-color: #fff;
+    width: 300px;
     h1 {
       font-size: 1.6rem;
     }
@@ -160,13 +161,25 @@ export default {
   }
   .btn-wrap {
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
     button {
-      margin-top: 10px;
       padding: 2px 15px;
       background: deepskyblue;
       color: #fff;
       font-size: 1.5rem;
       border-radius: 3px;
+    }
+    .login {
+      background: #f4f4f4;
+      border-radius: 3px;
+      height: 26px;
+      color: #333;
+      line-height: 26px;
+      margin-left: 5px;
+      padding: 0 15px;
     }
   }
   .btn-zip {
