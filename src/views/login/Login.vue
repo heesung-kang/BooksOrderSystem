@@ -46,6 +46,7 @@ export default {
                 //1:관리자, 2:출판사, 3:서점
                 if (Number(userName[1]) !== 3) {
                   alert("서점회원이 아닙니다.");
+                  this.$store.commit("common/setLoading", false);
                 } else {
                   saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
                   this.$router.push("/");
