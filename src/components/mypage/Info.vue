@@ -17,7 +17,10 @@
         </tr>
         <tr>
           <td>아이디(이메일)</td>
-          <td>{{ info.email }}</td>
+          <td>
+            <span v-if="!infoModify">{{ info.email }}</span
+            ><input type="text" v-model="infoTemp.email" class="basic" v-else />
+          </td>
         </tr>
         <tr>
           <td>주소</td>
@@ -53,6 +56,8 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/db";
 import AddressModal from "@/components/modal/ModalAddress";
 import { getPopupOpt } from "@/utils/modal";
+import { getAuth, updateEmail } from "firebase/auth";
+import { app } from "@/utils/db";
 export default {
   name: "Distribution",
   data() {
@@ -101,6 +106,10 @@ export default {
         alert("출판사명을 입력해주세요");
         return;
       }
+      if (this.infoTemp.shop === "") {
+        alert("이메일(아이디)를 입력해주세요");
+        return;
+      }
       if (this.infoTemp.address1 === "") {
         alert("주소를 입력해주세요");
         return;
@@ -109,6 +118,7 @@ export default {
         alert("주소를 입력해주세요");
         return;
       }
+      this.$store.commit("common/setLoading", true);
       this.infoModify = false;
       this.info = this.infoTemp;
       try {
@@ -118,9 +128,20 @@ export default {
           zip: this.zip,
           address1: this.infoTemp.address1,
           address2: this.infoTemp.address2,
+          email: this.infoTemp.email,
         });
+        const auth = getAuth(app);
+        await updateEmail(auth.currentUser, this.infoTemp.email)
+          .then(() => {
+            this.$store.commit("common/setLoading", false);
+          })
+          .catch(error => {
+            this.$store.commit("common/setLoading", false);
+            console.log(error);
+          });
         await this.load();
       } catch (e) {
+        this.$store.commit("common/setLoading", false);
         console.log(e);
       }
     },
