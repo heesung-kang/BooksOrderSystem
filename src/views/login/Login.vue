@@ -54,6 +54,7 @@ export default {
                 this.$store.commit("common/setLoading", false);
               })
               .catch(error => {
+                this.$store.commit("common/setLoading", false);
                 switch (error.code) {
                   case "auth/invalid-email":
                     this.logMessage = "이메일을 잘못 입력 하셨습니다.";
