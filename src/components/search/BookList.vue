@@ -73,7 +73,7 @@ export default {
           this.cart.push(item);
           alert("장바구니에 담았습니다.");
         } else {
-          alert("장바구니에 이미 담겨 있습니다.");
+          alert("이미 담아 두었습니다.\n ‘장바구니’에서 수량을 조절해 주세요");
         }
       } catch (e) {
         console.error("Error adding document: ", e);

@@ -29,10 +29,10 @@ export default {
   data() {
     return {
       itemList: [
-        { item: "책 제목", value: "subject" },
+        // { item: "책 제목", value: "subject" },
         { item: "ISBN", value: "isbn" },
-        { item: "저자", value: "author" },
-        { item: "출판사", value: "publisher" },
+        // { item: "저자", value: "author" },
+        // { item: "출판사", value: "publisher" },
       ],
       select: "subject",
       keyword: "",
