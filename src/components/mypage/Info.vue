@@ -17,10 +17,11 @@
         </tr>
         <tr>
           <td>아이디(이메일)</td>
-          <td>
-            <span v-if="!infoModify">{{ info.email }}</span
-            ><input type="text" v-model="infoTemp.email" class="basic" v-else />
-          </td>
+          <td>{{ info.email }}</td>
+          <!--     이메일 변경 숨김처리     <td>-->
+          <!--            <span v-if="!infoModify">{{ info.email }}</span-->
+          <!--            ><input type="text" v-model="infoTemp.email" class="basic" v-else />-->
+          <!--          </td>-->
         </tr>
         <tr>
           <td>주소</td>

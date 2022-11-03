@@ -13,7 +13,10 @@
         </div>
         <button type="submit" class="btn-login mt25">로그인 하기</button>
         <p class="error-message">{{ logMessage }}</p>
-        <div class="signup"><router-link to="/SignUp">회원가입</router-link></div>
+        <div class="signup">
+          <router-link to="/SignUp">회원가입</router-link> |&nbsp;
+          <router-link to="/FindPw">비밀번호 찾기</router-link>
+        </div>
       </form>
     </div>
   </div>
