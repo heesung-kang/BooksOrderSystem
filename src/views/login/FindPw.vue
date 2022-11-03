@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="wrap">
       <h1>비밀번호 찾기</h1>
-      <div class="mt10">email<input class="basic" v-model="email" placeholder="이메일을 입력해주세요." type="text" /></div>
+      <div class="mt10">이메일<input class="basic" v-model="email" placeholder="이메일을 입력해주세요." type="text" /></div>
       <div class="btn-wrap"><button @click="sendEmail">메일전송</button><router-link to="/login" class="login">로그인</router-link></div>
     </div>
   </div>
@@ -14,7 +14,6 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { app } from "@/utils/db";
 
 export default {
-  name: "SignUp",
   data() {
     return {
       email: "",
@@ -34,6 +33,7 @@ export default {
         .catch(error => {
           if (error.message === "Firebase: Error (auth/user-not-found).") {
             alert("가입된 이메일이 아닙니다.\n이메일을 확인해주세요.");
+            this.email = "";
           }
           console.log(error);
         });
