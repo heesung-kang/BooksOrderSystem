@@ -184,12 +184,12 @@ export default {
       this.mobile
         ? this.$modal.show(
             ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete },
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop },
             getPopupOpt("ModalOrder", "95%", "auto", false),
           )
         : this.$modal.show(
             ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete },
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop },
             getPopupOpt("ModalOrder", "500px", "auto", false),
           );
     },

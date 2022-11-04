@@ -139,6 +139,9 @@ const qrCreate = {
       xhttp.open("get", url, true);
       xhttp.send();
     },
+    _stop() {
+      window.stop();
+    },
   },
 };
 export default qrCreate;
