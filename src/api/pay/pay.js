@@ -1,19 +1,27 @@
-import { createInstanceWithAuth } from "../index";
-
+import axios from "axios";
+const baseUrl = "https://api.instapay.kr";
 function createQrcodeApi(params, storeId) {
-  return createInstanceWithAuth(`/s2/sell?${params}`, {}, {}, storeId).get();
+  return axios.get(`${baseUrl}/s2/sell?${params}`, {
+    headers: {
+      Authorization: `Bearer ${storeId}`,
+    },
+  });
 }
 
 function createApi(params, storeId) {
-  return createInstanceWithAuth(`/s2/buy?i=${params}`, {}, {}, storeId).get();
+  return axios.get(`${baseUrl}/s2/buy?i=${params}`, {
+    headers: {
+      Authorization: `Bearer ${storeId}`,
+    },
+  });
 }
 
 function createWaitApi(params) {
-  return createInstanceWithAuth(`/s2/wait?ti=${params}`, {}, {}, {}).get();
+  return axios.get(`${baseUrl}/s2/wait?ti=${params}`);
 }
 
 function waitCompleteApi(params) {
-  return createInstanceWithAuth(`/s2/wait?ti=${params}&st=complete`, {}, {}, {}).get();
+  return axios.get(`${baseUrl}/s2/wait?ti=${params}&st=complete`);
 }
 
 export { createQrcodeApi, createApi, createWaitApi, waitCompleteApi };

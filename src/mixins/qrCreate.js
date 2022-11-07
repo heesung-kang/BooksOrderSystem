@@ -1,4 +1,6 @@
 import { createQrcodeApi, createApi, createWaitApi, waitCompleteApi } from "@/api/pay/pay";
+import isMobile from "@/utils/isMobile";
+import isIE from "@/utils/isIE";
 const qrCreate = {
   data() {
     return {
@@ -19,22 +21,8 @@ const qrCreate = {
     };
   },
   methods: {
-    //모바일 확인
-    _isMoblie() {
-      const mCheck = /MID|TB-8504F|SM-T580|Nexus 9|P20HD|SM-P555S|SM-T536|SM-T385K|SM-T530|LG-V607L|MPGIO-10|muPAD/i; // 안드로이드 태블릿 리스트
-      const isMobile =
-        !mCheck.test(navigator.userAgent) &&
-        (/(?=.*Android)(?=.*Mobile Safari).*/i.test(navigator.userAgent) || /iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-      return isMobile;
-    },
-    //익스플로러 확인
-    _isIE() {
-      const myNav = navigator.userAgent.toLowerCase();
-      return myNav.indexOf("msie") != -1 ? parseInt(myNav.split("msie")[1]) : false;
-    },
     _open(pay) {
-      // ie version check
-      if (this._isIE() && this._isIE() < 10) {
+      if (isIE() && isIE() < 10) {
         alert("internet explorer 10 이상 지원합니다.");
         return;
       }
@@ -58,11 +46,15 @@ const qrCreate = {
         this.nPay.ttl
       }&ldate=nil`;
       const response = createQrcodeApi(sendData, this.storeId);
-      response.then(res => {
-        if (res.request.readyState === 4 && res.request.status === 200) {
-          this._resultQrcode(res.request.responseText);
-        }
-      });
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._resultQrcode(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     _resultQrcode(responseText) {
       const response = JSON.parse(responseText);
@@ -74,11 +66,15 @@ const qrCreate = {
     },
     _create(i) {
       const response = createApi(i, this.storeId);
-      response.then(res => {
-        if (res.request.readyState === 4 && res.request.status === 200) {
-          this._result(res.request.responseText);
-        }
-      });
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._result(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     _result(responseText) {
       const response = JSON.parse(responseText);
@@ -87,7 +83,7 @@ const qrCreate = {
         this.ti = response.ti;
         this.re = response.re;
         this.res.createdQrcode = true;
-        if (this._isMoblie()) {
+        if (isMobile()) {
           //모바일 딥링크 띄우기
           location.href = this.re;
           this._createWait();
@@ -101,26 +97,34 @@ const qrCreate = {
     },
     _createWait() {
       const response = createWaitApi(this.ti);
-      response.then(res => {
-        console.log(res);
-        if (res.request.readyState === 4 && res.request.status === 200) {
-          this._resultWait(res.request.responseText);
-        }
-      });
+      response
+        .then(res => {
+          console.log(res);
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._resultWait(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     _waitComplete() {
       const response = waitCompleteApi(this.ti);
-      response.then(res => {
-        if (res.request.readyState === 4 && res.request.status === 200) {
-          this._resultWait(res.request.responseText);
-        }
-      });
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._resultWait(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     _resultWait(responseText) {
       const response = JSON.parse(responseText);
       if (response.result === "ok") {
         if (response.tstatus === "entry") {
-          if (!this._isMoblie()) {
+          if (isMobile()) {
             alert("결제가 진행중 입니다. 창을 닫거나, 새로고침 하시면 오류가 발생할 수 있습니다.");
           }
           this._waitComplete();

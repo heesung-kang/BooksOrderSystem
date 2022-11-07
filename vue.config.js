@@ -2,9 +2,6 @@ const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 
 //const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
-  devServer: {
-    proxy: "https://api.instapay.kr",
-  },
   publicPath: process.env.NODE_ENV === "production" ? "/BooksOrderSystem/" : "/",
   lintOnSave: false,
   transpileDependencies: ["vuetify"],
