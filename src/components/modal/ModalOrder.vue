@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     close() {
+      this.$attrs.close();
       this.$emit("close");
     },
   },

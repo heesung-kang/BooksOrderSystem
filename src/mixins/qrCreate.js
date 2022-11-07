@@ -99,7 +99,6 @@ const qrCreate = {
       const response = createWaitApi(this.ti);
       response
         .then(res => {
-          console.log(res);
           if (res.request.readyState === 4 && res.request.status === 200) {
             this._resultWait(res.request.responseText);
           }
@@ -135,6 +134,9 @@ const qrCreate = {
       } else {
         this.result = this.res;
       }
+    },
+    _stop() {
+      window.stop();
     },
   },
 };
