@@ -7,7 +7,9 @@ Vue.use(VueRouter);
 const key = process.env.VUE_APP_FIREBASE_APP_KEY;
 const router = new VueRouter({
   //mode: "history",
-  //key: process.env.VUE_APP_FIREBASE_APP_KEY,
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   routes: [
     {
       path: "/",
