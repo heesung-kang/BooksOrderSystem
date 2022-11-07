@@ -33,10 +33,11 @@ export default {
     },
   },
   mounted() {
-    this._open({ productName: this.book.join(","), productAmount: this.price, ttl: 60 });
+    this._open({ productName: this.book.join(","), productAmount: this.price, ttl: 20 });
   },
   methods: {
     close() {
+      this.$attrs.close();
       this.$emit("close");
     },
   },

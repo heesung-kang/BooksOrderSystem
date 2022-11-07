@@ -93,6 +93,7 @@ import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import qrCreateMixin from "@/mixins/qrCreate";
 import ModalOrder from "@/components/modal/ModalOrder";
 import { getPopupOpt } from "@/utils/modal";
+import isMobile from "@/utils/isMobile";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
   mixins: [qrCreateMixin],
@@ -181,15 +182,11 @@ export default {
           this.buyId.push(ele.id);
         }
       });
-      this.mobile
-        ? this.$modal.show(
-            ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete },
-            getPopupOpt("ModalOrder", "95%", "auto", false),
-          )
+      isMobile()
+        ? this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice, ttl: 20 })
         : this.$modal.show(
             ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete },
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop },
             getPopupOpt("ModalOrder", "500px", "auto", false),
           );
     },

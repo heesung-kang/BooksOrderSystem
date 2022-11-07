@@ -1,3 +1,6 @@
+import { createQrcodeApi, createApi, createWaitApi, waitCompleteApi } from "@/api/pay/pay";
+import isMobile from "@/utils/isMobile";
+import isIE from "@/utils/isIE";
 const qrCreate = {
   data() {
     return {
@@ -18,14 +21,8 @@ const qrCreate = {
     };
   },
   methods: {
-    //익스플로러 확인
-    _isIE() {
-      var myNav = navigator.userAgent.toLowerCase();
-      return myNav.indexOf("msie") != -1 ? parseInt(myNav.split("msie")[1]) : false;
-    },
     _open(pay) {
-      // ie version check
-      if (this._isIE() && this._isIE() < 10) {
+      if (isIE() && isIE() < 10) {
         alert("internet explorer 10 이상 지원합니다.");
         return;
       }
@@ -45,29 +42,22 @@ const qrCreate = {
       }
     },
     _createQrcode() {
-      var sendData =
-        "goods=" +
-        encodeURIComponent(btoa(unescape(encodeURIComponent(this.nPay.goods)))) +
-        "&price=" +
-        this.nPay.price +
-        "&ttl=" +
-        this.nPay.ttl +
-        "&ldate=nil";
-      //var sendData = 'goods=' + btoa(nPay.goods) + '&price=' + nPay.price + '&ldate=nil';
-      var url = "https://api.instapay.kr/s2/sell?" + sendData;
-      var xhttp = new XMLHttpRequest();
-      const _this = this;
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          _this._resultQrcode(this.responseText);
-        }
-      };
-      xhttp.open("get", url, true);
-      xhttp.setRequestHeader("authorization", "Bearer " + this.storeId);
-      xhttp.send();
+      const sendData = `goods=${encodeURIComponent(btoa(unescape(encodeURIComponent(this.nPay.goods))))}&price=${this.nPay.price}&ttl=${
+        this.nPay.ttl
+      }&ldate=nil`;
+      const response = createQrcodeApi(sendData, this.storeId);
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._resultQrcode(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     _resultQrcode(responseText) {
-      var response = JSON.parse(responseText);
+      const response = JSON.parse(responseText);
       if (response.result === "ok") {
         this._create(response.gid);
       } else {
@@ -75,48 +65,67 @@ const qrCreate = {
       }
     },
     _create(i) {
-      var url = "https://api.instapay.kr/s2/buy?i=" + i;
-      var xhttp = new XMLHttpRequest();
-      const _this = this;
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          _this._result(this.responseText);
-        }
-      };
-      xhttp.open("get", url, true);
-      xhttp.setRequestHeader("authorization", "Bearer " + this.storeId);
-      xhttp.send();
+      const response = createApi(i, this.storeId);
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._result(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     _result(responseText) {
-      var response = JSON.parse(responseText);
+      const response = JSON.parse(responseText);
       if (response.result === "ok") {
         this.qr = response.qr;
         this.ti = response.ti;
         this.re = response.re;
         this.res.createdQrcode = true;
-        this._createWait();
+        if (isMobile()) {
+          //모바일 딥링크 띄우기
+          location.href = this.re;
+          this._createWait();
+        } else {
+          //pc qr 띄우기
+          this._createWait();
+        }
       } else {
         this.result = this.res;
       }
     },
     _createWait() {
-      var url = "https://api.instapay.kr/s2/wait?ti=" + this.ti;
-      var xhttp = new XMLHttpRequest();
-      const _this = this;
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          _this._resultWait(this.responseText);
-        }
-      };
-      xhttp.open("get", url, true);
-      xhttp.send();
+      const response = createWaitApi(this.ti);
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._resultWait(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-
+    _waitComplete() {
+      const response = waitCompleteApi(this.ti);
+      response
+        .then(res => {
+          if (res.request.readyState === 4 && res.request.status === 200) {
+            this._resultWait(res.request.responseText);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     _resultWait(responseText) {
-      var response = JSON.parse(responseText);
+      const response = JSON.parse(responseText);
       if (response.result === "ok") {
         if (response.tstatus === "entry") {
-          alert("결제가 진행중 입니다. 창을 닫거나, 새로고침 하시면 오류가 발생할 수 있습니다.");
+          if (isMobile()) {
+            alert("결제가 진행중 입니다. 창을 닫거나, 새로고침 하시면 오류가 발생할 수 있습니다.");
+          }
           this._waitComplete();
         } else {
           this.res.paid = true;
@@ -126,18 +135,8 @@ const qrCreate = {
         this.result = this.res;
       }
     },
-
-    _waitComplete() {
-      var url = "https://api.instapay.kr/s2/wait?ti=" + this.ti + "&st=complete";
-      var xhttp = new XMLHttpRequest();
-      const _this = this;
-      xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          _this._resultWait(this.responseText);
-        }
-      };
-      xhttp.open("get", url, true);
-      xhttp.send();
+    _stop() {
+      window.stop();
     },
   },
 };
