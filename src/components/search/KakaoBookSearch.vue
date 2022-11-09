@@ -1,9 +1,7 @@
 <template>
   <div>
     <ul v-if="list.length > 0">
-      <li v-for="item in list" :key="item.isbn" @click="isbn(item.isbn)">
-        {{ item.title }}
-      </li>
+      <li v-for="item in list" :key="item.isbn" @click="isbn(item.isbn)">{{ item.title }} : {{ item.isbn }}</li>
     </ul>
   </div>
 </template>
@@ -12,7 +10,7 @@
 import { kakaoBookSearchApi } from "@/api/pay/book";
 export default {
   name: "KakaoBookSearch",
-  props: ["keyword", "search"],
+  props: ["keyword", "search", "clear"],
   data() {
     return {
       list: [],
@@ -21,6 +19,9 @@ export default {
   watch: {
     search() {
       this.searchBooks();
+    },
+    clear() {
+      this.list = [];
     },
   },
   methods: {
@@ -31,14 +32,17 @@ export default {
       if (response.status === 200) {
         this.list = [];
         this.list = response.data.documents;
+        this.list.forEach(ele => {
+          const isbn = ele.isbn.split(" ");
+          ele.isbn = isbn[1];
+        });
         response.data.documents.length === 0 ? this.$emit("result", false) : null;
       } else {
         this.$emit("result", false);
       }
     },
     isbn(num) {
-      const isbn = num.split(" ");
-      this.$emit("result", isbn[1]);
+      this.$emit("result", num);
     },
   },
 };
@@ -52,7 +56,7 @@ ul {
   padding: 10px 10px 10px 15px !important;
   line-height: 2.4rem;
   overflow: auto;
-  max-height: 100px;
+  max-height: 200px;
   li {
     position: relative;
     font-size: 1.4rem;

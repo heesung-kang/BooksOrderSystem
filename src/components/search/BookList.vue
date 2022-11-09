@@ -30,7 +30,7 @@
         <span v-if="infoChange">검색 결과가 없습니다.</span>
       </div>
     </section>
-    <div class="btn-more" @click="$emit('more')" v-if="books.length > 0"><button class="basic">더 보기</button></div>
+    <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10"><button class="basic">더 보기</button></div>
   </div>
 </template>
 

@@ -6,7 +6,7 @@
       <SearchBasicGroup :itemList="itemList" @search="search" />
       <!-- //책 검색 -->
       <!-- 카카오 책검색 -->
-      <KakaoBookSearch :keyword="keyword" :search="kakaoSearch" @result="isbnSearch" />
+      <KakaoBookSearch :keyword="keyword" :search="kakaoSearch" :clear="clear" @result="isbnSearch" />
       <!-- //카카오 책검색 -->
       <!-- skeleton -->
       <BookListSkeleton v-if="skeletonLoading && !mobile" class="mt14" />
@@ -45,6 +45,7 @@ export default {
       lastVisible: "",
       infoChange: false,
       kakaoSearch: false,
+      clear: false,
     };
   },
   computed: {
@@ -87,6 +88,7 @@ export default {
     search(payload) {
       this.books = []; //리스트 초기화
       if (payload.select !== "subject") {
+        this.clear = !this.clear;
         if (payload.select !== "") this.select = payload.select;
         if (payload.keyword !== "") this.keyword = payload.keyword;
         this.firstBookList();
