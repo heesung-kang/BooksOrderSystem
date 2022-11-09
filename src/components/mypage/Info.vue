@@ -1,7 +1,7 @@
 <template>
   <section>
-    <h3>출판사 정보</h3>
-    <!-- 출판사 정보 테이블 -->
+    <h3>서점 정보</h3>
+    <!-- 서점 정보 테이블 -->
     <table class="info-tbl mt5">
       <colgroup>
         <col width="100" />
@@ -36,7 +36,7 @@
         </tr>
       </tbody>
     </table>
-    <!-- //출판사 정보 테이블 -->
+    <!-- //서점 정보 테이블 -->
 
     <!-- 버튼 영역 -->
     <section>

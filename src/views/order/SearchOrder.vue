@@ -5,6 +5,9 @@
       <!-- 책 검색 -->
       <SearchBasicGroup :itemList="itemList" @search="search" />
       <!-- //책 검색 -->
+      <!-- 카카오 책검색 -->
+      <KakaoBookSearch :keyword="keyword" :search="kakaoSearch" :clear="clear" @result="isbnSearch" />
+      <!-- //카카오 책검색 -->
       <!-- skeleton -->
       <BookListSkeleton v-if="skeletonLoading && !mobile" class="mt14" />
       <BookListMobileSkeleton v-if="skeletonLoading && mobile" class="mt14" />
@@ -20,12 +23,13 @@
 import { mapGetters } from "vuex";
 import BookList from "@/components/search/BookList";
 import SearchBasicGroup from "@/components/form/SearchBasicGroup";
+import KakaoBookSearch from "@/components/search/KakaoBookSearch";
 import { db } from "@/utils/db";
 import { collection, query, limit, getDocs, startAfter, where } from "firebase/firestore";
 import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 export default {
-  components: { BookListMobileSkeleton, BookListSkeleton, SearchBasicGroup, BookList },
+  components: { BookListMobileSkeleton, BookListSkeleton, SearchBasicGroup, BookList, KakaoBookSearch },
   data() {
     return {
       itemList: [
@@ -34,12 +38,14 @@ export default {
         { item: "저자", value: "author" },
         { item: "출판사", value: "publisher" },
       ],
-      select: "subject",
+      select: "isbn",
       keyword: "",
       limit: 10,
       books: [],
       lastVisible: "",
       infoChange: false,
+      kakaoSearch: false,
+      clear: false,
     };
   },
   computed: {
@@ -50,7 +56,7 @@ export default {
     async firstBookList() {
       try {
         this.$store.commit("common/setSkeleton", true);
-        const first = query(collection(db, "booksData"), where(this.select, ">=", this.keyword), limit(this.limit));
+        const first = query(collection(db, "booksData"), where(this.select, "==", this.keyword), limit(this.limit));
         const documentSnapshots = await getDocs(first);
         this.lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
         documentSnapshots.forEach(doc => {
@@ -66,7 +72,7 @@ export default {
     async more() {
       try {
         this.$store.commit("common/setLoading", true);
-        const next = query(collection(db, "booksData"), where(this.select, ">=", this.keyword), startAfter(this.lastVisible), limit(this.limit));
+        const next = query(collection(db, "booksData"), where(this.select, "==", this.keyword), startAfter(this.lastVisible), limit(this.limit));
         const documentSnapshots = await getDocs(next);
         if (documentSnapshots.docs.length === 0) alert("도서정보가 더이상 없습니다.");
         this.lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
@@ -80,10 +86,28 @@ export default {
     },
     //검색
     search(payload) {
-      if (payload.select !== "") this.select = payload.select;
-      if (payload.keyword !== "") this.keyword = payload.keyword;
       this.books = []; //리스트 초기화
-      this.firstBookList();
+      if (payload.select !== "subject") {
+        this.clear = !this.clear;
+        if (payload.select !== "") this.select = payload.select;
+        if (payload.keyword !== "") this.keyword = payload.keyword;
+        this.firstBookList();
+      } else {
+        this.infoChange = false;
+        this.keyword = payload.keyword;
+        this.kakaoSearch = !this.kakaoSearch;
+      }
+    },
+    //카카오 책 검색 isbn
+    isbnSearch(num) {
+      if (num !== false) {
+        this.books = []; //리스트 초기화
+        this.select = "isbn";
+        this.keyword = num;
+        this.firstBookList();
+      } else {
+        this.infoChange = true;
+      }
     },
   },
 };
