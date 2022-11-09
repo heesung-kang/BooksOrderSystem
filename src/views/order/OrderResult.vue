@@ -1,6 +1,7 @@
 <template>
   <section>
     <h2 class="sub-title">내역서 확인</h2>
+    <div @click="a">테스트</div>
     <section class="sub-container">
       <article class="order-info d-flex justify-space-between">
         <div>
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+import { test } from "@/api/pay/pay";
 import OrderResultList from "@/components/order/OrderResultList";
 export default {
   name: "OrderResult",
@@ -25,6 +27,11 @@ export default {
       publisher: this.$route.params.publisher,
       orderTimeId: this.$route.params.orderTimeId,
     };
+  },
+  methods: {
+    a() {
+      test();
+    },
   },
 };
 </script>
