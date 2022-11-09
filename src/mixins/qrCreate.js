@@ -17,7 +17,6 @@ const qrCreate = {
         createdQrcode: false,
         paid: false,
       },
-      storeId: "n20fz-id19l-02n18-15o48-r59gl",
     };
   },
   methods: {
@@ -45,7 +44,7 @@ const qrCreate = {
       const sendData = `goods=${encodeURIComponent(btoa(unescape(encodeURIComponent(this.nPay.goods))))}&price=${this.nPay.price}&ttl=${
         this.nPay.ttl
       }&ldate=nil`;
-      const response = createQrcodeApi(sendData, this.storeId);
+      const response = createQrcodeApi(sendData);
       response
         .then(res => {
           if (res.request.readyState === 4 && res.request.status === 200) {
@@ -65,7 +64,7 @@ const qrCreate = {
       }
     },
     _create(i) {
-      const response = createApi(i, this.storeId);
+      const response = createApi(i);
       response
         .then(res => {
           if (res.request.readyState === 4 && res.request.status === 200) {
