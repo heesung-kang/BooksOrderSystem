@@ -41,6 +41,7 @@
     <!-- //출고현황 내역 -->
     <!-- 총 합계 --->
     <section class="btn mt24" v-if="books[0]?.data.shop_order_status > 3">
+      <button class="primary mr10" @click="exportExcel">엑셀출력</button>
       <button class="primary" @click="complete" v-if="!completeAll">수취확인</button>
     </section>
     <!-- //총 합계 --->
@@ -54,6 +55,7 @@ import { mapGetters } from "vuex";
 import { getCookie } from "@/utils/cookie";
 import { collection, doc, getDocs, query, serverTimestamp, where, writeBatch } from "firebase/firestore";
 import { db } from "@/utils/db";
+import XLSX from "xlsx";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
   props: ["id", "orderRealTimeId"],
@@ -144,6 +146,34 @@ export default {
         console.log(e);
       }
       this.$store.commit("common/setLoading", false);
+    },
+    //엑셀출력
+    exportExcel() {
+      const excelData = [];
+      this.books.forEach(ele => {
+        console.log(ele);
+        excelData.push({
+          subject: ele.data.subject,
+          author: ele.data.author,
+          publisher: ele.data.publisher,
+          isbn: ele.data.isbn,
+          distribution: ele.data.distribution,
+          timestamp: ele.data.timestamp,
+          reply_count: ele.data.reply_count,
+        });
+      });
+      const booksWS = XLSX.utils.json_to_sheet(excelData);
+      const wb = XLSX.utils.book_new(); // make Workbook of Excel
+      //셀 제목 변경
+      booksWS["A1"].v = "제목";
+      booksWS["B1"].v = "저자";
+      booksWS["C1"].v = "출판사";
+      booksWS["D1"].v = "isbn";
+      booksWS["E1"].v = "배본방식";
+      booksWS["F1"].v = "출고일";
+      booksWS["G1"].v = "수량";
+      XLSX.utils.book_append_sheet(wb, booksWS, "books"); // sheetAName is name of Worksheet
+      XLSX.writeFile(wb, "출고리스트.xlsx");
     },
   },
 };
