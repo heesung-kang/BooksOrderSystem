@@ -139,7 +139,6 @@ export default {
           });
         });
         await batch.commit();
-        //this.selected = [];
         await this.load();
       } catch (e) {
         console.log(e);
