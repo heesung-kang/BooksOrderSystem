@@ -178,6 +178,19 @@ table{
     }
   }
 }
+.v-input--is-disabled{
+  .mdi-checkbox-blank-outline::before{
+    content:'' !important;
+    border:2px solid #dfdfdf;
+    width:18px;
+    height:18px;
+    position:absolute;
+    left:3px;
+    top:3px;
+    border-radius:3px;
+  }
+}
+
 /*vuetify-modal*/
 #modals-container{
   position:relative;

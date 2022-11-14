@@ -5,7 +5,13 @@
     <!-- 발주 내역 -->
     <section class="header d-flex" v-if="!mobile && !skeletonLoading">
       <div class="d-flex dual">
-        <div>발주</div>
+        <div>
+          <v-checkbox
+            v-model="selectedAll"
+            :disabled="books[0]?.data.shop_order_status !== 1"
+            v-if="books[0]?.data.shop_order_status < 3"
+          ></v-checkbox>
+        </div>
         <div>품목정보</div>
       </div>
       <div>ISBN</div>
@@ -102,6 +108,8 @@ export default {
     return {
       books: [],
       selected: [],
+      selectedAll: false,
+      allID: [],
       checkCount: 0,
       checkPrice: 0,
       buyList: [],
@@ -142,6 +150,17 @@ export default {
           }
         });
       }
+      this.allID.length === this.selected.length ? (this.selectedAll = true) : (this.selectedAll = false); //전체체크 연동
+    },
+    selectedAll(n) {
+      //전체체크
+      if (n) {
+        this.selected = this.allID;
+      } else {
+        if (this.allID.length === this.selected.length) {
+          this.selected = [];
+        }
+      }
     },
   },
   created() {
@@ -162,6 +181,9 @@ export default {
         const documentSnapshots = await getDocs(first);
         documentSnapshots.forEach(doc => {
           this.books.push({ id: doc.id, data: doc.data() });
+          if (doc.data().reply_count !== 0) {
+            this.allID.push(doc.id);
+          }
         });
       } catch (e) {
         console.log(e);
