@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { db } from "@/utils/db";
 import { addDoc, collection, query, getDocs } from "firebase/firestore";
 import { getCookie } from "@/utils/cookie";
@@ -46,6 +47,9 @@ export default {
     return {
       cart: [],
     };
+  },
+  computed: {
+    ...mapGetters("common", ["cartList"]),
   },
   async created() {
     //초기 장바구니 데이터 로드
@@ -72,6 +76,7 @@ export default {
           await addDoc(collection(db, `cart-${uid}`), item);
           this.cart.push(item);
           alert("장바구니에 담았습니다.");
+          this.$store.commit("common/changeCartList", this.cartList + 1);
         } else {
           alert("이미 담아 두었습니다.\n ‘장바구니’에서 수량을 조절해 주세요");
         }

@@ -90,6 +90,7 @@ export default {
       });
       await batch.commit();
       this.$store.commit("common/setLoading", false);
+      this.$store.commit("common/changeCartList", 0);
       this.$emit("close");
       this.$router.push("/");
     },

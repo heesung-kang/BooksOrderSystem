@@ -49,7 +49,7 @@
                     cancel-text="취소"
                     save-text="저장"
                   >
-                    <div>{{ cart[index].data.count }}</div>
+                    <div class="count">{{ cart[index].data.count }}</div>
                     <template v-slot:input>
                       <div class="mt-4 text-h6">수량변경</div>
                       <input v-model="cart[index].data.count" type="number" class="mt10" style="border-bottom: 1px solid #000" />
@@ -166,6 +166,7 @@ export default {
         await deleteDoc(doc(db, `cart-${uid}`, id));
         alert("삭제 되었습니다");
         await this.load();
+        this.$store.commit("common/changeCartList", this.cart.length);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -238,6 +239,13 @@ export default {
             button {
               margin-left: 5px;
               padding: 0 5px;
+            }
+          }
+          &.btn {
+            .count {
+              border: 1px solid #000;
+              border-radius: 3px;
+              padding: 0 10px;
             }
           }
         }

@@ -5,6 +5,7 @@ const common = {
     windowWidth: 0,
     mobile: false,
     skeletonLoading: false,
+    cartList: 0,
   },
   getters: {
     loading: state => {
@@ -19,6 +20,9 @@ const common = {
     mobile: state => {
       return state.mobile;
     },
+    cartList: state => {
+      return state.cartList;
+    },
   },
   mutations: {
     setLoading(state, payload) {
@@ -32,6 +36,9 @@ const common = {
     },
     setDeviceStatus(state, payload) {
       state.mobile = payload;
+    },
+    changeCartList(state, payload) {
+      state.cartList = payload;
     },
   },
   actions: {},
