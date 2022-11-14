@@ -170,6 +170,7 @@ export default {
     async load() {
       try {
         this.books = [];
+        this.allID = [];
         this.$store.commit("common/setSkeleton", true);
         const { uid } = getCookie("userInfo");
         const first = query(

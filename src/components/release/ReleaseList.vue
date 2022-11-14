@@ -5,6 +5,7 @@
       <List :data="result" :status="3" />
       <List :data="result" :status="4" />
       <List :data="result" :status="5" />
+      <div v-if="result.length === 0" class="none">리스트가 없습니다.</div>
     </div>
   </section>
 </template>
@@ -96,3 +97,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.none {
+  text-align: center;
+  margin-top: 20px;
+}
+</style>

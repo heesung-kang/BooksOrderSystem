@@ -5,7 +5,9 @@
     <!-- 출고현황 내역 -->
     <section class="header d-flex" v-if="!mobile && !skeletonLoading">
       <div class="d-flex dual">
-        <div>수취</div>
+        <div>
+          <v-checkbox v-model="selectedAll" v-if="!completeAll"></v-checkbox>
+        </div>
         <div>품목정보</div>
       </div>
       <div>ISBN</div>
@@ -18,7 +20,8 @@
         <div class="d-flex align-center info-wrap">
           <div class="ck-box">
             <span v-if="book.data.shop_order_status === 5">완료</span>
-            <v-checkbox v-model="selected" :value="book.id" v-else></v-checkbox>
+            <v-checkbox v-if="book.data.shop_order_status === 3" disabled></v-checkbox>
+            <v-checkbox v-model="selected" :value="book.id" v-if="book.data.shop_order_status === 4"></v-checkbox>
           </div>
           <div class="book-info">
             <h3>{{ book.data.subject }}</h3>
@@ -38,7 +41,7 @@
     <!-- //출고현황 내역 -->
     <!-- 총 합계 --->
     <section class="btn mt24" v-if="books[0]?.data.shop_order_status > 3">
-      <button class="primary" @click="complete">수취확인</button>
+      <button class="primary" @click="complete" v-if="!completeAll">수취확인</button>
     </section>
     <!-- //총 합계 --->
   </section>
@@ -58,10 +61,28 @@ export default {
     return {
       selected: [],
       books: [],
+      selectedAll: false,
+      allID: [],
+      completeAll: false,
     };
   },
   computed: {
     ...mapGetters("common", ["windowWidth", "mobile", "skeletonLoading"]),
+  },
+  watch: {
+    selected() {
+      this.allID.length === this.selected.length ? (this.selectedAll = true) : (this.selectedAll = false); //전체체크 연동
+    },
+    selectedAll(n) {
+      //전체체크
+      if (n) {
+        this.selected = this.allID;
+      } else {
+        if (this.allID.length === this.selected.length) {
+          this.selected = [];
+        }
+      }
+    },
   },
   created() {
     this.load();
@@ -70,6 +91,7 @@ export default {
     async load() {
       try {
         this.books = [];
+        this.allID = [];
         this.$store.commit("common/setSkeleton", true);
         const { uid } = getCookie("userInfo");
         const first = query(
@@ -85,11 +107,15 @@ export default {
           if (doc.data().release_time !== null) {
             temp.timestamp = this.$date(doc.data().release_time.toDate()).format("YY.MM.DD");
           }
+          if (doc.data().shop_order_status === 4) {
+            this.allID.push(doc.id);
+          }
           booksTemp.push({ id: doc.id, data: temp });
         });
         this.books = booksTemp.filter(ele => {
           if (ele.data.order_check) return ele;
         });
+        this.completeAll = !this.books.some(v => v.data.shop_order_status === 4);
       } catch (e) {
         console.log(e);
       }
@@ -113,6 +139,7 @@ export default {
           });
         });
         await batch.commit();
+        //this.selected = [];
         await this.load();
       } catch (e) {
         console.log(e);
