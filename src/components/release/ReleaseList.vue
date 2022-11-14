@@ -2,37 +2,9 @@
   <section>
     <TableSkeleton v-if="skeletonLoading" />
     <div v-else>
-      <table class="basic">
-        <caption>
-          출판사별 주문리스트
-        </caption>
-        <thead>
-          <tr>
-            <th>출판사</th>
-            <th>수량</th>
-            <th>발주일시</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in result"
-            :key="index"
-            @click="statement({ id: item.sid, date: item.timestamp, orderRealTimeId: item.order_real_time_id, publisher: item.publisher })"
-          >
-            <td>{{ item.publisher }}</td>
-            <td>
-              <span v-if="item.shop_order_status < 2">{{ item.count }}</span>
-              <span v-else>{{ item.totalCount }}</span>
-            </td>
-            <td>{{ item.orderrealtimestamp }}</td>
-          </tr>
-        </tbody>
-        <tfoot v-if="result.length === 0">
-          <tr>
-            <td colspan="3">출고 리스트가 없습니다.</td>
-          </tr>
-        </tfoot>
-      </table>
+      <List :data="result" :status="3" />
+      <List :data="result" :status="4" />
+      <List :data="result" :status="5" />
     </div>
   </section>
 </template>
@@ -44,10 +16,11 @@ import { db } from "@/utils/db";
 import { getCookie } from "@/utils/cookie";
 import arrMerge from "@/utils/arrMerge";
 import TableSkeleton from "@/skeletons/TableSkeleton";
+import List from "@/components/release/List";
 
 export default {
   name: "ReleaseList",
-  components: { TableSkeleton },
+  components: { List, TableSkeleton },
   props: ["searchObj"],
   data() {
     return {
@@ -70,7 +43,6 @@ export default {
       const { uid } = getCookie("userInfo");
       const first = query(
         collection(db, "orderRequest"),
-        //
         where("uid", "==", uid),
         where("shop_order_status", ">=", 2),
         orderBy("shop_order_status", "desc"),
@@ -121,14 +93,6 @@ export default {
         }
       });
     },
-    statement(data) {
-      this.$router.push(`/ReleaseStatus/${data.id}/${data.date}/${data.orderRealTimeId}/${data.publisher}`);
-    },
   },
 };
 </script>
-<style lang="scss" scoped>
-td {
-  cursor: pointer;
-}
-</style>
