@@ -55,7 +55,7 @@ import { mapGetters } from "vuex";
 import { getCookie } from "@/utils/cookie";
 import { collection, doc, getDocs, query, serverTimestamp, where, writeBatch } from "firebase/firestore";
 import { db } from "@/utils/db";
-import XLSX from "xlsx";
+import XLSX from "sheetjs-style";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
   props: ["id", "orderRealTimeId"],
@@ -151,7 +151,6 @@ export default {
     exportExcel() {
       const excelData = [];
       this.books.forEach(ele => {
-        console.log(ele);
         excelData.push({
           subject: ele.data.subject,
           author: ele.data.author,
@@ -172,6 +171,41 @@ export default {
       booksWS["E1"].v = "배본방식";
       booksWS["F1"].v = "출고일";
       booksWS["G1"].v = "수량";
+      booksWS["A1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
+      booksWS["B1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
+      booksWS["C1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
+      booksWS["D1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
+      booksWS["E1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
+      booksWS["F1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
+      booksWS["G1"].s = {
+        fill: {
+          fgColor: { rgb: "d9ead3" },
+        },
+      };
       XLSX.utils.book_append_sheet(wb, booksWS, "books"); // sheetAName is name of Worksheet
       XLSX.writeFile(wb, "출고리스트.xlsx");
     },
