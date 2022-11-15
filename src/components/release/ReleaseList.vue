@@ -2,42 +2,10 @@
   <section>
     <TableSkeleton v-if="skeletonLoading" />
     <div v-else>
-      <table class="basic">
-        <caption>
-          출판사별 주문리스트
-        </caption>
-        <thead>
-          <tr>
-            <th>출판사</th>
-            <th>수량</th>
-            <th>상태</th>
-            <th>발신일시</th>
-            <th>회신일시</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="(item, index) in result"
-            :key="index"
-            @click="statement({ id: item.sid, date: item.timestamp, orderTimeId: item.order_time_id, publisher: item.publisher })"
-          >
-            <td>{{ item.publisher }}</td>
-            <td>
-              <span v-if="item.shop_order_status === 0">{{ item.count }}</span>
-              <span v-else-if="item.shop_order_status === 1">{{ item.reply_count }}</span>
-              <span v-else>{{ item.totalCount }}</span>
-            </td>
-            <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
-            <td>{{ item.timestamp }}</td>
-            <td>{{ item.replytimestamp }}</td>
-          </tr>
-        </tbody>
-        <tfoot v-if="result.length === 0">
-          <tr>
-            <td colspan="5">주문 리스트가 없습니다.</td>
-          </tr>
-        </tfoot>
-      </table>
+      <List :data="result" :status="3" />
+      <List :data="result" :status="4" />
+      <List :data="result" :status="5" />
+      <div v-if="result.length === 0" class="none">리스트가 없습니다.</div>
     </div>
   </section>
 </template>
@@ -49,10 +17,11 @@ import { db } from "@/utils/db";
 import { getCookie } from "@/utils/cookie";
 import arrMerge from "@/utils/arrMerge";
 import TableSkeleton from "@/skeletons/TableSkeleton";
+import List from "@/components/release/List";
 
 export default {
-  name: "OrderList",
-  components: { TableSkeleton },
+  name: "ReleaseList",
+  components: { List, TableSkeleton },
   props: ["searchObj"],
   data() {
     return {
@@ -73,16 +42,22 @@ export default {
     try {
       this.$store.commit("common/setSkeleton", true);
       const { uid } = getCookie("userInfo");
-      const first = query(collection(db, "orderRequest"), where("uid", "==", uid), orderBy("order_time_id", "desc"));
+      const first = query(
+        collection(db, "orderRequest"),
+        where("uid", "==", uid),
+        where("shop_order_status", ">=", 2),
+        orderBy("shop_order_status", "desc"),
+        orderBy("order_real_time_id", "desc"),
+      );
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
         const temp = doc.data();
-        temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
-        temp.searchTimestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD");
+        temp.timestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
+        temp.searchTimestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD");
         temp.count = parseInt(temp.count);
-        doc.data().reply_time === null
-          ? (temp.replytimestamp = "-")
-          : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
+        doc.data().order_real_time === null
+          ? (temp.orderrealtimestamp = "-")
+          : (temp.orderrealtimestamp = this.$date(doc.data().order_real_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
         this.books.push(temp);
       });
       this.result = arrMerge(this.books);
@@ -119,14 +94,12 @@ export default {
         }
       });
     },
-    statement(data) {
-      this.$router.push(`/OrderResult/${data.id}/${data.date}/${data.orderTimeId}/${data.publisher}`);
-    },
   },
 };
 </script>
 <style lang="scss" scoped>
-td {
-  cursor: pointer;
+.none {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

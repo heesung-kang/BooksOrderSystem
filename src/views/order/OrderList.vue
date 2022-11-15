@@ -7,7 +7,7 @@
         <SearchDateRangeGroup :itemList="itemList" @search="search" />
       </section>
       <section class="mt30">
-        <OrderList subject1="발신일시" subject2="회신일시" :searchObj="searchObj" />
+        <OrderList :searchObj="searchObj" />
       </section>
     </section>
   </section>
@@ -20,9 +20,8 @@ export default {
   components: { SearchDateRangeGroup, OrderList },
   data() {
     return {
-      select: "",
       itemList: [{ item: "출판사", value: "publisher" }],
-      searchObj: { a: 1 },
+      searchObj: {},
     };
   },
   methods: {

@@ -16,7 +16,7 @@
 <script>
 import modalWrap from "@/components/modal/ModalTemplate";
 import { getCookie } from "@/utils/cookie";
-import { doc, writeBatch, collection, serverTimestamp } from "firebase/firestore";
+import { doc, writeBatch, collection, serverTimestamp, getDoc } from "firebase/firestore";
 import { db } from "@/utils/db";
 export default {
   components: { modalWrap },
@@ -28,10 +28,48 @@ export default {
   },
   async created() {
     //doc id 제외
+    const docRef = doc(db, "shopInfo", this.uid);
+    const docSnap = await getDoc(docRef);
+    const name = docSnap.data().shop;
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
+      ele.data.count = parseInt(ele.data.count); //수량변경시 타입 변경
       ele.data.uid = this.uid;
-      ele.data.timestamp = timestamp;
+      //발주시간
+      ele.data.order_time_id = this.$date().format("YYYYMMDDHHmmss");
+      ele.data.order_time = timestamp;
+      //회신시간
+      ele.data.reply_time = null;
+      ele.data.reply_time_id = null;
+      //발주시간
+      ele.data.order_real_time = null;
+      ele.data.order_real_time_id = null;
+      //출고시간
+      ele.data.release_time = null;
+      ele.data.release_time_id = null;
+      //수취완료시간
+      ele.data.complete_time_id = null;
+      ele.data.complete_time = null;
+      //메모
+      ele.data.memo = null;
+      //서점 주문상태
+      ele.data.shop_order_status = 0;
+      //출판사 회신상태
+      ele.data.publisher_reply_status = 0;
+      //발주체크 상태
+      ele.data.order_check = false;
+      //회신수량
+      ele.data.reply_count = 0;
+      //서점명
+      ele.data.shop_name = name;
+      //공급수량 초기값 = 주문수량
+      ele.data.reply_count = ele.data.count;
+      //발주 토탈 책권수
+      ele.data.totalCount = 0;
+      //발주 토탈 금액
+      ele.data.totalPrice = 0;
+      //배본사
+      ele.data.distribution = null;
       this.sendData.push(ele.data);
     });
     //일괄 저장
@@ -52,6 +90,7 @@ export default {
       });
       await batch.commit();
       this.$store.commit("common/setLoading", false);
+      this.$store.commit("common/changeCartList", 0);
       this.$emit("close");
       this.$router.push("/");
     },

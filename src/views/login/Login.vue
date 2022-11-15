@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <h1>인스타북 로그인</h1>
+      <h1>서점 로그인</h1>
       <form @submit.prevent="signIn">
         <div class="mt30 field">
           <v-icon>mdi-account</v-icon>
@@ -13,6 +13,10 @@
         </div>
         <button type="submit" class="btn-login mt25">로그인 하기</button>
         <p class="error-message">{{ logMessage }}</p>
+        <div class="signup">
+          <router-link to="/SignUp">회원가입</router-link> |&nbsp;
+          <router-link to="/FindPw">비밀번호 찾기</router-link>
+        </div>
       </form>
     </div>
   </div>
@@ -20,7 +24,7 @@
 
 <script>
 import { saveCookie } from "@/utils/cookie";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { app } from "@/utils/db";
 const auth = getAuth(app);
 export default {
@@ -35,43 +39,53 @@ export default {
     async signIn() {
       try {
         this.$store.commit("common/setLoading", true);
-        await signInWithEmailAndPassword(auth, this.email, this.password)
-          .then(async userCredential => {
-            // Signed in
-            const user = userCredential.user;
-            const userName = user.displayName.split("-");
-            //1:관리자, 2:출판사, 3:서점
-            if (Number(userName[1]) === 2) {
-              alert("서점회원으로 가입해주세요.");
-            } else {
-              saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
-              saveCookie("accessToken", user.accessToken);
-              this.$router.push("/");
-            }
+        setPersistence(auth, browserSessionPersistence)
+          .then(() => {
+            return signInWithEmailAndPassword(auth, this.email, this.password)
+              .then(async userCredential => {
+                // Signed in
+                const user = userCredential.user;
+                const userName = user.displayName.split("-");
+                //1:관리자, 2:출판사, 3:서점
+                if (Number(userName[1]) !== 3) {
+                  alert("서점회원이 아닙니다.");
+                  this.$store.commit("common/setLoading", false);
+                } else {
+                  saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });
+                  this.$router.push("/");
+                }
+                this.$store.commit("common/setLoading", false);
+              })
+              .catch(error => {
+                this.$store.commit("common/setLoading", false);
+                switch (error.code) {
+                  case "auth/invalid-email":
+                    this.logMessage = "이메일을 잘못 입력 하셨습니다.";
+                    break;
+                  case "auth/user-not-found":
+                    this.logMessage = "존재하지 않는 이메일 주소입니다.";
+                    break;
+                  case "auth/wrong-password":
+                    this.logMessage = "비밀번호를 잘못 입력 하셨습니다.";
+                    break;
+                  case "auth/too-many-requests":
+                    this.logMessage = "접속 시도를 너무 많이 하셨습니다.";
+                    break;
+                  default:
+                    this.logMessage = "이메일 혹은 비밀번호가 틀렸습니다.";
+                    break;
+                }
+              });
           })
           .catch(error => {
-            switch (error.code) {
-              case "auth/invalid-email":
-                this.logMessage = "이메일을 잘못 입력 하셨습니다.";
-                break;
-              case "auth/user-not-found":
-                this.logMessage = "존재하지 않는 이메일 주소입니다.";
-                break;
-              case "auth/wrong-password":
-                this.logMessage = "비밀번호를 잘못 입력 하셨습니다.";
-                break;
-              case "auth/too-many-requests":
-                this.logMessage = "접속 시도를 너무 많이 하셨습니다.";
-                break;
-              default:
-                this.logMessage = "이메일 혹은 비밀번호가 틀렸습니다.";
-                break;
-            }
+            // Handle Errors here.
+            console.log(error);
+            this.$store.commit("common/setLoading", false);
           });
       } catch (e) {
         console.log(e);
+        this.$store.commit("common/setLoading", false);
       }
-      this.$store.commit("common/setLoading", false);
     },
   },
 };
@@ -142,6 +156,12 @@ export default {
       text-align: center;
       padding: 10px 0;
       color: red;
+    }
+    .signup {
+      text-align: right;
+      a {
+        color: #333;
+      }
     }
   }
 }

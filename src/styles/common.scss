@@ -72,6 +72,12 @@
   background-color:#fff;
 }
 /*form*/
+input.basic{
+  &:read-only{
+    background-color:#f4f4f4 !important;
+    color:#666 !important;
+  }
+}
 input[type="text"]{
   &.basic {
     border: 1px solid #000;
@@ -112,6 +118,11 @@ button{
     @extend .button;
     background-color:#000 !important;
     @include NotoSans(1.6,700,#fff);
+  }
+  &:disabled {
+    background-color: #f4f4f4 !important;
+    color: #aaaaaa !important;
+    font-weight: 400 !important;
   }
 }
 /*table*/
@@ -167,6 +178,19 @@ table{
     }
   }
 }
+.v-input--is-disabled{
+  .mdi-checkbox-blank-outline::before{
+    content:'' !important;
+    border:2px solid #dfdfdf;
+    width:18px;
+    height:18px;
+    position:absolute;
+    left:3px;
+    top:3px;
+    border-radius:3px;
+  }
+}
+
 /*vuetify-modal*/
 #modals-container{
   position:relative;

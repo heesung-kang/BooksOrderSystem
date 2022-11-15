@@ -3,6 +3,11 @@
     <v-main class="main-container">
       <div class="layout-wrap">
         <div class="layout-right">
+          <div class="cart" v-if="cartList > 0">
+            <router-link to="/Cart"
+              ><v-icon>mdi-cart</v-icon><span>{{ cartList }}</span></router-link
+            >
+          </div>
           <div class="sign-out" @click="signOut"><v-icon>mdi-logout-variant</v-icon></div>
           <router-view name="lnb" :show="show" @close="close"></router-view>
         </div>
@@ -17,7 +22,7 @@
         </div>
       </div>
       <router-view />
-      <v-progress-circular :size="70" :width="7" color="amber" indeterminate class="spinner" v-if="loadingStatus"></v-progress-circular>
+      <v-progress-circular :size="70" :width="7" color="amber" indeterminate class="spinner" v-if="loading"></v-progress-circular>
     </v-main>
   </v-app>
 </template>
@@ -25,9 +30,10 @@
 <script>
 import { mapGetters } from "vuex";
 import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
-import { deleteCookie } from "@/utils/cookie";
+import { deleteCookie, getCookie } from "@/utils/cookie";
 import { getAuth, signOut } from "firebase/auth";
-import { app } from "@/utils/db";
+import { app, db } from "@/utils/db";
+import { collection, getDocs, query } from "firebase/firestore";
 const auth = getAuth(app);
 export default {
   name: "App",
@@ -35,18 +41,13 @@ export default {
     return {
       productName: "도서",
       productAmount: 100,
-      loadingStatus: false,
       show: false,
     };
   },
   computed: {
-    ...mapGetters("common", ["loading", "windowWidth"]),
+    ...mapGetters("common", ["loading", "windowWidth", "cartList"]),
   },
   watch: {
-    //로딩 상태
-    loading(newValue) {
-      this.loadingStatus = newValue;
-    },
     //반응형 감지
     windowWidth(size) {
       size > mobileBreakPoint ? this.$store.commit("common/setDeviceStatus", false) : this.$store.commit("common/setDeviceStatus", true);
@@ -66,8 +67,25 @@ export default {
     );
     //반응형 초기 설정
     this.windowWidth > mobileBreakPoint ? this.$store.commit("common/setDeviceStatus", false) : this.$store.commit("common/setDeviceStatus", true);
+    this.cart();
   },
   methods: {
+    //장바구니 체크
+    async cart() {
+      //초기 장바구니 데이터 로드
+      const cart = [];
+      try {
+        const { uid } = getCookie("userInfo");
+        const first = query(collection(db, `cart-${uid}`));
+        const documentSnapshots = await getDocs(first);
+        documentSnapshots.forEach(doc => {
+          cart.push(doc.data());
+        });
+        this.$store.commit("common/changeCartList", cart.length);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    },
     showLnb() {
       this.show = true;
     },
@@ -78,7 +96,6 @@ export default {
       signOut(auth)
         .then(() => {
           deleteCookie("userInfo");
-          deleteCookie("accessToken");
           this.$router.push("/login");
         })
         .catch(error => {
@@ -135,5 +152,33 @@ export default {
   top: 25px;
   z-index: 1;
   cursor: pointer;
+}
+.cart {
+  position: absolute;
+  right: 60px;
+  top: 25px;
+  z-index: 1;
+  cursor: pointer;
+  span {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    color: #fff;
+  }
+}
+@include lnb {
+  .sign-out {
+    i {
+      &:before {
+        color: #fff !important;
+      }
+    }
+  }
 }
 </style>

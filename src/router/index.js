@@ -1,13 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import { getCookie } from "@/utils/cookie";
 const lnb = () => import("@/components/common/Lnb.vue");
 const footer = () => import("@/components/common/Footer.vue");
 
 Vue.use(VueRouter);
-
+const key = process.env.VUE_APP_FIREBASE_APP_KEY;
 const router = new VueRouter({
   //mode: "history",
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   routes: [
     {
       path: "/",
@@ -20,15 +22,15 @@ const router = new VueRouter({
       meta: { unauthorized: true },
     },
     {
-      path: "/SignUpAdmin",
-      name: "SignUpAdmin",
-      component: () => import("@/views/login/SignUpAdmin.vue"),
-      meta: { unauthorized: true },
-    },
-    {
       path: "/Login",
       name: "Login",
       component: () => import("@/views/login/Login.vue"),
+      meta: { unauthorized: true },
+    },
+    {
+      path: "/FindPw",
+      name: "FindPw",
+      component: () => import("@/views/login/FindPw.vue"),
       meta: { unauthorized: true },
     },
     {
@@ -60,7 +62,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/OrderResult",
+      path: "/OrderResult/:id/:date/:orderTimeId/:publisher",
       name: "OrderResult",
       components: {
         lnb,
@@ -78,12 +80,21 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/ReleaseStatus",
+      path: "/ReleaseStatus/:id/:date/:orderRealTimeId/:publisher",
       name: "ReleaseStatus",
       components: {
         lnb,
         footer,
         contents: () => import("@/views/release/ReleaseStatus.vue"),
+      },
+    },
+    {
+      path: "/ShopInfo",
+      name: "ShopInfo",
+      components: {
+        lnb,
+        footer,
+        contents: () => import("@/views/mypage/ShopInfo.vue"),
       },
     },
     //404
@@ -98,17 +109,13 @@ const router = new VueRouter({
 
 //router guard
 router.beforeEach(async (to, from, next) => {
-  //액세스 토큰이 있을 경우
-  if (getCookie("accessToken") !== null) {
+  const session = JSON.parse(sessionStorage.getItem(`firebase:authUser:${key}:[DEFAULT]`));
+  //session 있거나 로그인 필요 없는 페이지
+  if (to.matched.some(record => record.meta.unauthorized) || session) {
     return next();
   }
 
-  //로그인 필요 없는 페이지
-  if (to.matched.some(record => record.meta.unauthorized) || getCookie("accessToken")) {
-    return next();
-  }
-
-  //액세스 토큰이 없을 경우
+  //session  없을 경우
   return next("/login");
 });
 
