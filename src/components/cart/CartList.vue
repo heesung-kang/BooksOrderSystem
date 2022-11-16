@@ -54,13 +54,13 @@
                 <div class="price" v-if="book.data.shop_rate.length > 0 && book.data.shop_rate.some(ele => ele.uid === uid)">
                   <span v-for="rate in book.data.shop_rate" :key="rate.uid">
                     <span v-if="uid === rate.uid"
-                      ><span v-if="mobile">공급가</span>{{ ((book.data.price * rate.rate * book.data.count) / 100).toLocaleString() }}원</span
+                      ><span v-if="mobile">공급가</span>{{ ((book.data.price * rate.rate) / 100).toLocaleString() }}원</span
                     >
                   </span>
                 </div>
                 <!-- 상점별 공급률 없을 경우 -->
                 <div class="price" v-else>
-                  <span v-if="mobile">공급가</span>{{ ((book.data.price * book.data.supply_rate * book.data.count) / 100).toLocaleString() }}원
+                  <span v-if="mobile">공급가</span>{{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원
                 </div>
                 <div class="btn">
                   <v-edit-dialog
