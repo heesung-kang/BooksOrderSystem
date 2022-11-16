@@ -20,6 +20,7 @@ export default function arrMerge(arr) {
             resultArr[value].reply_count += Number(arr[i].reply_count);
           }
         }
+        flag = false; // 초기화 필수
       }
     }
     if (cnt === 0) {
