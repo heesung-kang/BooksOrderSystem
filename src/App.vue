@@ -30,10 +30,9 @@
 <script>
 import { mapGetters } from "vuex";
 import { mobileBreakPoint } from "@/utils/mobileBreakPoint";
-import { deleteCookie, getCookie } from "@/utils/cookie";
+import { deleteCookie } from "@/utils/cookie";
 import { getAuth, signOut } from "firebase/auth";
-import { app, db } from "@/utils/db";
-import { collection, getDocs, query } from "firebase/firestore";
+import { app } from "@/utils/db";
 const auth = getAuth(app);
 export default {
   name: "App",
@@ -67,25 +66,8 @@ export default {
     );
     //반응형 초기 설정
     this.windowWidth > mobileBreakPoint ? this.$store.commit("common/setDeviceStatus", false) : this.$store.commit("common/setDeviceStatus", true);
-    this.cart();
   },
   methods: {
-    //장바구니 체크
-    async cart() {
-      //초기 장바구니 데이터 로드
-      const cart = [];
-      try {
-        const { uid } = getCookie("userInfo");
-        const first = query(collection(db, `cart-${uid}`));
-        const documentSnapshots = await getDocs(first);
-        documentSnapshots.forEach(doc => {
-          cart.push(doc.data());
-        });
-        this.$store.commit("common/changeCartList", cart.length);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    },
     showLnb() {
       this.show = true;
     },
