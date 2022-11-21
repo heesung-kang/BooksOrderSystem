@@ -4,7 +4,6 @@
       <div class="pt26 logo"><img src="@/assets/images/logo.svg" alt="instaPay" /></div>
       <div class="system-name">서점용 도서 주문 시스템</div>
       <nav class="lnb">
-        {{ activeStatus }}
         <ul @click="close">
           <li :class="{ active: activeStatus === 1 }"><router-link to="/SearchOrder">책 검색</router-link></li>
           <li :class="{ active: activeStatus === 2 }"><router-link to="/Cart">장바구니</router-link></li>
@@ -20,6 +19,8 @@
 
 <script>
 import { getCookie } from "@/utils/cookie";
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "@/utils/db";
 export default {
   props: ["show"],
   data() {
@@ -43,10 +44,27 @@ export default {
     this.routeName = this.$route.name; //새로고침 또는 다이렉트 접속시 현재 페이지 확인
     this.menuDefaultSetup();
     this.userInfo = getCookie("userInfo");
+    this.cart();
   },
   methods: {
     close() {
       this.$emit("close", true);
+    },
+    //장바구니 체크
+    async cart() {
+      //초기 장바구니 데이터 로드
+      const cart = [];
+      try {
+        const { uid } = getCookie("userInfo");
+        const first = query(collection(db, `cart-${uid}`));
+        const documentSnapshots = await getDocs(first);
+        documentSnapshots.forEach(doc => {
+          cart.push(doc.data());
+        });
+        this.$store.commit("common/changeCartList", cart.length);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
     },
     /**
      * @description 라우터 네임 매칭, 현재 메뉴 활성화

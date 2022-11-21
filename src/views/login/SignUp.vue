@@ -100,6 +100,8 @@ export default {
               address1: this.address1,
               address2: this.address2,
               timestamp: serverTimestamp(),
+              shopRate: [],
+              bookRate: [],
             });
             this.$store.commit("common/setLoading", false);
             alert("정상 가입 되셨습니다.");
