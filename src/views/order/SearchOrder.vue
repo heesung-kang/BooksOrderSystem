@@ -13,7 +13,7 @@
       <BookListMobileSkeleton v-if="skeletonLoading && mobile" class="mt14" />
       <!-- //skeleton -->
       <!-- 책 리스트 -->
-      <BookList :books="books" @more="more" v-else :infoChange="infoChange" />
+      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" />
       <!-- //책 리스트 -->
     </section>
   </section>
@@ -25,9 +25,10 @@ import BookList from "@/components/search/BookList";
 import SearchBasicGroup from "@/components/form/SearchBasicGroup";
 import KakaoBookSearch from "@/components/search/KakaoBookSearch";
 import { db } from "@/utils/db";
-import { collection, query, limit, getDocs, startAfter, where } from "firebase/firestore";
+import { collection, query, limit, getDocs, startAfter, where, doc, getDoc } from "firebase/firestore";
 import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
+import { getCookie } from "@/utils/cookie";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton, SearchBasicGroup, BookList, KakaoBookSearch },
   data() {
@@ -46,10 +47,20 @@ export default {
       infoChange: false,
       kakaoSearch: false,
       clear: false,
+      uid: "",
+      shopRate: [],
     };
   },
   computed: {
     ...mapGetters("common", ["loading", "skeletonLoading", "mobile"]),
+  },
+  async created() {
+    const infos = getCookie("userInfo");
+    this.uid = infos.uid;
+    //서점별 공급률 로드
+    const shopRef = doc(db, "shopInfo", this.uid);
+    const docSnap = await getDoc(shopRef);
+    this.shopRate = docSnap.data().shopRate;
   },
   methods: {
     //첫번재 리스트 불러오기
