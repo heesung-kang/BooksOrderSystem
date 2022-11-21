@@ -20,7 +20,7 @@ import { doc, writeBatch, collection, serverTimestamp, getDoc } from "firebase/f
 import { db } from "@/utils/db";
 export default {
   components: { modalWrap },
-  props: ["id", "cart", "uid"],
+  props: ["id", "cart", "uid", "shopRate"],
   data() {
     return {
       sendData: [],
@@ -33,6 +33,11 @@ export default {
     const name = docSnap.data().shop;
     const timestamp = serverTimestamp();
     this.cart.forEach(ele => {
+      this.shopRate.forEach(elm => {
+        if (ele.data.sid === elm.sid) {
+          ele.data.shopRate = elm.rate;
+        }
+      });
       ele.data.count = parseInt(ele.data.count); //수량변경시 타입 변경
       ele.data.uid = this.uid;
       //발주시간

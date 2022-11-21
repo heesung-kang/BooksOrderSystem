@@ -162,5 +162,12 @@ export default {
       }
     }
   }
+  .cart {
+    i {
+      &:before {
+        color: #fff !important;
+      }
+    }
+  }
 }
 </style>
