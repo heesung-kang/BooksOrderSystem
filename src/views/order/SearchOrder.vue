@@ -13,7 +13,7 @@
       <BookListMobileSkeleton v-if="skeletonLoading && mobile" class="mt14" />
       <!-- //skeleton -->
       <!-- 책 리스트 -->
-      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" />
+      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" />
       <!-- //책 리스트 -->
     </section>
   </section>
@@ -49,6 +49,7 @@ export default {
       clear: false,
       uid: "",
       shopRate: [],
+      basicRate: [],
     };
   },
   computed: {
@@ -58,9 +59,23 @@ export default {
     const infos = getCookie("userInfo");
     this.uid = infos.uid;
     //서점별 공급률 로드
-    const shopRef = doc(db, "shopInfo", this.uid);
-    const docSnap = await getDoc(shopRef);
-    this.shopRate = docSnap.data().shopRate;
+    try {
+      const shopRef = doc(db, "shopInfo", this.uid);
+      const docSnap = await getDoc(shopRef);
+      this.shopRate = docSnap.data().shopRate;
+    } catch (e) {
+      console.log(e);
+    }
+    //출판사 기본 공급률 로드
+    try {
+      const first = query(collection(db, "publisherInfo"));
+      const documentSnapshots = await getDocs(first);
+      documentSnapshots.forEach(doc => {
+        this.basicRate.push({ sid: doc.data().sid, supplyRate: doc.data().supplyRate });
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   },
   methods: {
     //첫번재 리스트 불러오기

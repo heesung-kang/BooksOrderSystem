@@ -36,33 +36,41 @@
                 <div class="isbn">{{ book.data.isbn }}</div>
                 <div class="price-etc">
                   <div class="normal-price"><span v-if="mobile">정가</span> {{ book.data.price?.toLocaleString() }}원</div>
-                  <div v-if="shopRate.length > 0" class="rate">
+
+                  <!-- 상점별 공급률 -->
+                  <div v-if="shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="rate">
                     <span v-for="(rate, index) in shopRate" :key="index">
-                      <!-- 상점별 공급률 설정 -->
-                      <span v-if="rate.sid === book.data.sid && rate.rate !== ''">
-                        <span><span v-if="mobile">공급률</span> {{ rate.rate }}%</span></span
-                      >
-                      <!-- 상점별 공급률 미설정 -->
-                      <span v-else><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</span>
+                      <span v-if="rate.sid === book.data.sid && rate.rate !== ''"> <span v-if="mobile">공급률</span> {{ rate.rate }}% </span>
                     </span>
                   </div>
-                  <!-- 상점별 공급률 미설정 -->
-                  <div v-else class="rate"><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</div>
+                  <!-- 기본 공급률 -->
+                  <div
+                    v-if="shopRate.some(v => v.sid === book.data.sid && v.rate === '') || shopRate.filter(v => v.sid === book.data.sid).length === 0"
+                    class="rate"
+                  >
+                    <div v-for="(rate, index) in basicRate" :key="index">
+                      <span v-if="book.data.sid === rate.sid"><span v-if="mobile">공급률</span> {{ rate.supplyRate }}%</span>
+                    </div>
+                  </div>
                 </div>
-
-                <div v-if="shopRate.length > 0" class="price">
+                <!-- 상점별 공급률 -->
+                <div v-if="shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
                   <span v-for="(rate, index) in shopRate" :key="index">
-                    <!-- 상점별 공급률 설정 -->
-                    <span v-if="rate.sid === book.data.sid && rate.rate !== ''"
-                      ><span v-if="mobile">공급가</span>{{ ((book.data.price * rate.rate) / 100).toLocaleString() }}원</span
-                    >
-                    <!-- 상점별 공급률 미설정 -->
-                    <span v-else><span v-if="mobile">공급가</span>{{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원</span>
+                    <span v-if="rate.sid === book.data.sid && rate.rate !== ''">
+                      <span v-if="mobile">공급가</span> {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원
+                    </span>
                   </span>
                 </div>
-                <!-- 상점별 공급률 미설정 -->
-                <div v-else class="price">
-                  <span v-if="mobile">공급가</span>{{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원
+                <!-- 기본 공급률 -->
+                <div
+                  v-if="shopRate.some(v => v.sid === book.data.sid && v.rate === '') || shopRate.filter(v => v.sid === book.data.sid).length === 0"
+                  class="price"
+                >
+                  <span v-for="(rate, index) in basicRate" :key="index">
+                    <span v-if="book.data.sid === rate.sid"
+                      ><span v-if="mobile">공급가</span> {{ book.data.price && ((book.data.price * rate.supplyRate) / 100).toLocaleString() }}원</span
+                    >
+                  </span>
                 </div>
 
                 <div class="btn">
@@ -121,6 +129,7 @@ export default {
       cart: [],
       ids: [],
       shopRate: [],
+      basicRate: [],
     };
   },
   computed: {
@@ -135,15 +144,20 @@ export default {
       //총 금액 계산
       let price = 0;
       this.cart.forEach(ele => {
-        this.shopRate.forEach(elm => {
-          if (ele.data.sid === elm.sid) {
-            //상점별 공급률 설정
+        //상점별 공급률
+        if (this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "")) {
+          this.shopRate.forEach(elm => {
             price += (ele.data.price * Number(elm.rate) * ele.data.count) / 100;
-          } else {
-            //상점별 공급률 미설정
-            price += (ele.data.price * ele.data.supply_rate * ele.data.count) / 100;
-          }
-        });
+          });
+        }
+        //기본 공급률
+        if (this.shopRate.some(v => v.sid === ele.data.sid && v.rate === "") || this.shopRate.filter(v => v.sid === ele.data.sid).length === 0) {
+          this.basicRate.forEach(elm => {
+            if (ele.data.sid === elm.sid) {
+              price += (ele.data.price * Number(elm.supplyRate) * ele.data.count) / 100;
+            }
+          });
+        }
       });
       return price;
     },
@@ -151,11 +165,25 @@ export default {
   async created() {
     const { uid } = getCookie("userInfo");
     this.uid = uid;
-    //서점별 공급률 로드
     this.$store.commit("common/setSkeleton", true);
-    const shopRef = doc(db, "shopInfo", this.uid);
-    const docSnap = await getDoc(shopRef);
-    this.shopRate = docSnap.data().shopRate;
+    //서점별 공급률 로드
+    try {
+      const shopRef = doc(db, "shopInfo", this.uid);
+      const docSnap = await getDoc(shopRef);
+      this.shopRate = docSnap.data().shopRate;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+    //출판사 기본 공급률 로드
+    try {
+      const first = query(collection(db, "publisherInfo"));
+      const documentSnapshots = await getDocs(first);
+      documentSnapshots.forEach(doc => {
+        this.basicRate.push({ sid: doc.data().sid, supplyRate: doc.data().supplyRate });
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
     await this.load();
   },
   methods: {
@@ -182,6 +210,21 @@ export default {
         documentSnapshots.forEach(doc => {
           this.cart.push({ id: doc.id, data: doc.data() });
           this.ids.push(doc.id);
+        });
+        //최종 공급률 init
+        this.cart.forEach(ele => {
+          //상점별 공급률
+          if (this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "")) {
+            this.shopRate.forEach(elm => {
+              ele.data.supply_rate = elm.rate;
+            });
+          }
+          //기본 공급률
+          if (this.shopRate.some(v => v.sid === ele.data.sid && v.rate === "") || this.shopRate.filter(v => v.sid === ele.data.sid).length === 0) {
+            this.basicRate.forEach(elm => {
+              ele.data.supply_rate = elm.supplyRate;
+            });
+          }
         });
       } catch (e) {
         console.error("Error adding document: ", e);

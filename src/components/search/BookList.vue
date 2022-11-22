@@ -19,30 +19,38 @@
             <article class="isbn">ISBN : {{ book.data.isbn }}</article>
             <article class="price-info">
               <div class="mr14">정가 {{ book.data.price && book.data.price.toLocaleString() }}원</div>
-              <div v-if="shopRate.length > 0">
+              <!-- 상점별 공급률 -->
+              <div v-if="shopRate.some(v => v.sid === book.data.sid && v.rate !== '')">
                 <div class="mr10" v-for="(rate, index) in shopRate" :key="index">
-                  <!-- 상점별 공급률 설정 -->
                   <span v-if="rate.sid === book.data.sid && rate.rate !== ''"> 공급률 {{ rate.rate }}% </span>
-                  <!-- 상점별 공급률 미설정 -->
-                  <span v-else>공급률 {{ book.data.supply_rate }}%</span>
                 </div>
               </div>
-              <!-- 상점별 공급률 설정자체가 없을경우 -->
-              <div v-else>공급률 {{ book.data.supply_rate }}%</div>
+              <!-- 기본 공급률 -->
+              <div v-if="shopRate.some(v => v.sid === book.data.sid && v.rate === '') || shopRate.filter(v => v.sid === book.data.sid).length === 0">
+                <div class="mr10" v-for="(rate, index) in basicRate" :key="index">
+                  <span v-if="book.data.sid === rate.sid">공급률 {{ rate.supplyRate }}%</span>
+                </div>
+              </div>
             </article>
-
-            <div v-if="shopRate.length > 0" class="price">
+            <!-- 상점별 공급률 -->
+            <div v-if="shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
               <div v-for="(rate, index) in shopRate" :key="index">
-                <!-- 상점별 공급률 설정 -->
                 <span v-if="rate.sid === book.data.sid && rate.rate !== ''">
                   공급가 {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원
                 </span>
-                <!-- 상점별 공급률 미설정 -->
-                <span v-else>공급가 {{ book.data.price && ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원</span>
               </div>
             </div>
-            <!-- 상점별 공급률 설정자체가 없을경우 -->
-            <div v-else class="price">공급가 {{ book.data.price && ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원</div>
+            <!-- 기본 공급률 -->
+            <div
+              v-if="shopRate.some(v => v.sid === book.data.sid && v.rate === '') || shopRate.filter(v => v.sid === book.data.sid).length === 0"
+              class="price"
+            >
+              <div class="mr10" v-for="(rate, index) in basicRate" :key="index">
+                <span v-if="book.data.sid === rate.sid"
+                  >공급가 {{ book.data.price && ((book.data.price * rate.supplyRate) / 100).toLocaleString() }}원</span
+                >
+              </div>
+            </div>
             <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
           </section>
         </li>
@@ -63,7 +71,7 @@ import { getCookie } from "@/utils/cookie";
 
 export default {
   name: "BookList",
-  props: ["books", "infoChange", "shopRate"],
+  props: ["books", "infoChange", "shopRate", "basicRate"],
   data() {
     return {
       cart: [],

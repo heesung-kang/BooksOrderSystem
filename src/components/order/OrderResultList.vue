@@ -48,19 +48,9 @@
         <div class="isbn">{{ book.data.isbn }}</div>
         <div class="d-flex price-info">
           <div class="normal-price"><span v-if="mobile">정가</span> {{ book.data.price?.toLocaleString() }}</div>
-          <!-- 상점별 공급률 설정 -->
-          <div v-if="book.data.shopRate !== undefined"><span v-if="mobile">공급률</span> {{ book.data.shopRate }}%</div>
-          <!-- 상점별 공급률 미설정 -->
-          <div v-else><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</div>
+          <div><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</div>
         </div>
-        <!-- 상점별 공급률 설정 -->
-        <div class="final-price" v-if="book.data.shopRate !== undefined">
-          <span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.shopRate) / 100).toLocaleString() }} 원
-        </div>
-        <!-- 상점별 공급률 미설정 -->
-        <div class="final-price" v-else>
-          <span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }} 원
-        </div>
+        <div class="final-price"><span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }} 원</div>
         <div class="count"><span v-if="mobile">주문</span> {{ book.data.count }}</div>
         <div class="count">
           <span v-if="mobile">공급</span>
@@ -129,7 +119,6 @@ export default {
   },
   computed: {
     ...mapGetters("common", ["windowWidth", "mobile", "skeletonLoading"]),
-    // eslint-disable-next-line vue/return-in-computed-property
     bookCount() {
       //총 권수 계산
       if (this.books[0].data.shop_order_status === 0) {
@@ -143,13 +132,7 @@ export default {
       //총 금액 계산
       let price = 0;
       this.books.forEach(ele => {
-        //상점별 공급률 설정
-        if (ele.data.shopRate !== undefined) {
-          price += (ele.data.price * Number(ele.data.shopRate) * ele.data.count) / 100;
-        } else {
-          //상점별 공급률 미설정
-          price += (ele.data.price * ele.data.supply_rate * ele.data.count) / 100;
-        }
+        price += (ele.data.price * Number(ele.data.supply_rate) * ele.data.count) / 100;
       });
       return price;
     },
@@ -164,12 +147,7 @@ export default {
           if (this.selected.includes(ele.id)) {
             this.checkCount += ele.data.reply_count;
             //상점별 공급률 설정
-            if (ele.data.shopRate !== undefined) {
-              this.checkPrice += (ele.data.price * ele.data.shopRate * ele.data.reply_count) / 100;
-            } else {
-              //상점별 공급률 미설정
-              this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
-            }
+            this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
           }
         });
       }
