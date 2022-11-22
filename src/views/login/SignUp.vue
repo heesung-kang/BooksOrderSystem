@@ -25,7 +25,7 @@ import AddressModal from "@/components/modal/ModalAddress";
 import { getPopupOpt } from "@/utils/modal";
 import { mapGetters } from "vuex";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, collection, query, getDocs } from "firebase/firestore";
 import { app, db } from "@/utils/db";
 const auth = getAuth(app);
 export default {
@@ -38,10 +38,23 @@ export default {
       zip: "",
       address1: "",
       address2: "",
+      publishers: [],
     };
   },
   computed: {
     ...mapGetters("common", ["mobile"]),
+  },
+  async created() {
+    //출판사 Info 로드
+    try {
+      const q = query(collection(db, "publisherInfo"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(doc => {
+        this.publishers.push({ id: doc.id, data: doc.data() });
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
   methods: {
     userRegistration() {
@@ -93,6 +106,12 @@ export default {
           .then(async userCredential => {
             // Signed in
             const { uid } = userCredential.user;
+            //서점별 Rate 정보 업데이트
+            const rate = [];
+            this.publishers.forEach(ele => {
+              rate.push({ sid: ele.data.sid, rate: "" });
+            });
+            console.log(rate);
             await setDoc(doc(db, "shopInfo", uid), {
               email: this.email,
               shop: this.shop,
@@ -100,7 +119,7 @@ export default {
               address1: this.address1,
               address2: this.address2,
               timestamp: serverTimestamp(),
-              shopRate: [],
+              shopRate: rate,
               bookRate: [],
             });
             this.$store.commit("common/setLoading", false);
