@@ -13,7 +13,7 @@
       <BookListMobileSkeleton v-if="skeletonLoading && mobile" class="mt14" />
       <!-- //skeleton -->
       <!-- 책 리스트 -->
-      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" />
+      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" :bookRate="bookRate" />
       <!-- //책 리스트 -->
     </section>
   </section>
@@ -50,6 +50,7 @@ export default {
       uid: "",
       shopRate: [],
       basicRate: [],
+      bookRate: [],
     };
   },
   computed: {
@@ -63,6 +64,7 @@ export default {
       const shopRef = doc(db, "shopInfo", this.uid);
       const docSnap = await getDoc(shopRef);
       this.shopRate = docSnap.data().shopRate;
+      this.bookRate = docSnap.data().bookRate;
     } catch (e) {
       console.log(e);
     }
