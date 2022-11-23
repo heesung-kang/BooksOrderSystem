@@ -29,7 +29,7 @@
               <div
                 v-if="
                   (shopRate.some(v => v.sid === book.data.sid && v.rate !== '') && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === '')) ||
-                  bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0
+                  (bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0 && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === ''))
                 "
               >
                 <div class="mr10" v-for="(rate, index) in shopRate" :key="index">
@@ -59,7 +59,7 @@
             <div
               v-if="
                 (shopRate.some(v => v.sid === book.data.sid && v.rate !== '') && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === '')) ||
-                bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0
+                (bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0 && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === ''))
               "
               class="price"
             >

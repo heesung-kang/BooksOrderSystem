@@ -6,11 +6,7 @@
     <section class="header d-flex" v-if="!mobile && !skeletonLoading">
       <div class="d-flex dual">
         <div>
-          <v-checkbox
-            v-model="selectedAll"
-            :disabled="books[0]?.data.shop_order_status !== 1"
-            v-if="books[0]?.data.shop_order_status < 3"
-          ></v-checkbox>
+          <v-checkbox v-model="selectedAll" :disabled="books[0]?.data.shop_order_status !== 1" v-if="books[0]?.data.shop_order_status < 3"></v-checkbox>
         </div>
         <div>품목정보</div>
       </div>
@@ -24,21 +20,11 @@
       <div>공급</div>
     </section>
     <ul class="body">
-      <li
-        class="d-flex align-center"
-        v-for="(book, index) in books"
-        :key="index"
-        :class="{ none: book.data.shop_order_status > 2 && book.data.order_check === false }"
-      >
+      <li class="d-flex align-center" v-for="(book, index) in books" :key="index" :class="{ none: book.data.shop_order_status > 2 && book.data.order_check === false }">
         <div class="d-flex align-center info-wrap ck-wrap">
           <div class="ck-box">
             <v-checkbox :input-value="book.data.order_check" disabled v-if="books[0]?.data.shop_order_status >= 3"></v-checkbox>
-            <v-checkbox
-              v-model="selected"
-              :value="book.id"
-              :disabled="books[0]?.data.shop_order_status !== 1 || book.data.reply_count === 0"
-              v-else
-            ></v-checkbox>
+            <v-checkbox v-model="selected" :value="book.id" :disabled="books[0]?.data.shop_order_status !== 1 || book.data.reply_count === 0" v-else></v-checkbox>
           </div>
           <div class="book-info">
             <h3>{{ book.data.subject }}</h3>
@@ -54,9 +40,7 @@
         <div class="count"><span v-if="mobile">주문</span> {{ book.data.count }}</div>
         <div class="count">
           <span v-if="mobile">공급</span>
-          <span :class="{ warning: book.data.count !== book.data.reply_count && book.data.shop_order_status !== 0 }">{{
-            book.data.reply_count === null ? "-" : book.data.reply_count
-          }}</span>
+          <span :class="{ warning: book.data.count !== book.data.reply_count && book.data.shop_order_status !== 0 }">{{ book.data.reply_count === null ? "-" : book.data.reply_count }}</span>
         </div>
       </li>
     </ul>
@@ -178,12 +162,7 @@ export default {
         this.allID = [];
         this.$store.commit("common/setSkeleton", true);
         const { uid } = getCookie("userInfo");
-        const first = query(
-          collection(db, "orderRequest"),
-          where("uid", "==", uid),
-          where("sid", "==", Number(this.id)),
-          where("order_time_id", "==", this.orderTimeId),
-        );
+        const first = query(collection(db, "orderRequest"), where("uid", "==", uid), where("sid", "==", Number(this.id)), where("order_time_id", "==", this.orderTimeId));
         const documentSnapshots = await getDocs(first);
         documentSnapshots.forEach(doc => {
           this.books.push({ id: doc.id, data: doc.data() });
@@ -212,11 +191,7 @@ export default {
       });
       isMobile()
         ? this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice, ttl: 20 })
-        : this.$modal.show(
-            ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop },
-            getPopupOpt("ModalOrder", "500px", "auto", false),
-          );
+        : this.$modal.show(ModalOrder, { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop }, getPopupOpt("ModalOrder", "500px", "auto", false));
     },
     //결재완료
     async paidComplete() {
