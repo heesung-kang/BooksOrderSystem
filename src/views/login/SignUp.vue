@@ -111,7 +111,6 @@ export default {
             this.publishers.forEach(ele => {
               rate.push({ sid: ele.data.sid, rate: "" });
             });
-            console.log(rate);
             await setDoc(doc(db, "shopInfo", uid), {
               email: this.email,
               shop: this.shop,
