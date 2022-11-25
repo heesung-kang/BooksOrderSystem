@@ -233,7 +233,6 @@ export default {
             }
           }
           .isbn {
-            margin-top: -20px;
             margin-left: 68px;
             font-size: 1.6rem !important;
           }

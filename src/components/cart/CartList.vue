@@ -440,6 +440,7 @@ export default {
     ul {
       li {
         padding: 19px 18px;
+        position: relative;
         article {
           flex-direction: column;
           align-items: flex-start !important;
@@ -465,6 +466,7 @@ export default {
           }
           .isbn {
             @include NotoSans(1.6, 400, #000);
+            text-align: left;
           }
           .price-etc {
             display: flex;
@@ -483,9 +485,13 @@ export default {
             font-weight: 700 !important;
           }
           .btn {
-            margin: 20px 0 0 0px;
+            margin: 20px 0 0 0;
+            width: auto !important;
           }
           .status {
+            position: absolute;
+            top: 15px;
+            right: 0px;
             margin: 5px 0 0 6px;
           }
         }
