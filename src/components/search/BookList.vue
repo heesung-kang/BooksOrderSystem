@@ -88,7 +88,7 @@
         <span v-if="infoChange">검색 결과가 없습니다.</span>
       </div>
     </section>
-    <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10"><button class="basic">더 보기</button></div>
+    <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10 && totalPage !== page"><button class="basic">더 보기</button></div>
   </div>
 </template>
 
@@ -100,7 +100,7 @@ import { getCookie } from "@/utils/cookie";
 
 export default {
   name: "BookList",
-  props: ["books", "infoChange", "shopRate", "basicRate", "bookRate"],
+  props: ["books", "infoChange", "shopRate", "basicRate", "bookRate", "totalPage", "page"],
   data() {
     return {
       cart: [],

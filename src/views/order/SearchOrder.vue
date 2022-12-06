@@ -13,7 +13,7 @@
       <BookListMobileSkeleton v-if="skeletonLoading && mobile" class="mt14" />
       <!-- //skeleton -->
       <!-- 책 리스트 -->
-      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" :bookRate="bookRate" />
+      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" :bookRate="bookRate" :totalPage="totalPage" :page="page" />
       <!-- //책 리스트 -->
     </section>
   </section>
@@ -25,7 +25,7 @@ import BookList from "@/components/search/BookList";
 import SearchBasicGroup from "@/components/form/SearchBasicGroup";
 import KakaoBookSearch from "@/components/search/KakaoBookSearch";
 import { db } from "@/utils/db";
-import { collection, query, limit, getDocs, startAfter, where, doc, getDoc } from "firebase/firestore";
+import { collection, query, limit, getDocs, startAfter, where, doc, getDoc, getCountFromServer } from "firebase/firestore";
 import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import { getCookie } from "@/utils/cookie";
@@ -51,6 +51,8 @@ export default {
       shopRate: [],
       basicRate: [],
       bookRate: [],
+      totalPage: 0,
+      page: 1,
     };
   },
   computed: {
@@ -82,6 +84,13 @@ export default {
   methods: {
     //첫번재 리스트 불러오기
     async firstBookList() {
+      //출판사 보유 서적 전체 갯수
+      this.$store.commit("common/setLoading", true);
+      const query_ = query(collection(db, "booksData"), where(this.select, "==", this.keyword));
+      const snapshot = await getCountFromServer(query_);
+      this.$store.commit("common/setLoading", false);
+      const totalLen = snapshot.data().count;
+      this.totalPage = Math.ceil(totalLen / this.limit);
       try {
         this.$store.commit("common/setSkeleton", true);
         const first = query(collection(db, "booksData"), where(this.select, "==", this.keyword), limit(this.limit));
@@ -91,13 +100,15 @@ export default {
           this.books.push({ id: doc.id, data: doc.data() });
         });
         this.infoChange = true;
+        this.$store.commit("common/setSkeleton", false);
       } catch (e) {
         console.error("Error adding document: ", e);
+        this.$store.commit("common/setSkeleton", false);
       }
-      this.$store.commit("common/setSkeleton", false);
     },
     //더보기 리스트 불러오기
     async more() {
+      this.page += 1;
       try {
         this.$store.commit("common/setLoading", true);
         const next = query(collection(db, "booksData"), where(this.select, "==", this.keyword), startAfter(this.lastVisible), limit(this.limit));
