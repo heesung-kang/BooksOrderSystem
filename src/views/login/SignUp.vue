@@ -6,12 +6,7 @@
       <div class="mt5">ID : <input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
       <div class="mt5">PW : <input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
       <div class="mt10 d-flex align-center">
-        주소 : <input v-model="zip" placeholder="우편번호" type="text" class="basic zip" readonly /><button
-          class="btn-zip"
-          @click="showAddressModalPopup"
-        >
-          주소 찾기
-        </button>
+        주소 : <input v-model="zip" placeholder="우편번호" type="text" class="basic zip" readonly /><button class="btn-zip" @click="showAddressModalPopup">주소 찾기</button>
       </div>
       <div class="mt2"><input class="basic" v-model="address1" type="text" readonly /></div>
       <div class="mt2"><input class="basic" v-model="address2" placeholder="나머지주소" type="text" /></div>
@@ -90,10 +85,12 @@ export default {
               })
               .catch(error => {
                 alert(error.message);
+                this.$store.commit("common/setLoading", false);
               });
           })
           .catch(error => {
             alert(error.message);
+            this.$store.commit("common/setLoading", false);
           });
       } catch (e) {
         console.log(e);
