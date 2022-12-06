@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapGetters("common", ["loading", "skeletonLoading", "mobile"]),
   },
-  async created() {
+  async mounted() {
     const infos = getCookie("userInfo");
     this.uid = infos.uid;
     //서점별 공급률 로드
