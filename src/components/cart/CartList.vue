@@ -43,45 +43,26 @@
                     </span>
                   </div>
                   <!-- 상점별 공급률 -->
-                  <div
-                    v-if="
-                      (shopRate.some(v => v.sid === book.data.sid && v.rate !== '') && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === '')) ||
-                      (bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0 && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === ''))
-                    "
-                    class="rate"
-                  >
+                  <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="rate">
                     <span v-for="(rate, index) in shopRate" :key="index">
                       <span v-if="rate.sid === book.data.sid && rate.rate !== ''"> <span v-if="mobile">공급률</span> {{ rate.rate }}% </span>
                     </span>
                   </div>
                   <!-- 기본 공급률 -->
-                  <div
-                    v-if="
-                      (shopRate.some(v => v.sid === book.data.sid && v.rate === '') && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === '')) ||
-                      shopRate.filter(v => v.sid === book.data.sid).length === 0 ||
-                      bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0
-                    "
-                    class="rate"
-                  >
+                  <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && !shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="rate">
                     <span v-for="(rate, index) in basicRate" :key="index">
                       <span v-if="book.data.sid === rate.sid"><span v-if="mobile">공급률</span> {{ rate.supplyRate }}%</span>
                     </span>
                   </div>
                 </div>
                 <!-- 서적별 공급률 -->
-                <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')" class="price">
+                <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')" class="price a">
                   <span v-for="(rate, index) in bookRate" :key="index">
                     <span v-if="rate.data.isbn === book.data.isbn"> <span v-if="mobile">공급가</span> {{ book.data.price && ((book.data.price * rate.data.rate) / 100).toLocaleString() }}원 </span>
                   </span>
                 </div>
                 <!-- 상점별 공급률 -->
-                <div
-                  v-if="
-                    (shopRate.some(v => v.sid === book.data.sid && v.rate !== '') && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === '')) ||
-                    (bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0 && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === ''))
-                  "
-                  class="price"
-                >
+                <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price b">
                   <span v-for="(rate, index) in shopRate" :key="index">
                     <span v-if="rate.sid === book.data.sid && rate.rate !== ''">
                       <span v-if="mobile">공급가</span> {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원
@@ -89,14 +70,7 @@
                   </span>
                 </div>
                 <!-- 기본 공급률 -->
-                <div
-                  v-if="
-                    (shopRate.some(v => v.sid === book.data.sid && v.rate === '') && bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate === '')) ||
-                    shopRate.filter(v => v.sid === book.data.sid).length === 0 ||
-                    bookRate.filter(v => v.data.isbn === book.data.isbn).length === 0
-                  "
-                  class="price"
-                >
+                <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && !shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price c">
                   <span v-for="(rate, index) in basicRate" :key="index">
                     <span v-if="book.data.sid === rate.sid"><span v-if="mobile">공급가</span> {{ book.data.price && ((book.data.price * rate.supplyRate) / 100).toLocaleString() }}원</span>
                   </span>
@@ -177,20 +151,15 @@ export default {
           });
         }
         //상점별 공급률
-        if (
-          (this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "") && this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate === "")) ||
-          (this.bookRate.filter(v => v.data.isbn === ele.data.isbn).length === 0 && this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate === ""))
-        ) {
+        if (!this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate !== "") && this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "")) {
           this.shopRate.forEach(elm => {
-            price += (ele.data.price * Number(elm.rate) * ele.data.count) / 100;
+            if (ele.data.sid === elm.sid) {
+              price += (ele.data.price * Number(elm.rate) * ele.data.count) / 100;
+            }
           });
         }
         //기본 공급률
-        if (
-          (this.shopRate.some(v => v.sid === ele.data.sid && v.rate === "") && this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate === "")) ||
-          this.shopRate.filter(v => v.sid === ele.data.sid).length === 0 ||
-          this.bookRate.filter(v => v.data.isbn === ele.data.isbn).length === 0
-        ) {
+        if (!this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate !== "") && !this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "")) {
           this.basicRate.forEach(elm => {
             if (ele.data.sid === elm.sid) {
               price += (ele.data.price * Number(elm.supplyRate) * ele.data.count) / 100;
@@ -258,22 +227,19 @@ export default {
             });
           }
           //상점별 공급률
-          if (
-            (this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "") && this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate === "")) ||
-            (this.bookRate.filter(v => v.data.isbn === ele.data.isbn).length === 0 && this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate === ""))
-          ) {
+          if (!this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate !== "") && this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "")) {
             this.shopRate.forEach(elm => {
-              ele.data.supply_rate = elm.rate;
+              if (ele.data.sid === elm.sid) {
+                ele.data.supply_rate = elm.rate;
+              }
             });
           }
           //기본 공급률
-          if (
-            (this.shopRate.some(v => v.sid === ele.data.sid && v.rate === "") && this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate === "")) ||
-            this.shopRate.filter(v => v.sid === ele.data.sid).length === 0 ||
-            this.bookRate.filter(v => v.data.isbn === ele.data.isbn).length === 0
-          ) {
+          if (!this.bookRate.some(v => v.data.isbn === ele.data.isbn && v.data.rate !== "") && !this.shopRate.some(v => v.sid === ele.data.sid && v.rate !== "")) {
             this.basicRate.forEach(elm => {
-              ele.data.supply_rate = elm.supplyRate;
+              if (ele.data.sid === elm.sid) {
+                ele.data.supply_rate = elm.supplyRate;
+              }
             });
           }
         });
