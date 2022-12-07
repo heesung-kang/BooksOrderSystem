@@ -89,6 +89,7 @@
       </div>
     </section>
     <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10 && totalPage !== page"><button class="basic">더 보기</button></div>
+    <Toast :status="status" :message="message" />
   </div>
 </template>
 
@@ -97,13 +98,17 @@ import { mapGetters } from "vuex";
 import { db } from "@/utils/db";
 import { addDoc, collection, query, getDocs } from "firebase/firestore";
 import { getCookie } from "@/utils/cookie";
+import Toast from "@/components/common/Toast";
 
 export default {
   name: "BookList",
+  components: { Toast },
   props: ["books", "infoChange", "shopRate", "basicRate", "bookRate", "totalPage", "page"],
   data() {
     return {
       cart: [],
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -133,10 +138,12 @@ export default {
           item.count = 1;
           await addDoc(collection(db, `cart-${this.uid}`), item);
           this.cart.push(item);
-          alert("장바구니에 담았습니다.");
+          this.status = !this.status;
+          this.message = "장바구니에 담았습니다.";
           this.$store.commit("common/changeCartList", this.cartList + 1);
         } else {
-          alert("이미 담아 두었습니다.\n ‘장바구니’에서 수량을 조절해 주세요");
+          this.status = !this.status;
+          this.message = "이미 담아 두었습니다.<br/>‘장바구니’에서 수량을 조절해 주세요";
         }
       } catch (e) {
         console.error("Error adding document: ", e);
