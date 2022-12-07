@@ -87,7 +87,7 @@ import isMobile from "@/utils/isMobile";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
   mixins: [qrCreateMixin],
-  props: ["id", "orderTimeId"],
+  props: ["id", "orderTimeId", "publisher"],
   data() {
     return {
       books: [],
@@ -191,7 +191,11 @@ export default {
       });
       isMobile()
         ? this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice, ttl: 20 })
-        : this.$modal.show(ModalOrder, { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop }, getPopupOpt("ModalOrder", "500px", "auto", false));
+        : this.$modal.show(
+            ModalOrder,
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop, publisher: this.publisher },
+            getPopupOpt("ModalOrder", "500px", "auto", false),
+          );
     },
     //결재완료
     async paidComplete() {
