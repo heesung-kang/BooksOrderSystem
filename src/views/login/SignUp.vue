@@ -117,6 +117,7 @@ export default {
               timestamp: serverTimestamp(),
               shopRate: rate,
               bookRate: [],
+              payType: 0,
             });
             this.$store.commit("common/setLoading", false);
             alert("정상 가입 되셨습니다.");
