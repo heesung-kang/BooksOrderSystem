@@ -105,8 +105,10 @@ export default {
             const { uid } = userCredential.user;
             //서점별 Rate 정보 업데이트
             const rate = [];
+            const payType = [];
             this.publishers.forEach(ele => {
               rate.push({ sid: ele.data.sid, rate: "" });
+              payType.push({ sid: ele.data.sid, payType: 0 });
             });
             await setDoc(doc(db, "shopInfo", uid), {
               email: this.email,
@@ -117,7 +119,7 @@ export default {
               timestamp: serverTimestamp(),
               shopRate: rate,
               bookRate: [],
-              payType: 0,
+              payType: payType,
             });
             this.$store.commit("common/setLoading", false);
             alert("정상 가입 되셨습니다.");
