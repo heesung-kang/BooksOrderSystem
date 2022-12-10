@@ -16,11 +16,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(item, index) in result"
-            :key="index"
-            @click="statement({ id: item.sid, date: item.timestamp, orderTimeId: item.order_time_id, publisher: item.publisher })"
-          >
+          <tr v-for="(item, index) in result" :key="index" @click="statement({ id: item.sid, date: item.timestamp, orderTimeId: item.order_time_id, publisher: item.publisher })">
             <td>{{ item.publisher }}</td>
             <td>
               <span v-if="item.shop_order_status === 0">{{ item.count }}</span>
@@ -80,9 +76,7 @@ export default {
         temp.timestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD HH:mm:ss");
         temp.searchTimestamp = this.$date(doc.data().order_time.toDate()).format("YYYY-MM-DD");
         temp.count = parseInt(temp.count);
-        doc.data().reply_time === null
-          ? (temp.replytimestamp = "-")
-          : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
+        doc.data().reply_time === null ? (temp.replytimestamp = "-") : (temp.replytimestamp = this.$date(doc.data().reply_time.toDate()).format("YYYY-MM-DD HH:mm:ss"));
         this.books.push(temp);
       });
       this.result = arrMerge(this.books);

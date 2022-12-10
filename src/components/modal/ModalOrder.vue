@@ -6,6 +6,7 @@
         <h3>
           {{ book[0] }} <span v-if="book.length > 1">외 {{ book.length - 1 }}권</span>
         </h3>
+        <!--        <div>{{ publisher }} {{ book[0].substr(0, 8) }} + 외 {{ book.length - 1 }}</div>-->
         <p class="price">{{ price.toLocaleString() }}원</p>
         <div class="qr-wrap">
           <div class="center"><img :src="qr" alt="" /></div>
@@ -23,7 +24,7 @@ export default {
   name: "Order",
   components: { modalWrap },
   mixins: [qrCreateMixin],
-  props: ["book", "price"],
+  props: ["book", "price", "publisher"],
   watch: {
     "res.paid": function (n) {
       if (n) {

@@ -6,12 +6,7 @@
       <div class="mt5">ID : <input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
       <div class="mt5">PW : <input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
       <div class="mt10 d-flex align-center">
-        주소 : <input v-model="zip" placeholder="우편번호" type="text" class="basic zip" readonly /><button
-          class="btn-zip"
-          @click="showAddressModalPopup"
-        >
-          주소 찾기
-        </button>
+        주소 : <input v-model="zip" placeholder="우편번호" type="text" class="basic zip" readonly /><button class="btn-zip" @click="showAddressModalPopup">주소 찾기</button>
       </div>
       <div class="mt2"><input class="basic" v-model="address1" type="text" readonly /></div>
       <div class="mt2"><input class="basic" v-model="address2" placeholder="나머지주소" type="text" /></div>
@@ -25,7 +20,7 @@ import AddressModal from "@/components/modal/ModalAddress";
 import { getPopupOpt } from "@/utils/modal";
 import { mapGetters } from "vuex";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp, collection, query, getDocs } from "firebase/firestore";
 import { app, db } from "@/utils/db";
 const auth = getAuth(app);
 export default {
@@ -38,10 +33,23 @@ export default {
       zip: "",
       address1: "",
       address2: "",
+      publishers: [],
     };
   },
   computed: {
     ...mapGetters("common", ["mobile"]),
+  },
+  async created() {
+    //출판사 Info 로드
+    try {
+      const q = query(collection(db, "publisherInfo"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(doc => {
+        this.publishers.push({ id: doc.id, data: doc.data() });
+      });
+    } catch (e) {
+      console.log(e);
+    }
   },
   methods: {
     userRegistration() {
@@ -77,10 +85,12 @@ export default {
               })
               .catch(error => {
                 alert(error.message);
+                this.$store.commit("common/setLoading", false);
               });
           })
           .catch(error => {
             alert(error.message);
+            this.$store.commit("common/setLoading", false);
           });
       } catch (e) {
         console.log(e);
@@ -93,6 +103,11 @@ export default {
           .then(async userCredential => {
             // Signed in
             const { uid } = userCredential.user;
+            //서점별 Rate 정보 업데이트
+            const rate = [];
+            this.publishers.forEach(ele => {
+              rate.push({ sid: ele.data.sid, rate: "" });
+            });
             await setDoc(doc(db, "shopInfo", uid), {
               email: this.email,
               shop: this.shop,
@@ -100,8 +115,9 @@ export default {
               address1: this.address1,
               address2: this.address2,
               timestamp: serverTimestamp(),
-              shopRate: [],
+              shopRate: rate,
               bookRate: [],
+              payType: 0,
             });
             this.$store.commit("common/setLoading", false);
             alert("정상 가입 되셨습니다.");

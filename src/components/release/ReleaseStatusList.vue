@@ -96,12 +96,7 @@ export default {
         this.allID = [];
         this.$store.commit("common/setSkeleton", true);
         const { uid } = getCookie("userInfo");
-        const first = query(
-          collection(db, "orderRequest"),
-          where("uid", "==", uid),
-          where("sid", "==", Number(this.id)),
-          where("order_real_time_id", "==", this.orderRealTimeId),
-        );
+        const first = query(collection(db, "orderRequest"), where("uid", "==", uid), where("sid", "==", Number(this.id)), where("order_real_time_id", "==", this.orderRealTimeId));
         const documentSnapshots = await getDocs(first);
         const booksTemp = [];
         documentSnapshots.forEach(doc => {
@@ -291,6 +286,7 @@ export default {
       }
       .ck-box {
         margin-top: 2px;
+        white-space: nowrap;
       }
       .info-wrap {
         width: 100% !important;

@@ -6,11 +6,7 @@
     <section class="header d-flex" v-if="!mobile && !skeletonLoading">
       <div class="d-flex dual">
         <div>
-          <v-checkbox
-            v-model="selectedAll"
-            :disabled="books[0]?.data.shop_order_status !== 1"
-            v-if="books[0]?.data.shop_order_status < 3"
-          ></v-checkbox>
+          <v-checkbox v-model="selectedAll" :disabled="books[0]?.data.shop_order_status !== 1" v-if="books[0]?.data.shop_order_status < 3"></v-checkbox>
         </div>
         <div>품목정보</div>
       </div>
@@ -24,21 +20,11 @@
       <div>공급</div>
     </section>
     <ul class="body">
-      <li
-        class="d-flex align-center"
-        v-for="(book, index) in books"
-        :key="index"
-        :class="{ none: book.data.shop_order_status > 2 && book.data.order_check === false }"
-      >
+      <li class="d-flex align-center" v-for="(book, index) in books" :key="index" :class="{ none: book.data.shop_order_status > 2 && book.data.order_check === false }">
         <div class="d-flex align-center info-wrap ck-wrap">
           <div class="ck-box">
-            <v-checkbox :input-value="book.data.order_check" disabled v-if="books[0]?.data.shop_order_status === 3"></v-checkbox>
-            <v-checkbox
-              v-model="selected"
-              :value="book.id"
-              :disabled="books[0]?.data.shop_order_status !== 1 || book.data.reply_count === 0"
-              v-else
-            ></v-checkbox>
+            <v-checkbox :input-value="book.data.order_check" disabled v-if="books[0]?.data.shop_order_status >= 3"></v-checkbox>
+            <v-checkbox v-model="selected" :value="book.id" :disabled="books[0]?.data.shop_order_status !== 1 || book.data.reply_count === 0" v-else></v-checkbox>
           </div>
           <div class="book-info">
             <h3>{{ book.data.subject }}</h3>
@@ -48,35 +34,13 @@
         <div class="isbn">{{ book.data.isbn }}</div>
         <div class="d-flex price-info">
           <div class="normal-price"><span v-if="mobile">정가</span> {{ book.data.price?.toLocaleString() }}</div>
-          <!-- 상점별 공급률 설정 -->
-          <div v-if="book.data.shop_rate?.length > 0 && book.data.shop_rate.some(ele => ele.uid === uid)">
-            <span v-for="rate in book.data.shop_rate" :key="rate.uid"
-              ><span v-if="uid === rate.uid"><span v-if="mobile">공급률</span> {{ rate.rate }}%</span></span
-            >
-          </div>
-          <!-- 상점별 공급률 미설정 -->
-          <div v-if="book.data.shop_rate?.length === 0 || (book.data.shop_rate?.length > 0 && !book.data.shop_rate.some(ele => ele.uid === uid))">
-            <span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%
-          </div>
+          <div><span v-if="mobile">공급률</span> {{ book.data.supply_rate }}%</div>
         </div>
-        <!-- 상점별 공급률 설정 -->
-        <div class="final-price" v-if="book.data.shop_rate?.length > 0 && book.data.shop_rate.some(ele => ele.uid === uid)">
-          <span v-for="rate in book.data.shop_rate" :key="rate.uid">
-            <span v-if="uid === rate.uid">
-              <span v-if="mobile">공급가</span> {{ ((book.data.price * rate.rate) / 100).toLocaleString() }} 원</span
-            ></span
-          >
-        </div>
-        <!-- 상점별 공급률 미설정 -->
-        <div class="final-price" v-else>
-          <span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }} 원
-        </div>
+        <div class="final-price"><span v-if="mobile">공급가</span> {{ ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }} 원</div>
         <div class="count"><span v-if="mobile">주문</span> {{ book.data.count }}</div>
         <div class="count">
           <span v-if="mobile">공급</span>
-          <span :class="{ warning: book.data.count !== book.data.reply_count && book.data.shop_order_status !== 0 }">{{
-            book.data.reply_count === null ? "-" : book.data.reply_count
-          }}</span>
+          <span :class="{ warning: book.data.count !== book.data.reply_count && book.data.shop_order_status !== 0 }">{{ book.data.reply_count === null ? "-" : book.data.reply_count }}</span>
         </div>
       </li>
     </ul>
@@ -93,13 +57,13 @@
         <span class="total-prod"
           >총 <span v-if="this.books[0].data.shop_order_status === 0">{{ bookCount }}</span>
           <span v-if="this.books[0].data.shop_order_status === 1">{{ checkCount }}</span>
-          <span v-if="this.books[0].data.shop_order_status === 3">{{ this.books[0].data.totalCount }}</span
+          <span v-if="this.books[0].data.shop_order_status >= 3">{{ this.books[0].data.totalCount }}</span
           >권</span
         >
         <span class="total"
           >합계 <span v-if="this.books[0].data.shop_order_status === 0">{{ totalPrice.toLocaleString() }}</span
           ><span v-if="this.books[0].data.shop_order_status === 1">{{ checkPrice.toLocaleString() }}</span
-          ><span v-if="this.books[0].data.shop_order_status === 3">{{ this.books[0].data.totalPrice.toLocaleString() }}</span
+          ><span v-if="this.books[0].data.shop_order_status >= 3">{{ this.books[0].data.totalPrice.toLocaleString() }}</span
           >원</span
         >
       </div>
@@ -123,7 +87,7 @@ import isMobile from "@/utils/isMobile";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton },
   mixins: [qrCreateMixin],
-  props: ["id", "orderTimeId"],
+  props: ["id", "orderTimeId", "publisher"],
   data() {
     return {
       books: [],
@@ -139,7 +103,6 @@ export default {
   },
   computed: {
     ...mapGetters("common", ["windowWidth", "mobile", "skeletonLoading"]),
-    // eslint-disable-next-line vue/return-in-computed-property
     bookCount() {
       //총 권수 계산
       if (this.books[0].data.shop_order_status === 0) {
@@ -153,21 +116,7 @@ export default {
       //총 금액 계산
       let price = 0;
       this.books.forEach(ele => {
-        //상점별 공급률 설정
-        if (ele.data.shop_rate !== "" && ele.data.shop_rate?.length > 0) {
-          if (ele.data.shop_rate.some(elm => elm.uid === this.uid)) {
-            let rate = "";
-            ele.data.shop_rate.forEach(v => {
-              if (v.uid === this.uid) {
-                rate = v.rate;
-              }
-            });
-            price += (ele.data.price * Number(rate) * ele.data.count) / 100;
-          }
-        } else {
-          //상점별 공급률 미설정
-          price += (ele.data.price * ele.data.supply_rate * ele.data.count) / 100;
-        }
+        price += (ele.data.price * Number(ele.data.supply_rate) * ele.data.count) / 100;
       });
       return price;
     },
@@ -181,21 +130,8 @@ export default {
         this.books.forEach(ele => {
           if (this.selected.includes(ele.id)) {
             this.checkCount += ele.data.reply_count;
-            //상점별 공급률 설정
-            if (ele.data.shop_rate !== "" && ele.data.shop_rate?.length > 0) {
-              if (ele.data.shop_rate.some(elm => elm.uid === this.uid)) {
-                let rate = "";
-                ele.data.shop_rate.forEach(v => {
-                  if (v.uid === this.uid) {
-                    rate = v.rate;
-                  }
-                });
-                this.checkPrice += (ele.data.price * rate * ele.data.reply_count) / 100;
-              }
-            } else {
-              //상점별 공급률 미설정
-              this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
-            }
+            //상점별 공급률 설정.
+            this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
           }
         });
       }
@@ -226,12 +162,7 @@ export default {
         this.allID = [];
         this.$store.commit("common/setSkeleton", true);
         const { uid } = getCookie("userInfo");
-        const first = query(
-          collection(db, "orderRequest"),
-          where("uid", "==", uid),
-          where("sid", "==", Number(this.id)),
-          where("order_time_id", "==", this.orderTimeId),
-        );
+        const first = query(collection(db, "orderRequest"), where("uid", "==", uid), where("sid", "==", Number(this.id)), where("order_time_id", "==", this.orderTimeId));
         const documentSnapshots = await getDocs(first);
         documentSnapshots.forEach(doc => {
           this.books.push({ id: doc.id, data: doc.data() });
@@ -262,7 +193,7 @@ export default {
         ? this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice, ttl: 20 })
         : this.$modal.show(
             ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop },
+            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop, publisher: this.publisher },
             getPopupOpt("ModalOrder", "500px", "auto", false),
           );
     },

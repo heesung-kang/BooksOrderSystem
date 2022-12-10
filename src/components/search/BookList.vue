@@ -19,30 +19,51 @@
             <article class="isbn">ISBN : {{ book.data.isbn }}</article>
             <article class="price-info">
               <div class="mr14">정가 {{ book.data.price && book.data.price.toLocaleString() }}원</div>
-              <!-- 상점별 공급률 설정 -->
-              <div class="mr10" v-if="book.data.shop_rate.length > 0 && book.data.shop_rate.some(ele => ele.uid === uid)">
-                <span v-for="rate in book.data.shop_rate" :key="rate.uid">
-                  <span v-if="uid === rate.uid">공급률 {{ rate.rate }}%</span>
-                </span>
+
+              <!-- 조건 정의-->
+              <!--              <div>서적별 공급률 있음: {{ bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== "") }}</div>-->
+              <!--              <div>서적별 공급률 없음: {{ !bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== "") }}</div>-->
+              <!--              <div>서점별 공급률 있음: {{ shopRate.some(v => v.sid === book.data.sid && v.rate !== "") && shopRate.some(v => v.sid === book.data.sid && v.rate !== "") }}</div>-->
+              <!--              <div>서점별 공급률 없음: {{ !shopRate.some(v => v.sid === book.data.sid && v.rate !== "") }}</div>-->
+              <!-- //조건 정의-->
+
+              <!-- 서적별 공급률 -->
+              <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')">
+                <div class="mr10" v-for="(rate, index) in bookRate" :key="index">
+                  <span v-if="rate.data.isbn === book.data.isbn">공급률 {{ rate.data.rate }}%</span>
+                </div>
               </div>
-              <!-- 상점별 공급률 미설정 -->
-              <div
-                class="mr10"
-                v-if="book.data.shop_rate.length === 0 || (book.data.shop_rate.length > 0 && !book.data.shop_rate.some(ele => ele.uid === uid))"
-              >
-                공급률 {{ book.data.supply_rate }}%
+              <!-- 상점별 공급률 -->
+              <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && shopRate.some(v => v.sid === book.data.sid && v.rate !== '')">
+                <div class="mr10" v-for="(rate, index) in shopRate" :key="index">
+                  <span v-if="rate.sid === book.data.sid && rate.rate !== ''"> 공급률 {{ rate.rate }}% </span>
+                </div>
+              </div>
+              <!-- 기본 공급률 -->
+              <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && !shopRate.some(v => v.sid === book.data.sid && v.rate !== '')">
+                <div class="mr10" v-for="(rate, index) in basicRate" :key="index">
+                  <span v-if="book.data.sid === rate.sid">공급률 {{ rate.supplyRate }}%</span>
+                </div>
               </div>
             </article>
-            <!-- 상점별 공급률 있을 경우 -->
-            <article class="price" v-if="book.data.shop_rate.length > 0 && book.data.shop_rate.some(ele => ele.uid === uid)">
-              <span v-for="rate in book.data.shop_rate" :key="rate.uid">
-                <span v-if="uid === rate.uid">공급가 {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원</span>
-              </span>
-            </article>
-            <!-- 상점별 공급률 없을 경우 -->
-            <article class="price" v-else>
-              공급가 {{ book.data.price && ((book.data.price * book.data.supply_rate) / 100).toLocaleString() }}원
-            </article>
+            <!-- 서적별 공급률 -->
+            <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')" class="price">
+              <div v-for="(rate, index) in bookRate" :key="index">
+                <span v-if="rate.data.isbn === book.data.isbn"> 공급가 {{ book.data.price && ((book.data.price * rate.data.rate) / 100).toLocaleString() }}원 </span>
+              </div>
+            </div>
+            <!-- 상점별 공급률 -->
+            <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
+              <div v-for="(rate, index) in shopRate" :key="index">
+                <span v-if="rate.sid === book.data.sid && rate.rate !== ''"> 공급가 {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원 </span>
+              </div>
+            </div>
+            <!-- 기본 공급률 -->
+            <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && !shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
+              <div class="mr10" v-for="(rate, index) in basicRate" :key="index">
+                <span v-if="book.data.sid === rate.sid">공급가 {{ book.data.price && ((book.data.price * rate.supplyRate) / 100).toLocaleString() }}원</span>
+              </div>
+            </div>
             <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
           </section>
         </li>
@@ -51,7 +72,8 @@
         <span v-if="infoChange">검색 결과가 없습니다.</span>
       </div>
     </section>
-    <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10"><button class="basic">더 보기</button></div>
+    <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10 && totalPage !== page"><button class="basic">더 보기</button></div>
+    <Toast :status="status" :message="message" />
   </div>
 </template>
 
@@ -60,28 +82,28 @@ import { mapGetters } from "vuex";
 import { db } from "@/utils/db";
 import { addDoc, collection, query, getDocs } from "firebase/firestore";
 import { getCookie } from "@/utils/cookie";
+import Toast from "@/components/common/Toast";
 
 export default {
   name: "BookList",
-  props: ["books", "infoChange"],
+  components: { Toast },
+  props: ["books", "infoChange", "shopRate", "basicRate", "bookRate", "totalPage", "page"],
   data() {
     return {
       cart: [],
-      uid: "",
+      message: "",
+      status: false,
     };
   },
   computed: {
     ...mapGetters("common", ["cartList"]),
-    checkForRate(data) {
-      console.log(data);
-    },
   },
   async created() {
     //초기 장바구니 데이터 로드
     try {
-      const { uid } = getCookie("userInfo");
-      this.uid = uid;
-      const first = query(collection(db, `cart-${uid}`));
+      const infos = getCookie("userInfo");
+      this.uid = infos.uid;
+      const first = query(collection(db, `cart-${this.uid}`));
       const documentSnapshots = await getDocs(first);
       documentSnapshots.forEach(doc => {
         this.cart.push(doc.data());
@@ -100,10 +122,12 @@ export default {
           item.count = 1;
           await addDoc(collection(db, `cart-${this.uid}`), item);
           this.cart.push(item);
-          alert("장바구니에 담았습니다.");
+          this.status = !this.status;
+          this.message = "장바구니에 담았습니다.";
           this.$store.commit("common/changeCartList", this.cartList + 1);
         } else {
-          alert("이미 담아 두었습니다.\n ‘장바구니’에서 수량을 조절해 주세요");
+          this.status = !this.status;
+          this.message = "이미 담아 두었습니다.<br/>‘장바구니’에서 수량을 조절해 주세요";
         }
       } catch (e) {
         console.error("Error adding document: ", e);
@@ -200,7 +224,6 @@ export default {
             }
           }
           .isbn {
-            margin-top: -20px;
             margin-left: 68px;
             font-size: 1.6rem !important;
           }

@@ -13,7 +13,7 @@
       <BookListMobileSkeleton v-if="skeletonLoading && mobile" class="mt14" />
       <!-- //skeleton -->
       <!-- 책 리스트 -->
-      <BookList :books="books" @more="more" v-else :infoChange="infoChange" />
+      <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" :bookRate="bookRate" :totalPage="totalPage" :page="page" />
       <!-- //책 리스트 -->
     </section>
   </section>
@@ -25,9 +25,10 @@ import BookList from "@/components/search/BookList";
 import SearchBasicGroup from "@/components/form/SearchBasicGroup";
 import KakaoBookSearch from "@/components/search/KakaoBookSearch";
 import { db } from "@/utils/db";
-import { collection, query, limit, getDocs, startAfter, where } from "firebase/firestore";
+import { collection, query, limit, getDocs, startAfter, where, doc, getDoc, getCountFromServer } from "firebase/firestore";
 import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
+import { getCookie } from "@/utils/cookie";
 export default {
   components: { BookListMobileSkeleton, BookListSkeleton, SearchBasicGroup, BookList, KakaoBookSearch },
   data() {
@@ -46,14 +47,50 @@ export default {
       infoChange: false,
       kakaoSearch: false,
       clear: false,
+      uid: "",
+      shopRate: [],
+      basicRate: [],
+      bookRate: [],
+      totalPage: 0,
+      page: 1,
     };
   },
   computed: {
     ...mapGetters("common", ["loading", "skeletonLoading", "mobile"]),
   },
+  async mounted() {
+    const infos = getCookie("userInfo");
+    this.uid = infos.uid;
+    //서점별 공급률 로드
+    try {
+      const shopRef = doc(db, "shopInfo", this.uid);
+      const docSnap = await getDoc(shopRef);
+      this.shopRate = docSnap.data().shopRate;
+      this.bookRate = docSnap.data().bookRate;
+    } catch (e) {
+      console.log(e);
+    }
+    //출판사 기본 공급률 로드
+    try {
+      const first = query(collection(db, "publisherInfo"));
+      const documentSnapshots = await getDocs(first);
+      documentSnapshots.forEach(doc => {
+        this.basicRate.push({ sid: doc.data().sid, supplyRate: doc.data().supplyRate });
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  },
   methods: {
     //첫번재 리스트 불러오기
     async firstBookList() {
+      //출판사 보유 서적 전체 갯수
+      this.$store.commit("common/setLoading", true);
+      const query_ = query(collection(db, "booksData"), where(this.select, "==", this.keyword));
+      const snapshot = await getCountFromServer(query_);
+      this.$store.commit("common/setLoading", false);
+      const totalLen = snapshot.data().count;
+      this.totalPage = Math.ceil(totalLen / this.limit);
       try {
         this.$store.commit("common/setSkeleton", true);
         const first = query(collection(db, "booksData"), where(this.select, "==", this.keyword), limit(this.limit));
@@ -63,13 +100,15 @@ export default {
           this.books.push({ id: doc.id, data: doc.data() });
         });
         this.infoChange = true;
+        this.$store.commit("common/setSkeleton", false);
       } catch (e) {
         console.error("Error adding document: ", e);
+        this.$store.commit("common/setSkeleton", false);
       }
-      this.$store.commit("common/setSkeleton", false);
     },
     //더보기 리스트 불러오기
     async more() {
+      this.page += 1;
       try {
         this.$store.commit("common/setLoading", true);
         const next = query(collection(db, "booksData"), where(this.select, "==", this.keyword), startAfter(this.lastVisible), limit(this.limit));
