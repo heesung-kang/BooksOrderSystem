@@ -123,7 +123,7 @@ export default {
   },
   watch: {
     selected() {
-      //회신후 체크박스 선택시 권수, 가격 계산
+      //회신후 체크박스 선택 시 권수, 가격 계산
       if (this.books[0].data.shop_order_status === 1) {
         this.checkCount = 0;
         this.checkPrice = 0;
