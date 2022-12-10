@@ -130,7 +130,7 @@ export default {
         this.books.forEach(ele => {
           if (this.selected.includes(ele.id)) {
             this.checkCount += ele.data.reply_count;
-            //상점별 공급률 설정
+            //상점별 공급률 설정.
             this.checkPrice += (ele.data.price * ele.data.supply_rate * ele.data.reply_count) / 100;
           }
         });
