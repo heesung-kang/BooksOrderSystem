@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import { getCookie } from "@/utils/cookie";
-import { collection, getDocs, query } from "firebase/firestore";
+import { getCookie, saveCookie } from "@/utils/cookie";
+import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import { db } from "@/utils/db";
 export default {
   props: ["show"],
@@ -40,11 +40,14 @@ export default {
       status ? (this.isActive = true) : (this.isActive = false); //lnb 모바일 설정
     },
   },
-  created() {
+  async created() {
     this.routeName = this.$route.name; //새로고침 또는 다이렉트 접속시 현재 페이지 확인
     this.menuDefaultSetup();
     this.userInfo = getCookie("userInfo");
-    this.cart();
+    const shopRef = doc(db, "shopInfo", this.userInfo.uid);
+    const docSnap = await getDoc(shopRef);
+    saveCookie("userInfo", { ...this.userInfo, payType: docSnap.data().payType }); //userInfo cookie init payType
+    await this.cart();
   },
   methods: {
     close() {

@@ -32,7 +32,13 @@ export default {
     const docSnap = await getDoc(docRef);
     const name = docSnap.data().shop;
     const timestamp = serverTimestamp();
+    const { payType } = getCookie("userInfo");
     this.cart.forEach(ele => {
+      payType.forEach(elm => {
+        if (elm.sid === ele.data.sid) {
+          ele.data.payType = elm.payType;
+        }
+      });
       ele.data.count = parseInt(ele.data.count); //수량변경시 타입 변경
       ele.data.uid = this.uid;
       //발주시간
@@ -71,6 +77,7 @@ export default {
       //배본사
       ele.data.distribution = null;
       this.sendData.push(ele.data);
+      //결제 방식
     });
     //일괄 저장
     const batch = writeBatch(db);
