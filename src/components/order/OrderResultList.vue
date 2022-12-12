@@ -99,6 +99,7 @@ export default {
       buyList: [],
       buyId: [],
       uid: "",
+      payType: [],
     };
   },
   computed: {
@@ -152,8 +153,10 @@ export default {
     this.load();
   },
   mounted() {
-    const { uid } = getCookie("userInfo");
+    const { uid, payType } = getCookie("userInfo");
     this.uid = uid;
+    const Ptype = payType.filter(ele => ele.sid === Number(this.id)); //해당 출판사의 결제타입
+    this.payType = Ptype[0].payType;
   },
   methods: {
     async load() {
@@ -189,13 +192,23 @@ export default {
           this.buyId.push(ele.id);
         }
       });
-      isMobile()
-        ? this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice, ttl: 20 })
-        : this.$modal.show(
-            ModalOrder,
-            { book: this.buyList, price: this.checkPrice, update: this.paidComplete, close: this._stop, publisher: this.publisher },
-            getPopupOpt("ModalOrder", "500px", "auto", false),
-          );
+      if (this.payType === 0) {
+        isMobile()
+          ? this._open({ productName: this.buyList.join(","), productAmount: this.checkPrice, ttl: 20 })
+          : this.$modal.show(
+              ModalOrder,
+              {
+                book: this.buyList,
+                price: this.checkPrice,
+                update: this.paidComplete,
+                close: this._stop,
+                publisher: this.publisher,
+              },
+              getPopupOpt("ModalOrder", "500px", "auto", false),
+            );
+      } else if (this.payType === 1) {
+        await this.paidComplete();
+      }
     },
     //결재완료
     async paidComplete() {
