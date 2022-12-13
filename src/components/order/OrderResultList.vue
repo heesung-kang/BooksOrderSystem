@@ -278,7 +278,7 @@ export default {
       .book-info {
         margin-left: 8px;
         h3 {
-          @include NotoSans(1.6, 500, #000);
+          @include NotoSans(1.5, 500, #000);
         }
         .author {
           text-align: left;
@@ -327,8 +327,7 @@ export default {
   }
   @include NotoSans(1.4, 400, #000);
   margin-top: 5px;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: rgba(72, 192, 193, 0.3);
   padding: 10px;
 }
 .total-wrap {

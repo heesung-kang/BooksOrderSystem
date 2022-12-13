@@ -1,12 +1,12 @@
 <template>
   <section>
-    <h2 class="sub-title">내역서 확인</h2>
+    <h2 class="sub-title">주문 내역 확인</h2>
     <section class="sub-container">
       <article class="order-info d-flex justify-space-between">
         <div>
           출판사명: <strong>{{ publisher }}</strong>
         </div>
-        <div>주문일자 : {{ date }}</div>
+        <div class="date">주문일자 : {{ date }}</div>
       </article>
       <OrderResultList :id="id" :orderTimeId="orderTimeId" :publisher="publisher" />
     </section>
@@ -33,5 +33,8 @@ export default {
 .order-info {
   margin-bottom: 20px;
   font-size: 1.6rem;
+}
+.date {
+  @include NotoSans(1.4, 400, #000);
 }
 </style>

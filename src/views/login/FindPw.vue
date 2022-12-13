@@ -5,8 +5,8 @@
       <div class="mt10">이메일<input class="basic" v-model="email" placeholder="이메일을 입력해주세요." type="text" /></div>
       <div class="btn-wrap"><button @click="sendEmail">메일전송</button><router-link to="/login" class="login">로그인</router-link></div>
     </div>
+    <Toast :status="status" :message="message" />
   </div>
-  <Toast :status="status" :message="message" />
 </template>
 
 <script>
@@ -20,6 +20,8 @@ export default {
   data() {
     return {
       email: "",
+      message: "",
+      status: false,
     };
   },
   computed: {

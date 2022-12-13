@@ -246,7 +246,7 @@ export default {
       .book-info {
         margin-left: 8px;
         h3 {
-          @include NotoSans(1.6, 500, #000);
+          @include NotoSans(1.5, 500, #000);
         }
         .author {
           text-align: left;
