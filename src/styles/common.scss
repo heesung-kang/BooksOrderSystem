@@ -17,9 +17,18 @@
     height:100%;
   }
 }
-.sub-container{
-  padding:27px 103px 150px;
-  min-height:calc(100vh - 150px);
+
+@media (min-width:992px )  {
+  .sub-container{
+    padding:27px 100px 150px;
+    min-height:calc(100vh - 150px);
+  }
+}
+@media (max-width:992px )  {
+  .sub-container{
+    padding:27px 20px 150px;
+    min-height:calc(100vh - 150px);
+  }
 }
 .hamburg-menu{
   display:none;

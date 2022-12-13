@@ -9,14 +9,15 @@
                 <img :src="`https://bookthumb-phinf.pstatic.net/cover/${book.data.image}?type=m1`" :alt="book.data.subject" />
               </section>
               <div class="book-info">
-                <h3>{{ book.data.subject }}</h3>
-                <div>
-                  <span class="mr18">{{ book.data.author }}</span>
-                  <span>{{ book.data.publisher }} ({{ book.data.publication_date }})</span>
+                <h3 class="book-subject">{{ book.data.subject }}</h3>
+                <div class="author">{{ book.data.author }}</div>
+                <div class="pub-isbn">
+                  <span class="mr15">{{ book.data.publisher }}({{ book.data.publication_date }})</span>
+                  <span>{{ book.data.isbn }}</span>
                 </div>
               </div>
             </article>
-            <article class="isbn">ISBN : {{ book.data.isbn }}</article>
+            <!--            <article class="isbn">ISBN : {{ book.data.isbn }}</article>-->
             <article class="price-info">
               <div class="mr14">정가 {{ book.data.price && book.data.price.toLocaleString() }}원</div>
 
@@ -45,25 +46,26 @@
                   <span v-if="book.data.sid === rate.sid">공급률 {{ rate.supplyRate }}%</span>
                 </div>
               </div>
+              <!-- 서적별 공급가 -->
+              <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')" class="price">
+                <div v-for="(rate, index) in bookRate" :key="index">
+                  <span v-if="rate.data.isbn === book.data.isbn" class="supply-price"> 공급가 {{ book.data.price && ((book.data.price * rate.data.rate) / 100).toLocaleString() }}원 </span>
+                </div>
+              </div>
+              <!-- 상점별 공급가 -->
+              <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
+                <div v-for="(rate, index) in shopRate" :key="index">
+                  <span v-if="rate.sid === book.data.sid && rate.rate !== ''" class="supply-price"> 공급가 {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원 </span>
+                </div>
+              </div>
+              <!-- 기본 공급가 -->
+              <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && !shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
+                <div class="mr10" v-for="(rate, index) in basicRate" :key="index">
+                  <span v-if="book.data.sid === rate.sid" class="supply-price">공급가 {{ book.data.price && ((book.data.price * rate.supplyRate) / 100).toLocaleString() }}원</span>
+                </div>
+              </div>
             </article>
-            <!-- 서적별 공급률 -->
-            <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')" class="price">
-              <div v-for="(rate, index) in bookRate" :key="index">
-                <span v-if="rate.data.isbn === book.data.isbn"> 공급가 {{ book.data.price && ((book.data.price * rate.data.rate) / 100).toLocaleString() }}원 </span>
-              </div>
-            </div>
-            <!-- 상점별 공급률 -->
-            <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
-              <div v-for="(rate, index) in shopRate" :key="index">
-                <span v-if="rate.sid === book.data.sid && rate.rate !== ''"> 공급가 {{ book.data.price && ((book.data.price * rate.rate) / 100).toLocaleString() }}원 </span>
-              </div>
-            </div>
-            <!-- 기본 공급률 -->
-            <div v-if="!bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '') && !shopRate.some(v => v.sid === book.data.sid && v.rate !== '')" class="price">
-              <div class="mr10" v-for="(rate, index) in basicRate" :key="index">
-                <span v-if="book.data.sid === rate.sid">공급가 {{ book.data.price && ((book.data.price * rate.supplyRate) / 100).toLocaleString() }}원</span>
-              </div>
-            </div>
+
             <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
           </section>
         </li>
@@ -93,10 +95,19 @@ export default {
       cart: [],
       message: "",
       status: false,
+      listWidth: 0,
+      titleMaxWidth: 0,
     };
   },
   computed: {
-    ...mapGetters("common", ["cartList"]),
+    ...mapGetters("common", ["cartList", "mobile"]),
+  },
+  watch: {
+    books(newValue) {
+      if (newValue.length > 0) {
+        this.setSize();
+      }
+    },
   },
   async created() {
     //초기 장바구니 데이터 로드
@@ -111,6 +122,11 @@ export default {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
+  },
+  mounted() {
+    window.onresize = () => {
+      this.setSize();
+    };
   },
   methods: {
     //장바구니 담기
@@ -134,6 +150,28 @@ export default {
       }
       this.$store.commit("common/setLoading", false);
     },
+    setSize() {
+      console.log("aaa");
+      if (this.mobile) {
+        this.listWidth = document.querySelector(".book-list").clientWidth;
+        this.titleMaxWidth = this.listWidth - 100;
+        setTimeout(() => {
+          const select = document.querySelectorAll(".book-subject");
+          select.forEach(ele => {
+            ele.style.maxWidth = `${this.titleMaxWidth}px`;
+          });
+        }, 500);
+      } else {
+        this.listWidth = document.querySelector(".book-list").clientWidth;
+        this.titleMaxWidth = this.listWidth - 400;
+        setTimeout(() => {
+          const select = document.querySelectorAll(".book-subject");
+          select.forEach(ele => {
+            ele.style.maxWidth = `${this.titleMaxWidth}px`;
+          });
+        }, 500);
+      }
+    },
   },
 };
 </script>
@@ -156,7 +194,7 @@ export default {
       background-color: #fff;
       display: flex;
       margin-bottom: 7px;
-      padding: 12px 39px 13px 29px;
+      padding: 12px 30px;
       width: 100%;
       &:last-child {
         margin-bottom: 0;
@@ -174,32 +212,45 @@ export default {
       .contents {
         width: 100%;
         .basic-info {
-          width: 30%;
+          width: 80%;
+          max-width: 100%;
           .book-info {
             margin-left: 18px;
-            h3 {
-              @include NotoSans(1.6, 500, #000);
+            .pub-isbn {
+              @include NotoSans(1.4, 400, #888);
             }
-            span {
-              @include NotoSans(1.4, 400, #000);
+            h3 {
+              width: 100%;
+              @include NotoSans(1.5, 500, #000);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+            .author {
+              width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }
         .price-info {
+          width: 20%;
           div {
-            @include NotoSans(1.4, 400, #000);
+            text-align: center;
+            white-space: nowrap;
+            .supply-price {
+              @include NotoSans(1.5, 700, #000);
+            }
           }
         }
-        .price {
-          @include NotoSans(1.4, 700, #000);
-          white-space: nowrap;
-          min-width: 80px;
-          text-align: right;
-          margin-right: 32px;
-        }
         .add-cart {
-          min-width: 69px;
+          width: 58px;
           text-align: right;
+          .basic {
+            width: 58px;
+            font-size: 1.4rem;
+          }
         }
       }
     }
@@ -230,12 +281,17 @@ export default {
           .price-info {
             margin-left: 68px;
             div {
+              text-align: left !important;
               font-size: 1.6rem !important;
             }
           }
           .price {
             font-size: 1.6rem !important;
-            margin: 15px 0 0 68px;
+            & > div {
+              span {
+                white-space: nowrap;
+              }
+            }
           }
           .add-cart {
             margin: 15px 0 0 68px;
