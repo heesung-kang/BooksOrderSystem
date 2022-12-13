@@ -70,6 +70,7 @@
       <button class="primary" @click="order" :disabled="books[0]?.data.shop_order_status !== 1">발주</button>
     </section>
     <!-- //총 합계 --->
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
@@ -84,8 +85,9 @@ import qrCreateMixin from "@/mixins/qrCreate";
 import ModalOrder from "@/components/modal/ModalOrder";
 import { getPopupOpt } from "@/utils/modal";
 import isMobile from "@/utils/isMobile";
+import Toast from "@/components/common/Toast";
 export default {
-  components: { BookListMobileSkeleton, BookListSkeleton },
+  components: { BookListMobileSkeleton, BookListSkeleton, Toast },
   mixins: [qrCreateMixin],
   props: ["id", "orderTimeId", "publisher"],
   data() {
@@ -100,6 +102,8 @@ export default {
       buyId: [],
       uid: "",
       payType: [],
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -181,7 +185,8 @@ export default {
     //발주
     async order() {
       if (this.checkCount === 0) {
-        alert("책을 선택해 주세요");
+        this.status = !this.status;
+        this.message = "책을 선택해 주세요";
         return;
       }
       this.buyList = [];

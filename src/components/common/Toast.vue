@@ -1,9 +1,15 @@
 <template>
   <section :class="[{ active: isActive }, wrap]">
     <div class="wrapper">
-      <div class="message" v-html="message"></div>
-      <div class="mt10">
-        <router-link to="/Cart" class="btn">장바구니로 이동 <v-icon>mdi-arrow-right-circle</v-icon></router-link>
+      <div class="d-flex message-wrap">
+        <div class="mr24"><img src="@/assets/images/toast_check.svg" alt="" /></div>
+        <div class="message" v-html="message"></div>
+      </div>
+      <div class="mt10 right" v-if="withBtn">
+        <router-link to="/Cart" class="btn">
+          <span><img src="@/assets/images/cart_xs.svg" alt="" /></span>
+          <span class="ml5">바로가기</span>
+        </router-link>
       </div>
     </div>
   </section>
@@ -12,7 +18,7 @@
 <script>
 export default {
   name: "Toast",
-  props: ["status", "message"],
+  props: ["status", "message", "withBtn"],
   data() {
     return {
       isActive: false,
@@ -38,27 +44,33 @@ export default {
 <style lang="scss" scoped>
 .toastWrap {
   position: fixed;
-  bottom: -60px;
-  left: 50%;
+  top: -60px;
+  right: 20px;
   z-index: 1000;
   opacity: 0;
   transition: all 0.3s ease-in-out;
   &.active {
-    bottom: 60px;
+    top: 25px;
     opacity: 1;
   }
   .wrapper {
-    background-color: #fdc657;
-    padding: 10px 20px;
-    .message {
-      @include NotoSans(1.4, 400, #000);
+    background-color: rgba(72, 192, 193, 0.8);
+    padding: 20px;
+    .message-wrap {
+      img {
+        vertical-align: -2px;
+      }
+      .message {
+        @include NotoSans(1.4, 400, #000);
+      }
     }
     .btn {
-      background-color: #000;
-      @include NotoSans(1.4, 400, #fff);
-      padding: 5px 10px;
-      i {
-        color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      @include NotoSans(1.4, 400, #000);
+      img {
+        vertical-align: -2px;
       }
     }
   }

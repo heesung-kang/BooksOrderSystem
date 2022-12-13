@@ -19,6 +19,7 @@
         </div>
       </form>
     </div>
+    <Toast :status="status" :message="message" />
   </div>
 </template>
 
@@ -26,13 +27,17 @@
 import { saveCookie } from "@/utils/cookie";
 import { getAuth, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { app } from "@/utils/db";
+import Toast from "@/components/common/Toast";
 const auth = getAuth(app);
 export default {
+  components: { Toast },
   data() {
     return {
       email: "",
       password: "",
       logMessage: "",
+      message: "",
+      status: false,
     };
   },
   methods: {
@@ -48,7 +53,8 @@ export default {
                 const userName = user.displayName.split("-");
                 //1:관리자, 2:출판사, 3:서점
                 if (Number(userName[1]) !== 3) {
-                  alert("서점회원이 아닙니다.");
+                  this.status = !this.status;
+                  this.message = "서점회원이 아닙니다.";
                   this.$store.commit("common/setLoading", false);
                 } else {
                   saveCookie("userInfo", { uid: user.uid, name: userName[0], email: user.email, type: Number(userName[1]) });

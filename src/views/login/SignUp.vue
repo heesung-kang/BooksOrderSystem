@@ -12,6 +12,7 @@
       <div class="mt2"><input class="basic" v-model="address2" placeholder="나머지주소" type="text" /></div>
       <div class="btn-wrap"><button @click="userRegistration">가입</button><router-link to="/login" class="login">로그인</router-link></div>
     </div>
+    <Toast :status="status" :message="message" />
   </div>
 </template>
 
@@ -22,9 +23,11 @@ import { mapGetters } from "vuex";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, serverTimestamp, collection, query, getDocs } from "firebase/firestore";
 import { app, db } from "@/utils/db";
+import Toast from "@/components/common/Toast";
 const auth = getAuth(app);
 export default {
   name: "SignUp",
+  components: { Toast },
   data() {
     return {
       email: "",
@@ -34,6 +37,8 @@ export default {
       address1: "",
       address2: "",
       publishers: [],
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -54,23 +59,28 @@ export default {
   methods: {
     userRegistration() {
       if (this.shop === "") {
-        alert("서점명을 입력해주세요.");
+        this.status = !this.status;
+        this.message = "서점명을 입력해주세요.";
         return;
       }
       if (this.email === "") {
-        alert("이메일을 입력해주세요.");
+        this.status = !this.status;
+        this.message = "이메일을 입력해주세요.";
         return;
       }
       if (this.password === "") {
-        alert("비밀번호를 입력해주세요.");
+        this.status = !this.status;
+        this.message = "비밀번호를 입력해주세요.";
         return;
       }
       if (this.address1 === "") {
-        alert("주소를 입력해주세요.");
+        this.status = !this.status;
+        this.message = "주소를 입력해주세요.";
         return;
       }
       if (this.address2 === "") {
-        alert("주소를 입력해주세요.");
+        this.status = !this.status;
+        this.message = "주소를 입력해주세요.";
         return;
       }
       try {
@@ -84,12 +94,14 @@ export default {
                 this.addInfo();
               })
               .catch(error => {
-                alert(error.message);
+                this.status = !this.status;
+                this.message = error.message;
                 this.$store.commit("common/setLoading", false);
               });
           })
           .catch(error => {
-            alert(error.message);
+            this.status = !this.status;
+            this.message = error.message;
             this.$store.commit("common/setLoading", false);
           });
       } catch (e) {
@@ -122,7 +134,8 @@ export default {
               payType: payType,
             });
             this.$store.commit("common/setLoading", false);
-            alert("정상 가입 되셨습니다.");
+            this.status = !this.status;
+            this.message = "정상 가입 되셨습니다.";
             this.$router.push("/Login");
           })
           .catch(error => {

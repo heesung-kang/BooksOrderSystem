@@ -47,6 +47,7 @@
       </div>
     </section>
     <!-- //버튼 영역 -->
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
@@ -59,8 +60,10 @@ import AddressModal from "@/components/modal/ModalAddress";
 import { getPopupOpt } from "@/utils/modal";
 import { getAuth, updateEmail } from "firebase/auth";
 import { app } from "@/utils/db";
+import Toast from "@/components/common/Toast";
 export default {
   name: "Distribution",
+  components: { Toast },
   data() {
     return {
       infoModify: false,
@@ -68,6 +71,8 @@ export default {
       info: {},
       infoTemp: {},
       zip: "",
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -104,19 +109,23 @@ export default {
     async infoUpdate() {
       //출판사 정보 업데이트
       if (this.infoTemp.shop === "") {
-        alert("출판사명을 입력해주세요");
+        this.status = !this.status;
+        this.message = "출판사명을 입력해주세요";
         return;
       }
       if (this.infoTemp.shop === "") {
-        alert("이메일(아이디)를 입력해주세요");
+        this.status = !this.status;
+        this.message = "이메일(아이디)를 입력해주세요";
         return;
       }
       if (this.infoTemp.address1 === "") {
-        alert("주소를 입력해주세요");
+        this.status = !this.status;
+        this.message = "주소를 입력해주세요";
         return;
       }
       if (this.infoTemp.address2 === "") {
-        alert("주소를 입력해주세요");
+        this.status = !this.status;
+        this.message = "주소를 입력해주세요";
         return;
       }
       this.$store.commit("common/setLoading", true);

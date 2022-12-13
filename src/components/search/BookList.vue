@@ -56,7 +56,6 @@
                 </div>
               </div>
             </article>
-
             <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
           </section>
         </li>
@@ -66,7 +65,7 @@
       </div>
     </section>
     <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10 && totalPage !== page"><button class="basic">더 보기</button></div>
-    <Toast :status="status" :message="message" />
+    <Toast :status="status" :message="message" :withBtn="withBtn" />
   </div>
 </template>
 
@@ -88,6 +87,7 @@ export default {
       status: false,
       listWidth: 0,
       titleMaxWidth: 0,
+      withBtn: true,
     };
   },
   computed: {
@@ -130,7 +130,7 @@ export default {
           await addDoc(collection(db, `cart-${this.uid}`), item);
           this.cart.push(item);
           this.status = !this.status;
-          this.message = "장바구니에 담았습니다.";
+          this.message = "장바구니에 상품이 추가되었습니다.";
           this.$store.commit("common/changeCartList", this.cartList + 1);
         } else {
           this.status = !this.status;
@@ -142,7 +142,6 @@ export default {
       this.$store.commit("common/setLoading", false);
     },
     setSize() {
-      console.log("aaa");
       if (this.mobile) {
         this.listWidth = document.querySelector(".book-list").clientWidth;
         this.titleMaxWidth = this.listWidth - 100;

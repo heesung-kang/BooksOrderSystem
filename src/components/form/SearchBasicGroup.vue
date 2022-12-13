@@ -3,19 +3,23 @@
     <Selects :itemList="itemList" @change="change" />
     <input type="text" class="basic" v-model="keyword" @keypress.enter="search" />
     <button class="basic" @click="search" :disabled="skeletonLoading">검색</button>
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import Selects from "@/components/form/Selects";
+import Toast from "@/components/common/Toast";
 export default {
-  components: { Selects },
+  components: { Selects, Toast },
   props: ["itemList"],
   data() {
     return {
       select: "",
       keyword: "",
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -27,7 +31,8 @@ export default {
     },
     search() {
       if (this.keyword === "") {
-        alert("검색어를 입력해주세요.");
+        this.status = !this.status;
+        this.message = "검색어를 입력해주세요.";
         return;
       }
       this.$emit("search", { select: this.select, keyword: this.keyword });

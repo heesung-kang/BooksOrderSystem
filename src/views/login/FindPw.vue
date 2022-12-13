@@ -6,14 +6,17 @@
       <div class="btn-wrap"><button @click="sendEmail">메일전송</button><router-link to="/login" class="login">로그인</router-link></div>
     </div>
   </div>
+  <Toast :status="status" :message="message" />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { app } from "@/utils/db";
+import Toast from "@/components/common/Toast";
 
 export default {
+  components: { Toast },
   data() {
     return {
       email: "",
@@ -27,12 +30,13 @@ export default {
       const auth = getAuth(app);
       sendPasswordResetEmail(auth, this.email)
         .then(() => {
-          alert("이메일을 발송했습니다.\n스팸 메일함도 확인해 주세요.");
+          this.status = !this.status;
+          this.message = "이메일을 발송했습니다.<br/>스팸 메일함도 확인해 주세요.";
           this.$router.push("/Login");
         })
         .catch(error => {
           if (error.message === "Firebase: Error (auth/user-not-found).") {
-            alert("가입된 이메일이 아닙니다.\n이메일을 확인해주세요.");
+            this.message = "가입된 이메일이 아닙니다.<br/>이메일을 확인해주세요.";
             this.email = "";
           }
           console.log(error);
