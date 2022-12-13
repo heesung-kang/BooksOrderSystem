@@ -9,7 +9,6 @@
       <section v-if="!skeletonLoading">
         <article class="cart-header" v-if="!mobile">
           <div>품목정보</div>
-          <div>출판사</div>
           <div>ISBN</div>
           <div>
             <div>정가</div>
@@ -20,7 +19,7 @@
           <div></div>
         </article>
         <article class="cart-list">
-          <ul>
+          <ul class="book-list">
             <li v-for="(book, index) in cart" :key="book.isbn">
               <article class="d-flex align-center">
                 <div class="d-flex align-center thumbnail-wrap">
@@ -28,11 +27,9 @@
                     <div class="book-name">{{ book.data.subject }}</div>
                     <div class="only-mobile">
                       <div class="author">{{ book.data.author }}</div>
-                      <div v-if="mobile" class="company">{{ book.data.publisher }}</div>
                     </div>
                   </div>
                 </div>
-                <div v-if="!mobile">{{ book.data.publisher }}</div>
                 <div class="isbn">{{ book.data.isbn }}</div>
                 <div class="price-etc">
                   <div class="normal-price"><span v-if="mobile">정가</span> {{ book.data.price?.toLocaleString() }}원</div>
@@ -96,6 +93,7 @@
       <!-- //장바구니 리스트 -->
       <!-- 총 합계 --->
       <section class="total-wrap mt24">
+        <div class="publisher">{{ cart[0].data.publisher }}</div>
         <div>
           <span class="total-prod">총 {{ bookCount }}권</span>
           <span class="total">합계 {{ totalPrice.toLocaleString() }}원</span>
@@ -132,6 +130,8 @@ export default {
       bookRate: [],
       message: "",
       status: false,
+      listWidth: 0,
+      titleMaxWidth: 0,
     };
   },
   computed: {
@@ -199,6 +199,11 @@ export default {
     }
     await this.load();
   },
+  mounted() {
+    window.onresize = () => {
+      this.setSize();
+    };
+  },
   methods: {
     //주문 모달
     showModal() {
@@ -247,6 +252,9 @@ export default {
             });
           }
         });
+        setTimeout(() => {
+          this.setSize();
+        }, 500);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -282,6 +290,28 @@ export default {
       }
       this.$store.commit("common/setLoading", false);
     },
+    setSize() {
+      if (this.mobile) {
+        this.listWidth = document.querySelector(".book-list").clientWidth;
+        this.titleMaxWidth = this.listWidth;
+        setTimeout(() => {
+          const select = document.querySelectorAll(".book-name");
+          select.forEach(ele => {
+            ele.style.maxWidth = `${this.titleMaxWidth}px`;
+          });
+        }, 500);
+      } else {
+        this.listWidth = document.querySelector(".book-list").clientWidth;
+        console.log(this.listWidth);
+        this.titleMaxWidth = this.listWidth - 510;
+        setTimeout(() => {
+          const select = document.querySelectorAll(".book-name");
+          select.forEach(ele => {
+            ele.style.maxWidth = `${this.titleMaxWidth}px`;
+          });
+        }, 500);
+      }
+    },
   },
 };
 </script>
@@ -306,6 +336,9 @@ export default {
   button {
     @include NotoSans(1.6, 700, #fff);
   }
+  .publisher {
+    @include NotoSans(1.6, 700, #000);
+  }
 }
 .cart-header {
   padding: 0 27px 0 21px;
@@ -326,8 +359,16 @@ export default {
       div {
         @include NotoSans(1.4, 400, #000);
         &.book-name {
-          @include NotoSans(1.6, 500, #000);
+          @include NotoSans(1.5, 500, #000);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
+      }
+      .author,
+      .isbn,
+      .normal-price {
+        @include NotoSans(1.4, 400, #888);
       }
       &:last-child {
         margin-bottom: 0;
@@ -364,9 +405,6 @@ export default {
         div {
           text-align: left;
         }
-        .author {
-          @include NotoSans(1.4, 400, #000);
-        }
       }
     }
   }
@@ -377,15 +415,12 @@ export default {
 }
 .size {
   &:nth-child(1) {
-    width: calc(100% - 260px);
+    width: calc(100% - 454px);
   }
   &:nth-child(2) {
-    width: 150px;
-  }
-  &:nth-child(3) {
     width: 120px;
   }
-  &:nth-child(4) {
+  &:nth-child(3) {
     width: 150px;
     display: flex;
     div {
@@ -397,14 +432,14 @@ export default {
       }
     }
   }
-  &:nth-child(5) {
+  &:nth-child(4) {
     width: 100px;
   }
-  &:nth-child(6) {
-    width: 70px;
-  }
-  &:nth-child(7) {
+  &:nth-child(5) {
     width: 50px;
+  }
+  &:nth-child(6) {
+    width: 34px;
   }
 }
 @include mobile {
@@ -420,7 +455,7 @@ export default {
             width: 100% !important;
             align-items: flex-start !important;
             .basic-info {
-              width: calc(100% - 60px);
+              width: calc(100% - 15px);
               .book-name {
                 @include NotoSans(1.6, 500, #000);
               }
@@ -430,14 +465,10 @@ export default {
                 .author {
                   margin-right: 30px;
                 }
-                div {
-                  @include NotoSans(1.6, 400, #000);
-                }
               }
             }
           }
           .isbn {
-            @include NotoSans(1.6, 400, #000);
             text-align: left;
           }
           .price-etc {
@@ -445,9 +476,10 @@ export default {
             flex-wrap: wrap;
             div {
               white-space: nowrap;
-              @include NotoSans(1.6, 400, #000);
               &.normal-price {
                 margin-right: 30px;
+                width: auto !important;
+                white-space: nowrap;
               }
             }
           }
@@ -455,6 +487,7 @@ export default {
             margin: 10px 0 0 0px;
             font-size: 1.6rem !important;
             font-weight: 700 !important;
+            white-space: nowrap;
           }
           .btn {
             margin: 20px 0 0 0;

@@ -24,8 +24,8 @@
               <span v-else>{{ item.totalCount }}</span>
             </td>
             <td>{{ item.shop_order_status === 0 ? "회신 전" : item.shop_order_status === 1 ? "회신" : "발주" }}</td>
-            <td>{{ item.timestamp }}</td>
-            <td>{{ item.replytimestamp }}</td>
+            <td class="time">{{ item.timestamp }}</td>
+            <td class="time">{{ item.replytimestamp }}</td>
           </tr>
         </tbody>
         <tfoot v-if="result.length === 0">
@@ -122,5 +122,8 @@ export default {
 <style lang="scss" scoped>
 td {
   cursor: pointer;
+  &.time {
+    font-size: 1.4rem !important;
+  }
 }
 </style>
