@@ -16,6 +16,7 @@
       <BookList :books="books" @more="more" v-else :infoChange="infoChange" :shopRate="shopRate" :basicRate="basicRate" :bookRate="bookRate" :totalPage="totalPage" :page="page" />
       <!-- //책 리스트 -->
     </section>
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
@@ -29,8 +30,9 @@ import { collection, query, limit, getDocs, startAfter, where, doc, getDoc, getC
 import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import { getCookie } from "@/utils/cookie";
+import Toast from "@/components/common/Toast";
 export default {
-  components: { BookListMobileSkeleton, BookListSkeleton, SearchBasicGroup, BookList, KakaoBookSearch },
+  components: { Toast, BookListMobileSkeleton, BookListSkeleton, SearchBasicGroup, BookList, KakaoBookSearch },
   data() {
     return {
       itemList: [
@@ -53,6 +55,8 @@ export default {
       bookRate: [],
       totalPage: 0,
       page: 1,
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -113,7 +117,10 @@ export default {
         this.$store.commit("common/setLoading", true);
         const next = query(collection(db, "booksData"), where(this.select, "==", this.keyword), startAfter(this.lastVisible), limit(this.limit));
         const documentSnapshots = await getDocs(next);
-        if (documentSnapshots.docs.length === 0) alert("도서정보가 더이상 없습니다.");
+        if (documentSnapshots.docs.length === 0) {
+          this.status = !this.status;
+          this.message = "도서정보가 더이상 없습니다.";
+        }
         this.lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
         documentSnapshots.forEach(doc => {
           this.books.push({ id: doc.id, data: doc.data() });

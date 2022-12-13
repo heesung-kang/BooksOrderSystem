@@ -17,17 +17,8 @@
                 </div>
               </div>
             </article>
-            <!--            <article class="isbn">ISBN : {{ book.data.isbn }}</article>-->
             <article class="price-info">
               <div class="mr14">정가 {{ book.data.price && book.data.price.toLocaleString() }}원</div>
-
-              <!-- 조건 정의-->
-              <!--              <div>서적별 공급률 있음: {{ bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== "") }}</div>-->
-              <!--              <div>서적별 공급률 없음: {{ !bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== "") }}</div>-->
-              <!--              <div>서점별 공급률 있음: {{ shopRate.some(v => v.sid === book.data.sid && v.rate !== "") && shopRate.some(v => v.sid === book.data.sid && v.rate !== "") }}</div>-->
-              <!--              <div>서점별 공급률 없음: {{ !shopRate.some(v => v.sid === book.data.sid && v.rate !== "") }}</div>-->
-              <!-- //조건 정의-->
-
               <!-- 서적별 공급률 -->
               <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')">
                 <div class="mr10" v-for="(rate, index) in bookRate" :key="index">
@@ -65,7 +56,6 @@
                 </div>
               </div>
             </article>
-
             <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
           </section>
         </li>
@@ -75,7 +65,7 @@
       </div>
     </section>
     <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10 && totalPage !== page"><button class="basic">더 보기</button></div>
-    <Toast :status="status" :message="message" />
+    <Toast :status="status" :message="message" :withBtn="withBtn" />
   </div>
 </template>
 
@@ -97,6 +87,7 @@ export default {
       status: false,
       listWidth: 0,
       titleMaxWidth: 0,
+      withBtn: true,
     };
   },
   computed: {
@@ -139,7 +130,7 @@ export default {
           await addDoc(collection(db, `cart-${this.uid}`), item);
           this.cart.push(item);
           this.status = !this.status;
-          this.message = "장바구니에 담았습니다.";
+          this.message = "장바구니에 상품이 추가되었습니다.";
           this.$store.commit("common/changeCartList", this.cartList + 1);
         } else {
           this.status = !this.status;
@@ -151,7 +142,6 @@ export default {
       this.$store.commit("common/setLoading", false);
     },
     setSize() {
-      console.log("aaa");
       if (this.mobile) {
         this.listWidth = document.querySelector(".book-list").clientWidth;
         this.titleMaxWidth = this.listWidth - 100;

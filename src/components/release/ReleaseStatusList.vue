@@ -45,6 +45,7 @@
       <button class="primary" @click="complete" v-if="!completeAll">수취확인</button>
     </section>
     <!-- //총 합계 --->
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
@@ -56,8 +57,9 @@ import { getCookie } from "@/utils/cookie";
 import { collection, doc, getDocs, query, serverTimestamp, where, writeBatch } from "firebase/firestore";
 import { db } from "@/utils/db";
 import XLSX from "sheetjs-style";
+import Toast from "@/components/common/Toast";
 export default {
-  components: { BookListMobileSkeleton, BookListSkeleton },
+  components: { BookListMobileSkeleton, BookListSkeleton, Toast },
   props: ["id", "orderRealTimeId"],
   data() {
     return {
@@ -66,6 +68,8 @@ export default {
       selectedAll: false,
       allID: [],
       completeAll: false,
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -120,7 +124,8 @@ export default {
     },
     async complete() {
       if (this.selected.length === 0) {
-        alert("수취완료할 상품을 체크해주세요");
+        this.status = !this.status;
+        this.message = "수취완료할 상품을 체크해주세요";
         return;
       }
       const batch = writeBatch(db);

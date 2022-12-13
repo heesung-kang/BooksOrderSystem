@@ -10,15 +10,17 @@
       <span class="date-picker"><DatePicker @updateDate="setEndDate" :clear="clear" /></span>
       <button class="basic btn" @click="search">검색</button>
     </span>
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
 <script>
 import Selects from "@/components/form/Selects";
 import DatePicker from "@/components/form/DatePicker";
+import Toast from "@/components/common/Toast";
 export default {
   name: "SearchDateRangeGroup",
-  components: { Selects, DatePicker },
+  components: { Selects, DatePicker, Toast },
   props: ["itemList"],
   data() {
     return {
@@ -26,21 +28,26 @@ export default {
       endDate: "",
       publisher: "",
       clear: false,
+      message: "",
+      status: false,
     };
   },
   methods: {
     search() {
       if (this.startDate === undefined && this.endDate !== undefined) {
-        alert("시작일을 입력해주세요");
+        this.status = !this.status;
+        this.message = "시작일을 입력해주세요";
         return;
       }
       if (this.startDate !== undefined && this.endDate === undefined) {
-        alert("종료일을 입력해주세요");
+        this.status = !this.status;
+        this.message = "종료일을 입력해주세요";
         return;
       }
       if (this.startDate !== undefined && this.endDate !== undefined) {
         if (this.startDate > this.endDate) {
-          alert("종료일이 시작일보다 빠릅니다. 시작일을 다시 입력해주세요");
+          this.status = !this.status;
+          this.message = "종료일이 시작일보다 빠릅니다.<br/> 시작일을 다시 입력해주세요";
           return;
         }
       }

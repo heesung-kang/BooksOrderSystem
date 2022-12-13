@@ -107,6 +107,7 @@
     <!-- 카트가 비었을경우 -->
     <div class="alert" v-if="!skeletonLoading && cart.length === 0">장바구니가 비었습니다.</div>
     <!-- //카트가 비었을경우 -->
+    <Toast :status="status" :message="message" />
   </section>
 </template>
 
@@ -119,8 +120,9 @@ import { getPopupOpt } from "@/utils/modal";
 import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import ModalCart from "@/components/modal/ModalCart";
+import Toast from "@/components/common/Toast";
 export default {
-  components: { BookListSkeleton, BookListMobileSkeleton },
+  components: { BookListSkeleton, BookListMobileSkeleton, Toast },
   data() {
     return {
       cart: [],
@@ -128,6 +130,8 @@ export default {
       shopRate: [],
       basicRate: [],
       bookRate: [],
+      message: "",
+      status: false,
     };
   },
   computed: {
@@ -256,7 +260,8 @@ export default {
         await updateDoc(doc(db, `cart-${uid}`, id), {
           count: parseInt(count),
         });
-        alert("수량이 변경 되었습니다");
+        this.status = !this.status;
+        this.message = "수량이 변경 되었습니다";
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -268,7 +273,8 @@ export default {
         const { uid } = getCookie("userInfo");
         this.$store.commit("common/setLoading", true);
         await deleteDoc(doc(db, `cart-${uid}`, id));
-        alert("삭제 되었습니다");
+        this.status = !this.status;
+        this.message = "삭제 되었습니다";
         await this.load();
         this.$store.commit("common/changeCartList", this.cart.length);
       } catch (e) {
