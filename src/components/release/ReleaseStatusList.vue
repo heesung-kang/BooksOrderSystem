@@ -237,7 +237,6 @@ export default {
 .body {
   li {
     background-color: #fff;
-    border: 1px solid #000;
     padding: 5px 13px;
     margin-bottom: 6px;
     & > div {

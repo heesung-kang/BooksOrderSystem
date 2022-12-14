@@ -277,18 +277,18 @@ export default {
     },
     async del(id) {
       //아이템 삭제
+      this.cart = this.cart.filter(ele => {
+        if (ele.id !== id) return ele;
+      });
       try {
         const { uid } = getCookie("userInfo");
-        this.$store.commit("common/setLoading", true);
         await deleteDoc(doc(db, `cart-${uid}`, id));
         this.status = !this.status;
         this.message = "삭제 되었습니다";
-        await this.load();
         this.$store.commit("common/changeCartList", this.cart.length);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
-      this.$store.commit("common/setLoading", false);
     },
     setSize() {
       if (this.mobile) {
@@ -395,7 +395,7 @@ export default {
           &.btn {
             .count {
               border: 1px solid #000;
-              border-radius: 3px;
+              border-radius: 1px;
               padding: 0 10px;
             }
           }
