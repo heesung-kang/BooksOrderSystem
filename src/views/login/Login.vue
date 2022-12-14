@@ -111,7 +111,7 @@ export default {
   z-index: 100;
   .login-box {
     background: #fff;
-    border-radius: 10px;
+    border-radius: 1px;
     padding: 30px;
     width: 400px;
     @include boxshadow(0px, 3px, 6px, 0px, rgba(0, 0, 0, 0.05));
@@ -140,14 +140,14 @@ export default {
       width: 100%;
       border: 1px solid rgb(214, 214, 214);
       padding: 0 10px 0 40px;
-      border-radius: 5px;
+      border-radius: 1px;
     }
     button {
       width: 100%;
       height: 50px;
       background: #035dba;
       color: #fff;
-      border-radius: 5px;
+      border-radius: 1px;
       font-size: 1.8rem;
       &:disabled {
         background: #ccc;
