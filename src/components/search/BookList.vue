@@ -150,7 +150,7 @@ export default {
           select.forEach(ele => {
             ele.style.maxWidth = `${this.titleMaxWidth}px`;
           });
-        }, 500);
+        }, 200);
       } else {
         this.listWidth = document.querySelector(".book-list").clientWidth;
         this.titleMaxWidth = this.listWidth - 400;
@@ -159,7 +159,7 @@ export default {
           select.forEach(ele => {
             ele.style.maxWidth = `${this.titleMaxWidth}px`;
           });
-        }, 500);
+        }, 200);
       }
     },
   },

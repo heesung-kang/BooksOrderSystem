@@ -254,7 +254,7 @@ export default {
         });
         setTimeout(() => {
           this.setSize();
-        }, 500);
+        }, 200);
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -299,7 +299,7 @@ export default {
           select.forEach(ele => {
             ele.style.maxWidth = `${this.titleMaxWidth}px`;
           });
-        }, 500);
+        }, 200);
       } else {
         this.listWidth = document.querySelector(".book-list").clientWidth;
         console.log(this.listWidth);
@@ -309,7 +309,7 @@ export default {
           select.forEach(ele => {
             ele.style.maxWidth = `${this.titleMaxWidth}px`;
           });
-        }, 500);
+        }, 200);
       }
     },
   },

@@ -261,7 +261,7 @@ export default {
           select.forEach(ele => {
             ele.style.maxWidth = `${this.titleMaxWidth}px`;
           });
-        }, 500);
+        }, 200);
       } else {
         this.listWidth = document.querySelector(".body").clientWidth;
         this.titleMaxWidth = this.listWidth - 510;
@@ -270,7 +270,7 @@ export default {
           select.forEach(ele => {
             ele.style.maxWidth = `${this.titleMaxWidth}px`;
           });
-        }, 500);
+        }, 200);
       }
     },
   },
