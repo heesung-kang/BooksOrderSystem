@@ -83,6 +83,7 @@ import BookListSkeleton from "@/skeletons/BookListSkeleton";
 import BookListMobileSkeleton from "@/skeletons/BookListMobileSkeleton";
 import qrCreateMixin from "@/mixins/qrCreate";
 import ModalOrder from "@/components/modal/ModalOrder";
+import ModalMonthOrder from "@/components/modal/ModalMonthOrder";
 import { getPopupOpt } from "@/utils/modal";
 import isMobile from "@/utils/isMobile";
 import Toast from "@/components/common/Toast";
@@ -222,7 +223,27 @@ export default {
               getPopupOpt("ModalOrder", "500px", "auto", false),
             );
       } else if (this.payType === 1) {
-        await this.paidComplete();
+        isMobile()
+          ? this.$modal.show(
+              ModalMonthOrder,
+              {
+                book: this.buyList,
+                price: this.checkPrice,
+                update: this.paidComplete,
+                publisher: this.publisher,
+              },
+              getPopupOpt("ModalMonthOrder", "95%", "auto", false),
+            )
+          : this.$modal.show(
+              ModalMonthOrder,
+              {
+                book: this.buyList,
+                price: this.checkPrice,
+                update: this.paidComplete,
+                publisher: this.publisher,
+              },
+              getPopupOpt("ModalMonthOrder", "500px", "auto", false),
+            );
       }
     },
     //결재완료
