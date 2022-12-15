@@ -2,11 +2,15 @@
   <div class="login-container">
     <div class="wrap">
       <h1>서점 회원가입</h1>
-      <div class="mt10">서점명 : <input class="basic" v-model="shop" placeholder="서점명" type="text" /></div>
-      <div class="mt5">ID : <input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
-      <div class="mt5">PW : <input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
+      <div class="mt10">*서점명 : <input class="basic" v-model="shop" placeholder="서점명" type="text" /></div>
+      <div class="mt5">*ID : <input class="basic" v-model="email" placeholder="이메일 입력" type="text" /></div>
+      <div class="mt5">*PW : <input class="basic" v-model="password" placeholder="비밀번호는 6자리이상 입력" type="password" /></div>
+      <div class="mt5">*전화번호 : <input class="basic" v-model="tel" placeholder="전화번호" type="text" /></div>
+      <div class="mt5">사업자번호 : <input class="basic" v-model="BN" placeholder="사업자번호" type="text" /></div>
+      <div class="mt5">업태 : <input class="basic" v-model="business" placeholder="업태" type="text" /></div>
+      <div class="mt5">종목 : <input class="basic" v-model="item" placeholder="종목" type="text" /></div>
       <div class="mt10 d-flex align-center">
-        주소 : <input v-model="zip" placeholder="우편번호" type="text" class="basic zip" readonly /><button class="btn-zip" @click="showAddressModalPopup">주소 찾기</button>
+        *주소 : <input v-model="zip" placeholder="우편번호" type="text" class="basic zip" readonly /><button class="btn-zip" @click="showAddressModalPopup">주소 찾기</button>
       </div>
       <div class="mt2"><input class="basic" v-model="address1" type="text" readonly /></div>
       <div class="mt2"><input class="basic" v-model="address2" placeholder="나머지주소" type="text" /></div>
@@ -39,6 +43,10 @@ export default {
       publishers: [],
       message: "",
       status: false,
+      tel: "",
+      BN: "",
+      business: "",
+      item: "",
     };
   },
   computed: {
@@ -71,6 +79,11 @@ export default {
       if (this.password === "") {
         this.status = !this.status;
         this.message = "비밀번호를 입력해주세요.";
+        return;
+      }
+      if (this.tel === "") {
+        this.status = !this.status;
+        this.message = "전화번호를 입력해주세요.";
         return;
       }
       if (this.address1 === "") {
@@ -128,6 +141,10 @@ export default {
               zip: this.zip,
               address1: this.address1,
               address2: this.address2,
+              tel: this.tel,
+              bn: this.BN,
+              business: this.business,
+              item: this.item,
               timestamp: serverTimestamp(),
               shopRate: rate,
               bookRate: [],
