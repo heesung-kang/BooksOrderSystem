@@ -27,7 +27,7 @@
             <v-checkbox v-model="selected" :value="book.id" :disabled="books[0]?.data.shop_order_status !== 1 || book.data.reply_count === 0" v-else></v-checkbox>
           </div>
           <div class="book-info">
-            <h3>{{ book.data.subject }}</h3>
+            <h3 class="book-subject">{{ book.data.subject }}</h3>
             <div class="author">{{ book.data.author }}</div>
           </div>
         </div>
@@ -104,6 +104,8 @@ export default {
       payType: [],
       message: "",
       status: false,
+      listWidth: 0,
+      titleMaxWidth: 0,
     };
   },
   computed: {
@@ -152,6 +154,11 @@ export default {
         }
       }
     },
+    books(newValue) {
+      if (newValue.length > 0) {
+        this.setSize();
+      }
+    },
   },
   created() {
     this.load();
@@ -161,6 +168,9 @@ export default {
     this.uid = uid;
     const Ptype = payType.filter(ele => ele.sid === Number(this.id)); //해당 출판사의 결제타입
     this.payType = Ptype[0].payType;
+    window.onresize = () => {
+      this.setSize();
+    };
   },
   methods: {
     async load() {
@@ -242,6 +252,27 @@ export default {
         console.log(e);
       }
     },
+    setSize() {
+      if (this.mobile) {
+        this.listWidth = document.querySelector(".body").clientWidth;
+        this.titleMaxWidth = this.listWidth - 100;
+        setTimeout(() => {
+          const select = document.querySelectorAll(".book-subject");
+          select.forEach(ele => {
+            ele.style.maxWidth = `${this.titleMaxWidth}px`;
+          });
+        }, 200);
+      } else {
+        this.listWidth = document.querySelector(".body").clientWidth;
+        this.titleMaxWidth = this.listWidth - 510;
+        setTimeout(() => {
+          const select = document.querySelectorAll(".book-subject");
+          select.forEach(ele => {
+            ele.style.maxWidth = `${this.titleMaxWidth}px`;
+          });
+        }, 200);
+      }
+    },
   },
 };
 </script>
@@ -276,9 +307,12 @@ export default {
       text-align: center;
       @extend .size;
       .book-info {
-        margin-left: 8px;
+        margin-left: 13px;
         h3 {
           @include NotoSans(1.5, 500, #000);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .author {
           text-align: left;

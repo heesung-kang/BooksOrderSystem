@@ -81,6 +81,9 @@
   background-color:#fff;
 }
 /*form*/
+button.primary{
+  font-weight:500 !important;
+}
 input.basic{
   &:read-only{
     background-color:#f4f4f4 !important;
