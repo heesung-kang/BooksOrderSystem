@@ -13,10 +13,13 @@
         </div>
         <button type="submit" class="btn-login mt25">로그인</button>
         <p class="error-message">{{ logMessage }}</p>
-        <div class="signup">
-          <router-link to="/SignUp">회원가입</router-link> |&nbsp;
-          <router-link to="/FindPw">비밀번호 찾기</router-link>
-        </div>
+        <article class="link-wrap d-flex justify-space-between">
+          <a href="https://heesung-kang.github.io/BooksOrderAdminSystem/#/login" target="_blank">출판사 로그인</a>
+          <div class="signup">
+            <router-link to="/SignUp">회원가입</router-link> |&nbsp;
+            <router-link to="/FindPw">비밀번호 찾기</router-link>
+          </div>
+        </article>
       </form>
     </div>
     <Toast :status="status" :message="message" />
@@ -103,17 +106,28 @@ export default {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("../../assets/images/bg.jpg");
   z-index: 100;
+  background-color: #000;
+  &:before {
+    content: "";
+    background-image: url("../../assets/images/bg.jpg");
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0.5;
+  }
   .login-box {
     background: #fff;
     border-radius: 1px;
     padding: 30px;
     width: 400px;
+    z-index: 1000;
     @include boxshadow(0px, 3px, 6px, 0px, rgba(0, 0, 0, 0.05));
     .icon {
       width: 28px;
@@ -163,10 +177,15 @@ export default {
       padding: 10px 0;
       color: red;
     }
-    .signup {
-      text-align: right;
+    .link-wrap {
       a {
         color: #333;
+      }
+      .signup {
+        text-align: right;
+        a {
+          color: #333;
+        }
       }
     }
   }
