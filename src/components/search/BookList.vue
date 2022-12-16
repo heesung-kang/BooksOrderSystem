@@ -264,6 +264,9 @@ export default {
         .contents {
           flex-direction: column;
           align-items: flex-start !important;
+          .price-info {
+            text-align: left;
+          }
           .basic-info {
             align-items: flex-start !important;
             width: 100%;
