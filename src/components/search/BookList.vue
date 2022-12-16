@@ -20,7 +20,8 @@
                 </div>
               </div>
             </article>
-            <article class="price-info">
+            <article class="price-info" v-if="book.data.status === '품절' || book.data.status === '절판'">{{ book.data.status }}</article>
+            <article class="price-info" v-else>
               <div class="mr14">정가 {{ book.data.price && book.data.price.toLocaleString() }}원</div>
               <!-- 서적별 공급률 -->
               <div v-if="bookRate.some(v => v.data.isbn === book.data.isbn && v.data.rate !== '')">
@@ -59,7 +60,9 @@
                 </div>
               </div>
             </article>
-            <article class="add-cart"><button class="basic" @click="addCart(book.data)">담기</button></article>
+            <article class="add-cart">
+              <button class="basic" @click="addCart(book.data)" v-if="book.data.status !== '품절' && book.data.status !== '절판'">담기</button>
+            </article>
           </section>
         </li>
       </ul>
@@ -232,6 +235,7 @@ export default {
         }
         .price-info {
           width: 20%;
+          text-align: center;
           div {
             text-align: center;
             white-space: nowrap;
