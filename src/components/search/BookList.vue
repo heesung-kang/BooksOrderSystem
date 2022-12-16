@@ -5,8 +5,11 @@
         <li v-for="book in books" :key="book.data.isbn">
           <section class="contents d-flex align-center justify-space-between">
             <article class="basic-info d-flex align-center">
-              <section class="thumbnail">
-                <img :src="`https://bookthumb-phinf.pstatic.net/cover/${book.data.image}?type=m1`" :alt="book.data.subject" />
+              <section class="thumbnail" v-if="book.data.image !== ''">
+                <img :src="book.data.image" :alt="book.data.subject" />
+              </section>
+              <section class="thumbnail" v-else>
+                <img src="@/assets/images/bookcover.jpg" :alt="book.data.subject" />
               </section>
               <div class="book-info">
                 <h3 class="book-subject">{{ book.data.subject }}</h3>
@@ -61,7 +64,7 @@
         </li>
       </ul>
       <div v-else class="book-search-alert">
-        <span v-if="infoChange">검색 결과가 없습니다.</span>
+        <span v-if="infoChange && !skeletonLoading && !loading">검색 결과가 없습니다.</span>
       </div>
     </section>
     <div class="btn-more" @click="$emit('more')" v-if="books.length >= 10 && totalPage !== page"><button class="basic">더 보기</button></div>
@@ -91,7 +94,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("common", ["cartList", "mobile"]),
+    ...mapGetters("common", ["cartList", "mobile", "skeletonLoading", "loading"]),
   },
   watch: {
     books(newValue) {
@@ -191,12 +194,15 @@ export default {
       }
       .thumbnail {
         width: 50px;
+        max-width: 50px;
         height: 75px;
         min-width: 50px;
         img {
           height: 75px;
           border: 1px solid #ccc;
           object-fit: cover;
+          min-width: 50px;
+          max-width: 50px;
         }
       }
       .contents {
