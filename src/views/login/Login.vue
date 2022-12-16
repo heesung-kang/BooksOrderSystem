@@ -14,7 +14,7 @@
         <button type="submit" class="btn-login mt25">로그인</button>
         <p class="error-message">{{ logMessage }}</p>
         <article class="link-wrap d-flex justify-space-between">
-          <a href="https://heesung-kang.github.io/BooksOrderAdminSystem/#/login" target="_blank">출판사 로그인</a>
+          <a href="https://bookorder.instapay.kr/publisher/#/login" target="_blank">출판사 로그인</a>
           <div class="signup">
             <router-link to="/SignUp">회원가입</router-link> |&nbsp;
             <router-link to="/FindPw">비밀번호 찾기</router-link>
