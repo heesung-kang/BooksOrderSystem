@@ -243,7 +243,7 @@ export default {
       text-align: center;
       @extend .size;
       .book-info {
-        margin-left: 8px;
+        margin-left: 13px;
         h3 {
           @include NotoSans(1.5, 500, #000);
         }
