@@ -4,7 +4,8 @@
     <section class="sub-container">
       <article class="order-info d-flex justify-space-between">
         <div>
-          출판사명: <strong>{{ publisher }}</strong>
+          출판사명: <strong>{{ publisher }}</strong
+          >, 대표전화: <strong>{{ tel }}</strong>
         </div>
         <div>주문일자 : {{ date }}</div>
       </article>
@@ -15,6 +16,8 @@
 
 <script>
 import ReleaseStatusList from "@/components/release/ReleaseStatusList";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/utils/db";
 export default {
   name: "OrderResult",
   components: { ReleaseStatusList },
@@ -24,7 +27,19 @@ export default {
       date: this.$route.params.date,
       publisher: this.$route.params.publisher,
       orderRealTimeId: this.$route.params.orderRealTimeId,
+      tel: "",
     };
+  },
+  async mounted() {
+    try {
+      const first = query(collection(db, "publisherInfo"), where("sid", "==", Number(this.id)));
+      const documentSnapshots = await getDocs(first);
+      documentSnapshots.forEach(doc => {
+        this.tel = doc.data().tel;
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   },
 };
 </script>
