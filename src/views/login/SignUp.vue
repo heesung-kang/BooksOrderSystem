@@ -224,7 +224,7 @@ export default {
     margin-top: 10px;
     button {
       padding: 2px 15px;
-      background: deepskyblue;
+      background: #48c0c1;
       color: #fff;
       font-size: 1.5rem;
       border-radius: 3px;

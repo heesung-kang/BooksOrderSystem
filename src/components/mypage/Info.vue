@@ -18,10 +18,34 @@
         <tr>
           <td>아이디(이메일)</td>
           <td>{{ info.email }}</td>
-          <!--     이메일 변경 숨김처리     <td>-->
-          <!--            <span v-if="!infoModify">{{ info.email }}</span-->
-          <!--            ><input type="text" v-model="infoTemp.email" class="basic" v-else />-->
-          <!--          </td>-->
+        </tr>
+        <tr>
+          <td>전화번호</td>
+          <td>
+            <span v-if="!infoModify">{{ info.tel }}</span>
+            <input type="text" v-model="infoTemp.tel" class="basic" v-else />
+          </td>
+        </tr>
+        <tr>
+          <td>사업자번호</td>
+          <td>
+            <span v-if="!infoModify">{{ info.bn }}</span>
+            <input type="text" v-model="infoTemp.bn" class="basic" v-else />
+          </td>
+        </tr>
+        <tr>
+          <td>업태</td>
+          <td>
+            <span v-if="!infoModify">{{ info.business }}</span>
+            <input type="text" v-model="infoTemp.business" class="basic" v-else />
+          </td>
+        </tr>
+        <tr>
+          <td>종목</td>
+          <td>
+            <span v-if="!infoModify">{{ info.item }}</span>
+            <input type="text" v-model="infoTemp.item" class="basic" v-else />
+          </td>
         </tr>
         <tr>
           <td>주소</td>
@@ -139,6 +163,10 @@ export default {
           address1: this.infoTemp.address1,
           address2: this.infoTemp.address2,
           email: this.infoTemp.email,
+          bn: this.infoTemp.bn,
+          item: this.infoTemp.item,
+          tel: this.infoTemp.tel,
+          business: this.infoTemp.business,
         });
         const auth = getAuth(app);
         await updateEmail(auth.currentUser, this.infoTemp.email)
