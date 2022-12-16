@@ -291,6 +291,9 @@ export default {
       }
     },
     setSize() {
+      if (document.querySelector(".book-list") === null) {
+        return;
+      }
       if (this.mobile) {
         this.listWidth = document.querySelector(".book-list").clientWidth;
         this.titleMaxWidth = this.listWidth;
