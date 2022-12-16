@@ -5,7 +5,9 @@
       <article class="order-info d-flex justify-space-between">
         <div>
           출판사명: <strong>{{ publisher }}</strong
-          >, 대표전화: <strong>{{ tel }}</strong>
+          ><span class="ml23"
+            >대표전화: <strong>{{ tel }}</strong></span
+          >
         </div>
         <div>주문일자 : {{ date }}</div>
       </article>
